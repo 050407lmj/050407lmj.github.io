@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>JIM - 科技个人主页</title>
+<title>JIM - 个人主页</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 /* ========= 变量库 ========= */
@@ -38,25 +38,61 @@ a { color: var(--primary); text-decoration: none; }
 #backTop { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: var(--bg); border: none; padding: 10px 14px; border-radius: 50%; cursor: pointer; display: none; transition: .3s; }
 #backTop:hover { box-shadow: 0 0 15px var(--primary); }
 
-/* ========= 多页切换（平滑滚动） ========= */
+/* ========= 多页切换 ========= */
 .page { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
 
 /* ========= Home 打字机 ========= */
 #typed { border-right: 2px solid var(--primary); padding-right: 4px; animation: blink .8s infinite; }
 @keyframes blink { 50% { border-color: transparent; } }
 
-/* ========= About 技能条 ========= */
+/* ========= About 技能条 & 时间线 ========= */
 .skills { margin-top: 1.5rem; }
 .skill-bar { background: rgba(0, 242, 255, 0.15); border-radius: 10px; overflow: hidden; height: 10px; margin: 8px 0 20px; }
 .skill-fill { height: 100%; background: var(--primary); width: 0; transition: width 1.5s ease-in-out; }
 
-/* ========= Projects 轮播 ========= */
-.carousel { position: relative; overflow: hidden; border-radius: var(--radius); }
-.carousel-inner { display: flex; transition: transform .5s ease; }
-.carousel-item { min-width: 100%; height: 300px; background: center/cover no-repeat; }
-.carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,.5); color: #fff; border: none; padding: 1rem; cursor: pointer; }
-#prev { left: 10px; }
-#next { right: 10px; }
+.timeline {
+  margin-top: 2rem;
+  border-left: 2px solid var(--primary);
+  padding-left: 1.5rem;
+}
+.timeline h3 {
+  margin-bottom: 1rem;
+}
+.timeline-item {
+  margin: 1.5rem 0;
+}
+.timeline-item span {
+  display: block;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ========= Projects 卡片网格 ========= */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.project-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: transform 0.3s;
+}
+.project-card:hover {
+  transform: translateY(-5px);
+}
+.project-card h3 {
+  margin-bottom: 0.5rem;
+}
+.project-card p {
+  margin: 0.3rem 0;
+}
+.project-card a {
+  font-size: 0.9rem;
+  margin-right: 0.8rem;
+}
 
 /* ========= Contact 表单 ========= */
 form { display: flex; flex-direction: column; gap: 1rem; max-width: 500px; margin: 2rem auto 0; }
@@ -66,21 +102,46 @@ button[type="submit"] { border: 1px solid var(--primary); background: transparen
 button[type="submit"]:hover { background: var(--primary); color: var(--bg); }
 
 /* ========= 页脚 ========= */
-footer { text-align: center; padding: 40px 0 20px; font-size: .875rem; color: var(--gray); }
+footer {
+  text-align: center;
+  padding: 40px 0 20px;
+  font-size: .875rem;
+  color: var(--gray);
+}
+.social-links {
+  margin-bottom: 1rem;
+}
+.social-links a {
+  margin: 0 8px;
+  font-size: 1.2rem;
+}
+
+/* ========= 博客板块 ========= */
+.blog-list {
+  list-style: none;
+  padding: 0;
+}
+.blog-list li {
+  margin-bottom: 1rem;
+}
+.blog-list span {
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+}
 </style>
 </head>
 
 <body data-lang="zh">
-<!-- 粒子画布 -->
 <canvas id="particles"></canvas>
 
-<!-- 导航 -->
 <nav class="navbar">
   <div class="logo">JIM</div>
   <ul class="nav-links">
     <li><a href="#home" class="active" data-i18n="nav.home">首页</a></li>
     <li><a href="#about" data-i18n="nav.about">关于我</a></li>
     <li><a href="#projects" data-i18n="nav.projects">项目</a></li>
+    <li><a href="#blog" data-i18n="nav.blog">博客</a></li>
     <li><a href="#contact" data-i18n="nav.contact">联系</a></li>
   </ul>
   <div class="controls">
@@ -89,20 +150,19 @@ footer { text-align: center; padding: 40px 0 20px; font-size: .875rem; color: va
   </div>
 </nav>
 
-<!-- 首页 -->
 <section id="home" class="page">
   <div class="container">
     <h1><span id="typed" data-i18n="home.name">JIM</span></h1>
     <p data-i18n="home.bio">全栈开发者 · AI 爱好者 · UI 实验者</p>
-    <a href="#about" class="btn-neon" data-i18n="home.more">了解更多</a>
+    <a href="#about" style="display:inline-block; margin-top:1rem; color:var(--primary); border:1px solid var(--primary); padding:8px 16px; border-radius:6px;" data-i18n="home.more">了解更多</a>
   </div>
 </section>
 
-<!-- 关于 -->
 <section id="about" class="page">
   <div class="container">
     <h2 class="section-title" data-i18n="about.title">关于我</h2>
     <p data-i18n="about.desc">我构建 Web 应用。从 React & Node 到 WebGL 粒子，我喜欢把想法打磨成可交互的体验。保持好奇，持续学习。</p>
+    
     <div class="skills">
       <div data-skill="85" data-i18n="about.skill1">前端 React / Vue</div>
       <div class="skill-bar"><div class="skill-fill"></div></div>
@@ -111,34 +171,78 @@ footer { text-align: center; padding: 40px 0 20px; font-size: .875rem; color: va
       <div data-skill="70" data-i18n="about.skill3">WebGL / Three.js</div>
       <div class="skill-bar"><div class="skill-fill"></div></div>
     </div>
+
+    <div class="timeline">
+      <h3 data-i18n="about.experience">经历</h3>
+      <div class="timeline-item">
+        <span>2023 – 至今</span>
+        <p data-i18n="exp1-role">前端工程师 @ 某科技公司</p>
+        <p data-i18n="exp1-desc">主导开发了基于 React + TypeScript 的 SaaS 平台，用户超 10 万。</p>
+      </div>
+      <div class="timeline-item">
+        <span>2021 – 2023</span>
+        <p data-i18n="exp2-role">全栈开发者 @ 初创团队</p>
+        <p data-i18n="exp2-desc">从 0 到 1 搭建 AI 工具链，集成 LLM 与 Web 前端。</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- 项目 -->
 <section id="projects" class="page">
   <div class="container">
     <h2 class="section-title" data-i18n="projects.title">项目</h2>
-    <div class="carousel">
-      <div class="carousel-inner" id="carouselInner">
-        <div class="carousel-item" style="background-image:url(https://picsum.photos/800/400?random=4)"></div>
-        <div class="carousel-item" style="background-image:url(https://picsum.photos/800/400?random=5)"></div>
-        <div class="carousel-item" style="background-image:url(https://picsum.photos/800/400?random=6)"></div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3 data-i18n="proj1.title">AIGC 创作平台</h3>
+        <p style="color: var(--gray);" data-i18n="proj1.tech">React · FastAPI · Stable Diffusion</p>
+        <p data-i18n="proj1.desc">支持文生图、图生图的在线创作工具，日活 5000+。</p>
+        <div>
+          <a href="#" data-i18n="proj.link.demo">🔗 Live Demo</a>
+          <a href="#" data-i18n="proj.link.code">💻 GitHub</a>
+        </div>
       </div>
-      <button id="prev" class="carousel-btn">‹</button>
-      <button id="next" class="carousel-btn">›</button>
-    </div>
-    <div style="text-align:center; margin-top:1rem;">
-      <p data-i18n="projects.tip">← 左右切换作品 →</p>
+      <div class="project-card">
+        <h3 data-i18n="proj2.title">3D 数据可视化看板</h3>
+        <p style="color: var(--gray);" data-i18n="proj2.tech">Three.js · D3.js · WebSocket</p>
+        <p data-i18n="proj2.desc">实时渲染城市交通流的 3D 动态地图。</p>
+        <div>
+          <a href="#" data-i18n="proj.link.demo">🔗 Live Demo</a>
+          <a href="#" data-i18n="proj.link.code">💻 GitHub</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- 联系 -->
+<section id="blog" class="page">
+  <div class="container">
+    <h2 class="section-title" data-i18n="blog.title">技术笔记</h2>
+    <ul class="blog-list">
+      <li>
+        <a href="#" data-i18n="post1.title">如何用 Three.js 实现粒子交互动画</a>
+        <span data-i18n="post1.date">2025-08</span>
+      </li>
+      <li>
+        <a href="#" data-i18n="post2.title">React 19 新特性实战</a>
+        <span data-i18n="post2.date">2025-07</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
 <section id="contact" class="page">
   <div class="container">
     <h2 class="section-title" data-i18n="contact.title">联系我</h2>
     <p data-i18n="contact.sub">期待与你相遇❤️</p>
-    <form id="contactForm">
+    
+    <p>
+      <button id="copyEmail" style="background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 6px 12px; border-radius: 6px; cursor: pointer;">
+        📧 <span data-i18n="contact.copy">复制邮箱</span>
+      </button>
+      <span id="copyTip" style="margin-left: 0.5rem; color: var(--accent); display: none;" data-i18n="contact.copied">已复制！</span>
+    </p>
+
+    <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
       <input type="text" name="name" placeholder="Name / 姓名" required>
       <input type="email" name="email" placeholder="Email / 邮箱" required>
       <textarea name="message" rows="5" placeholder="Message / 留言" required></textarea>
@@ -147,34 +251,77 @@ footer { text-align: center; padding: 40px 0 20px; font-size: .875rem; color: va
   </div>
 </section>
 
-<!-- 页脚 -->
 <footer>
-  <span>期待与你相遇❤️</span>
+  <div class="social-links">
+    <a href="https://github.com/yourname" target="_blank">깃</a>
+    <a href="https://twitter.com/yourname" target="_blank">🐦</a>
+    <a href="https://linkedin.com/in/yourname" target="_blank">💼</a>
+  </div>
+  <span>© 2025 JIM. <span data-i18n="footer.text">期待与你相遇 ❤️</span></span>
 </footer>
 
-<!-- 返回顶部 -->
 <button id="backTop">↑</button>
 
-<!-- 语言包 -->
 <script>
 const i18n = {
   zh: {
-    "nav.home":"首页","nav.about":"关于我","nav.projects":"项目","nav.contact":"联系",
+    "nav.home":"首页","nav.about":"关于我","nav.projects":"项目","nav.blog":"博客","nav.contact":"联系",
     "btn.lang":"EN","home.name":"JIM","home.bio":"全栈开发者 · AI 爱好者 · UI 实验者","home.more":"了解更多",
     "about.title":"关于我","about.desc":"我构建 Web 应用。从 React & Node 到 WebGL 粒子，我喜欢把想法打磨成可交互的体验。保持好奇，持续学习。",
     "about.skill1":"前端 React / Vue","about.skill2":"后端 Node / Python","about.skill3":"WebGL / Three.js",
-    "projects.title":"项目","projects.tip":"← 左右切换作品 →",
-    "contact.title":"联系我","contact.sub":"期待与你相遇❤️","contact.send":"发送"
+    "about.experience":"经历",
+    "exp1-role":"前端工程师 @ 某科技公司",
+    "exp1-desc":"主导开发了基于 React + TypeScript 的 SaaS 平台，用户超 10 万。",
+    "exp2-role":"全栈开发者 @ 初创团队",
+    "exp2-desc":"从 0 到 1 搭建 AI 工具链，集成 LLM 与 Web 前端。",
+    "projects.title":"项目",
+    "proj1.title":"AIGC 创作平台",
+    "proj1.tech":"React · FastAPI · Stable Diffusion",
+    "proj1.desc":"支持文生图、图生图的在线创作工具，日活 5000+。",
+    "proj2.title":"3D 数据可视化看板",
+    "proj2.tech":"Three.js · D3.js · WebSocket",
+    "proj2.desc":"实时渲染城市交通流的 3D 动态地图。",
+    "proj.link.demo":"🔗 Live Demo",
+    "proj.link.code":"💻 GitHub",
+    "blog.title":"技术笔记",
+    "post1.title":"如何用 Three.js 实现粒子交互动画",
+    "post1.date":"2025-08",
+    "post2.title":"React 19 新特性实战",
+    "post2.date":"2025-07",
+    "contact.title":"联系我","contact.sub":"期待与你相遇❤️",
+    "contact.copy":"复制邮箱","contact.copied":"已复制！","contact.send":"发送",
+    "footer.text":"期待与你相遇 ❤️"
   },
   en: {
-    "nav.home":"Home","nav.about":"About","nav.projects":"Projects","nav.contact":"Contact",
+    "nav.home":"Home","nav.about":"About","nav.projects":"Projects","nav.blog":"Blog","nav.contact":"Contact",
     "btn.lang":"中","home.name":"JIM","home.bio":"Full-stack developer · AI enthusiast · UI experimenter","home.more":"More",
     "about.title":"About Me","about.desc":"I build web apps. From React & Node to WebGL particles, I love turning ideas into interactive experiences. Stay curious, keep learning.",
     "about.skill1":"Front-end React / Vue","about.skill2":"Back-end Node / Python","about.skill3":"WebGL / Three.js",
-    "projects.title":"Projects","projects.tip":"← Switch projects →",
-    "contact.title":"Contact Me","contact.sub":"Looking forward to meeting you❤️","contact.send":"Send"
+    "about.experience":"Experience",
+    "exp1-role":"Frontend Engineer @ Tech Co.",
+    "exp1-desc":"Led the development of a React + TypeScript SaaS platform with 100k+ users.",
+    "exp2-role":"Full-stack Developer @ Startup",
+    "exp2-desc":"Built an AI toolchain from scratch, integrating LLMs with web frontend.",
+    "projects.title":"Projects",
+    "proj1.title":"AIGC Creation Platform",
+    "proj1.tech":"React · FastAPI · Stable Diffusion",
+    "proj1.desc":"An online tool for text-to-image and image-to-image generation, 5k+ DAU.",
+    "proj2.title":"3D Data Visualization Dashboard",
+    "proj2.tech":"Three.js · D3.js · WebSocket",
+    "proj2.desc":"Real-time 3D traffic flow visualization for smart cities.",
+    "proj.link.demo":"🔗 Live Demo",
+    "proj.link.code":"💻 GitHub",
+    "blog.title":"Tech Notes",
+    "post1.title":"Interactive Particle Animation with Three.js",
+    "post1.date":"2025-08",
+    "post2.title":"React 19 New Features in Practice",
+    "post2.date":"2025-07",
+    "contact.title":"Contact Me","contact.sub":"Looking forward to meeting you❤️",
+    "contact.copy":"Copy Email","contact.copied":"Copied!","contact.send":"Send",
+    "footer.text":"Looking forward to meeting you ❤️"
   }
 };
+
 let currentLang = "zh";
 const langBtn = document.getElementById("langBtn");
 function setLanguage(lang) {
@@ -188,12 +335,30 @@ function setLanguage(lang) {
 }
 langBtn.addEventListener("click", () => setLanguage(currentLang === "zh" ? "en" : "zh"));
 
-/* 主题切换 */
-document.getElementById("themeBtn").addEventListener("click", () => {
-  document.documentElement.toggleAttribute("data-theme");
-});
+/* 主题切换（支持自动） */
+const themeBtn = document.getElementById("themeBtn");
+function applyTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'manual') {
+    document.documentElement.toggleAttribute('data-theme');
+  } else {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  }
+}
+function toggleTheme() {
+  document.documentElement.toggleAttribute('data-theme');
+  localStorage.setItem('theme', 'manual');
+}
+themeBtn.addEventListener("click", toggleTheme);
+// 初始化主题
+applyTheme();
 
-/* 导航高亮 */
+/* 导航高亮 & 返回顶部 */
 const sections = document.querySelectorAll(".page");
 const navLinks = document.querySelectorAll(".nav-links a");
 window.addEventListener("scroll", () => {
@@ -204,43 +369,32 @@ window.addEventListener("scroll", () => {
   navLinks.forEach(link => {
     link.classList.toggle("active", link.getAttribute("href") === `#${current}`);
   });
-  // 返回顶部按钮显隐
   document.getElementById("backTop").style.display = scrollY > 300 ? "block" : "none";
 });
-
-/* 返回顶部 */
 document.getElementById("backTop").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
 /* 技能条动画 */
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      const bar = entry.target;
-      const percent = bar.getAttribute("data-skill");
-      bar.style.width = percent + "%";
+      const fill = entry.target;
+      const percent = fill.closest('.skill-bar').previousElementSibling.getAttribute("data-skill");
+      fill.style.width = percent + "%";
     }
   });
 });
 document.querySelectorAll(".skill-fill").forEach(el => observer.observe(el));
 
-/* 轮播图 */
-let carouselIndex = 0;
-const inner = document.getElementById("carouselInner");
-const items = inner.children.length;
-document.getElementById("prev").addEventListener("click", () => {
-  carouselIndex = (carouselIndex - 1 + items) % items;
-  inner.style.transform = `translateX(-${carouselIndex * 100}%)`;
-});
-document.getElementById("next").addEventListener("click", () => {
-  carouselIndex = (carouselIndex + 1) % items;
-  inner.style.transform = `translateX(-${carouselIndex * 100}%)`;
-});
-
-/* 联系表单 */
-document.getElementById("contactForm").addEventListener("submit", e => {
-  e.preventDefault();
-  alert(currentLang === "zh" ? "已收到您的留言！📬" : "Message received! 📬");
-  e.target.reset();
+/* 联系表单 - 复制邮箱 */
+document.getElementById("copyEmail").addEventListener("click", async () => {
+  const email = "jim@example.com"; // 👈 替换为你的邮箱
+  try {
+    await navigator.clipboard.writeText(email);
+    document.getElementById("copyTip").style.display = "inline";
+    setTimeout(() => document.getElementById("copyTip").style.display = "none", 2000);
+  } catch (err) {
+    alert("复制失败，请手动复制邮箱: " + email);
+  }
 });
 
 /* 打字机效果 */
@@ -301,14 +455,3 @@ typeWriter();
       particles[i].draw();
     }
     requestAnimationFrame(animate);
-  }
-  init();
-  animate();
-  window.addEventListener("resize", () => {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  });
-})();
-</script>
-</body>
-</html>
