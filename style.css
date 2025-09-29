@@ -1,0 +1,15 @@
+body {
+    /* 设置背景颜色为浅灰色 */
+    background-color: #f4f4f4;
+    /* 设置页面文字字体 */
+    font-family: Arial, sans-serif;
+    /* 设置文字颜色为深灰色 */
+    color: #333;
+    /* 设置内边距，让内容不紧贴边缘 */
+    padding: 20px;
+}
+
+h1 {
+    /* 设置一级标题颜色为蓝色 */
+    color: #007BFF;
+}
