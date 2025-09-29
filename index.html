@@ -1,94 +1,184 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JIM 的个人主页</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Tech Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ========= 颜色变量（支持切换） ========= */
+:root{
+  --primary:#4a90e2;
+  --secondary:#6c757d;
+  --bg-main:#f8f9fa;
+  --card-bg:#ffffff;
+  --text-dark:#212529;
+  --text-light:#6c757d;
+  --border-color:#dee2e6;
+  --shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+[data-theme="dark"]{
+  --primary:#00f2ff;
+  --secondary:#8a9bb0;
+  --bg-main:#0a0e1a;
+  --card-bg:rgba(22,28,45,0.65);
+  --text-dark:#e6f7ff;
+  --text-light:#8a9bb0;
+  --border-color:rgba(0,242,255,0.15);
+  --shadow:0 8px 32px rgba(0,0,0,0.3);
+}
+
+/* ========= 基础 & 背景 ========= */
+body{
+  margin:0;
+  padding:0;
+  background:var(--bg-main);
+  color:var(--text-dark);
+  font-family:'Inter',sans-serif;
+  line-height:1.6;
+  transition:background .3s,color .3s;
+  overflow-x:hidden;
+}
+/* 顶部扫光 */
+body::before{
+  content:"";
+  position:fixed;
+  top:0;left:0;width:100%;height:3px;
+  background:linear-gradient(90deg,transparent,var(--primary),transparent);
+  animation:scan 4s linear infinite;
+  z-index:999;
+}
+@keyframes scan{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+
+/* 粒子背景（仅暗色） */
+[data-theme="dark"] body{
+  background-image:
+    radial-gradient(circle at 20% 20%,rgba(0,242,255,0.08) 0%,transparent 40%),
+    radial-gradient(circle at 80% 70%,rgba(255,0,193,0.06) 0%,transparent 40%);
+}
+
+/* ========= 导航栏 ========= */
+.navbar{
+  position:sticky;
+  top:0;
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(12px);
+  box-shadow:var(--shadow);
+  z-index:100;
+  transition:background .3s;
+}
+[data-theme="dark"] .navbar{background:var(--card-bg);border-bottom:1px solid var(--border-color);}
+.nav-container{
+  width:90%;max-width:800px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;padding:15px 0;
+}
+.logo{font-size:1.5rem;font-weight:700;color:var(--primary);}
+.nav-links{display:flex;gap:20px;list-style:none;margin:0;padding:0;}
+.nav-links a{color:var(--text-light);text-decoration:none;transition:color .3s;}
+.nav-links a:hover,
+.nav-links a.active{color:var(--primary);}
+#themeToggle{background:transparent;border:1px solid var(--primary);color:var(--primary);padding:4px 12px;border-radius:4px;cursor:pointer;transition:.3s;}
+#themeToggle:hover{background:var(--primary);color:var(--bg-main);}
+
+/* ========= 主容器 ========= */
+.container{width:90%;max-width:800px;margin:0 auto;padding:40px 15px;}
+
+/* ========= 卡片通用 ========= */
+.section{
+  background:var(--card-bg);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--border-color);
+  padding:30px;
+  margin:30px 0;
+  position:relative;overflow:hidden;
+  transition:transform .3s,box-shadow .3s;
+}
+.section:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,.1);}
+.section h2{color:var(--primary);margin-bottom:20px;font-size:1.8rem;font-weight:600;}
+.avatar{display:block;margin:15px auto;border-radius:50%;width:120px;height:120px;object-fit:cover;}
+
+/* 项目列表 */
+.projects-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.project-card{background:#f8f9fa;border-left:3px solid var(--primary);padding:20px;border-radius:12px;counter-increment:proj;transition:.3s;}
+.project-card:hover{background:#e9f5ff;transform:scale(1.02);}
+[data-theme="dark"] .project-card{background:rgba(255,255,255,.05);}
+.project-card h3{color:var(--primary);margin-bottom:10px;}
+.project-card::before{content:"0" counter(proj);float:right;font-size:.75rem;color:var(--primary);font-weight:600;}
+
+/* 联系方式 */
+.contact-list{list-style:none;padding:0;}
+.contact-list a{color:var(--primary);text-decoration:none;display:flex;align-items:center;gap:8px;font-size:.95rem;}
+.contact-list a:hover{text-decoration:underline;}
+
+/* 页脚 */
+footer{text-align:center;padding:25px 0;font-size:.85rem;color:var(--text-light);}
+</style>
 </head>
+
 <body>
-  <!-- 导航栏 -->
-  <nav class="navbar">
-    <div class="container">
-      <div class="logo">JIM</div>
-      <ul class="nav-links">
-        <li><a href="#about">关于我</a></li>
-        <li><a href="#projects">项目</a></li>
-        <li><a href="#contact">联系</a></li>
-      </ul>
+<!-- 导航 -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo">TechPort</div>
+    <ul class="nav-links">
+      <li><a href="#about" class="active">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button id="themeToggle">🌓</button>
+  </div>
+</nav>
+
+<!-- 内容区 -->
+<div class="container">
+  <!-- About -->
+  <section id="about" class="section">
+    <h2>About Me</h2>
+    <img src="https://picsum.photos/120/120?random=1" alt="avatar" class="avatar">
+    <p>Hi, I'm a full-stack developer focusing on React & Node. Love clean code and futuristic UI.</p>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="section">
+    <h2>Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3>Project Alpha</h3>
+        <p>AI-driven chatbot built with OpenAI API and Next.js.</p>
+      </div>
+      <div class="project-card">
+        <h3>Project Beta</h3>
+        <p>Real-time dashboard visualizing IoT data using ECharts & WebSocket.</p>
+      </div>
+      <div class="project-card">
+        <h3>Project Gamma</h3>
+        <p>Cyberpunk portfolio template powered by Three.js particles.</p>
+      </div>
     </div>
-  </nav>
+  </section>
 
-  <!-- 主内容区 -->
-  <main class="container">
-    <!-- 关于我 -->
-    <section id="about" class="section">
-      <div class="profile-card">
-        <img src="https://via.placeholder.com/120" alt="JIM" class="avatar" />
-        <h2>关于我</h2>
-        <p>你好！我是 JIM，一名前端开发爱好者。我热爱学习新技术，正在构建自己的第一个个人网站。我喜欢干净的代码和优雅的设计。</p>
-      </div>
-    </section>
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <h2>Contact</h2>
+    <ul class="contact-list">
+      <li><a href="mailto:you@example.com">📧 you@example.com</a></li>
+      <li><a href="https://github.com/you" target="_blank">💻 GitHub</a></li>
+      <li><a href="https://twitter.com/you" target="_blank">🐦 Twitter</a></li>
+    </ul>
+  </section>
+</div>
 
-    <!-- 项目展示 -->
-    <section id="projects" class="section">
-      <h2>我的项目</h2>
-      <div class="projects-grid">
-        <div class="project-card">
-          <h3>待办事项应用</h3>
-          <p>使用 HTML、CSS 和 JavaScript 构建的简单任务管理器，支持添加、删除和标记完成。</p>
-        </div>
-        <div class="project-card">
-          <h3>天气小工具</h3>
-          <p>调用公开 API 获取实时天气信息，展示温度、湿度、风速等数据。</p>
-        </div>
-        <div class="project-card">
-          <h3>个人博客</h3>
-          <p>正在开发中，计划用 Markdown 写文章，并支持分类和搜索功能。</p>
-        </div>
-      </div>
-    </section>
+<!-- 页脚 -->
+<footer>
+  © 2024 TechPort. Built with ❤️ and CSS.
+</footer>
 
-    <!-- 联系方式 -->
-    <section id="contact" class="section">
-      <h2>联系我</h2>
-      <ul class="contact-list">
-        <li><a href="mailto:jim@example.com"><i class="icon-email"></i> jim@example.com</a></li>
-        <li><a href="https://github.com/jim" target="_blank"><i class="icon-github"></i> GitHub</a></li>
-        <li><a href="https://linkedin.com/in/jim" target="_blank"><i class="icon-linkedin"></i> LinkedIn</a></li>
-      </ul>
-    </section>
-  </main>
-
-  <!-- 页脚 -->
-  <footer>
-    <p>&copy; 2025 JIM. All rights reserved.</p>
-  </footer>
-
-  <script>
-    // 滚动时导航高亮（可选）
-    window.addEventListener('scroll', () => {
-      const sections = document.querySelectorAll('section');
-      const navLinks = document.querySelectorAll('.nav-links a');
-
-      let current = '';
-
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        const sectionHeight = section.clientHeight;
-        if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
-          current = section.getAttribute('id');
-        }
-      });
-
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').substring(1) === current) {
-          link.classList.add('active');
-        }
-      });
-    });
-  </script>
+<!-- 暗色切换 -->
+<script>
+document.getElementById('themeToggle').onclick=()=>{
+  document.documentElement.toggleAttribute('data-theme','dark');
+};
+</script>
 </body>
 </html>
