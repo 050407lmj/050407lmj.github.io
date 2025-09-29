@@ -3,182 +3,371 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>My Tech Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<title>NeoTech | 个人主页</title>
 <style>
-/* ========= 颜色变量（支持切换） ========= */
-:root{
-  --primary:#4a90e2;
-  --secondary:#6c757d;
-  --bg-main:#f8f9fa;
-  --card-bg:#ffffff;
-  --text-dark:#212529;
-  --text-light:#6c757d;
-  --border-color:#dee2e6;
-  --shadow:0 4px 12px rgba(0,0,0,0.08);
+/* ---------------- 变量库 ---------------- */
+:root {
+  --bg: #0a0e1a;
+  --primary: #00f2ff;
+  --accent: #ff00c1;
+  --text: #e6f7ff;
+  --gray: #8a9bb0;
+  --blur: blur(20px);
+  --radius: 16px;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
-[data-theme="dark"]{
-  --primary:#00f2ff;
-  --secondary:#8a9bb0;
-  --bg-main:#0a0e1a;
-  --card-bg:rgba(22,28,45,0.65);
-  --text-dark:#e6f7ff;
-  --text-light:#8a9bb0;
-  --border-color:rgba(0,242,255,0.15);
-  --shadow:0 8px 32px rgba(0,0,0,0.3);
+/* ---------------- 全局重置 ---------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
-/* ========= 基础 & 背景 ========= */
-body{
-  margin:0;
-  padding:0;
-  background:var(--bg-main);
-  color:var(--text-dark);
-  font-family:'Inter',sans-serif;
-  line-height:1.6;
-  transition:background .3s,color .3s;
-  overflow-x:hidden;
+html {
+  scroll-behavior: smooth;
 }
-/* 顶部扫光 */
-body::before{
-  content:"";
-  position:fixed;
-  top:0;left:0;width:100%;height:3px;
-  background:linear-gradient(90deg,transparent,var(--primary),transparent);
-  animation:scan 4s linear infinite;
-  z-index:999;
+body {
+  font-family: "Inter", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
 }
-@keyframes scan{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
-
-/* 粒子背景（仅暗色） */
-[data-theme="dark"] body{
-  background-image:
-    radial-gradient(circle at 20% 20%,rgba(0,242,255,0.08) 0%,transparent 40%),
-    radial-gradient(circle at 80% 70%,rgba(255,0,193,0.06) 0%,transparent 40%);
+a {
+  color: var(--primary);
+  text-decoration: none;
 }
-
-/* ========= 导航栏 ========= */
-.navbar{
-  position:sticky;
-  top:0;
-  background:rgba(255,255,255,.75);
-  backdrop-filter:blur(12px);
-  box-shadow:var(--shadow);
-  z-index:100;
-  transition:background .3s;
+/* ---------------- 粒子背景 ---------------- */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
 }
-[data-theme="dark"] .navbar{background:var(--card-bg);border-bottom:1px solid var(--border-color);}
-.nav-container{
-  width:90%;max-width:800px;margin:0 auto;
-  display:flex;align-items:center;justify-content:space-between;padding:15px 0;
+/* ---------------- 导航栏 ---------------- */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 5%;
+  background: rgba(22, 28, 45, 0.65);
+  backdrop-filter: var(--blur);
+  border-bottom: 1px solid rgba(0, 242, 255, 0.15);
+  z-index: 1000;
 }
-.logo{font-size:1.5rem;font-weight:700;color:var(--primary);}
-.nav-links{display:flex;gap:20px;list-style:none;margin:0;padding:0;}
-.nav-links a{color:var(--text-light);text-decoration:none;transition:color .3s;}
-.nav-links a:hover,
-.nav-links a.active{color:var(--primary);}
-#themeToggle{background:transparent;border:1px solid var(--primary);color:var(--primary);padding:4px 12px;border-radius:4px;cursor:pointer;transition:.3s;}
-#themeToggle:hover{background:var(--primary);color:var(--bg-main);}
-
-/* ========= 主容器 ========= */
-.container{width:90%;max-width:800px;margin:0 auto;padding:40px 15px;}
-
-/* ========= 卡片通用 ========= */
-.section{
-  background:var(--card-bg);
-  border-radius:16px;
-  box-shadow:var(--shadow);
-  border:1px solid var(--border-color);
-  padding:30px;
-  margin:30px 0;
-  position:relative;overflow:hidden;
-  transition:transform .3s,box-shadow .3s;
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
 }
-.section:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,.1);}
-.section h2{color:var(--primary);margin-bottom:20px;font-size:1.8rem;font-weight:600;}
-.avatar{display:block;margin:15px auto;border-radius:50%;width:120px;height:120px;object-fit:cover;}
-
-/* 项目列表 */
-.projects-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
-.project-card{background:#f8f9fa;border-left:3px solid var(--primary);padding:20px;border-radius:12px;counter-increment:proj;transition:.3s;}
-.project-card:hover{background:#e9f5ff;transform:scale(1.02);}
-[data-theme="dark"] .project-card{background:rgba(255,255,255,.05);}
-.project-card h3{color:var(--primary);margin-bottom:10px;}
-.project-card::before{content:"0" counter(proj);float:right;font-size:.75rem;color:var(--primary);font-weight:600;}
-
-/* 联系方式 */
-.contact-list{list-style:none;padding:0;}
-.contact-list a{color:var(--primary);text-decoration:none;display:flex;align-items:center;gap:8px;font-size:.95rem;}
-.contact-list a:hover{text-decoration:underline;}
-
-/* 页脚 */
-footer{text-align:center;padding:25px 0;font-size:.85rem;color:var(--text-light);}
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  position: relative;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s;
+}
+.nav-links a:hover::after {
+  width: 100%;
+}
+/* ---------------- 通用容器 ---------------- */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 0;
+}
+/* ---------------- Hero 区域 ---------------- */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+.hero-left h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.2;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-left p {
+  margin: 1rem 0 2rem;
+  font-size: 1.1rem;
+  color: var(--gray);
+}
+.btn-neon {
+  position: relative;
+  padding: 12px 32px;
+  border: 1px solid var(--primary);
+  border-radius: 30px;
+  background: transparent;
+  color: var(--primary);
+  font-weight: 600;
+  overflow: hidden;
+  transition: 0.4s;
+}
+.btn-neon:hover {
+  color: var(--bg);
+  background: var(--primary);
+  box-shadow: 0 0 20px var(--primary);
+}
+.hero-right {
+  flex: 1 1 400px;
+  height: 400px;
+  background: url("https://picsum.photos/600/400?random=2") center/cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+/* ---------------- About 区域 ---------------- */
+.about {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+.about-left {
+  flex: 1 1 300px;
+  text-align: center;
+}
+.avatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary);
+  box-shadow: 0 0 20px var(--primary);
+}
+.about-right {
+  flex: 2 1 400px;
+}
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+/* ---------------- Projects 区域 ---------------- */
+.projects-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-top: 2rem;
+}
+.project-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 242, 255, 0.15);
+  border-radius: var(--radius);
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px var(--primary);
+}
+.project-card h3 {
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+.project-card p {
+  color: var(--gray);
+}
+/* ---------------- Contact 区域 ---------------- */
+.contact {
+  text-align: center;
+}
+.contact-list {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+.contact-item span {
+  color: var(--gray);
+}
+/* ---------------- 倾斜分割 ---------------- */
+.skew-divider {
+  position: absolute;
+  bottom: -60px;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: var(--bg);
+  clip-path: polygon(0 60%, 100% 0, 100% 100%, 0 100%);
+}
+/* ---------------- Footer ---------------- */
+footer {
+  padding: 40px 0;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--gray);
+}
+/* ---------------- 响应式 ---------------- */
+@media (max-width: 768px) {
+  .nav-links {
+    gap: 1rem;
+  }
+  .hero {
+    text-align: center;
+  }
+  .about {
+    flex-direction: column;
+  }
+}
 </style>
 </head>
 
 <body>
+<!-- 粒子背景 -->
+<canvas id="particles"></canvas>
+
 <!-- 导航 -->
 <nav class="navbar">
-  <div class="nav-container">
-    <div class="logo">TechPort</div>
-    <ul class="nav-links">
-      <li><a href="#about" class="active">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <button id="themeToggle">🌓</button>
-  </div>
+  <div class="logo">NeoTech</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
 </nav>
 
-<!-- 内容区 -->
-<div class="container">
-  <!-- About -->
-  <section id="about" class="section">
-    <h2>About Me</h2>
-    <img src="https://picsum.photos/120/120?random=1" alt="avatar" class="avatar">
-    <p>Hi, I'm a full-stack developer focusing on React & Node. Love clean code and futuristic UI.</p>
-  </section>
+<!-- Hero -->
+<section id="hero" class="container hero">
+  <div class="hero-left">
+    <h1>Hi, I'm <br>Alpha Coder</h1>
+    <p>Full-stack developer · AI enthusiast · UI experimenter</p>
+    <a href="#projects" class="btn-neon">Explore My Work</a>
+  </div>
+  <div class="hero-right"></div>
+</section>
 
-  <!-- Projects -->
-  <section id="projects" class="section">
-    <h2>Projects</h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <h3>Project Alpha</h3>
-        <p>AI-driven chatbot built with OpenAI API and Next.js.</p>
-      </div>
-      <div class="project-card">
-        <h3>Project Beta</h3>
-        <p>Real-time dashboard visualizing IoT data using ECharts & WebSocket.</p>
-      </div>
-      <div class="project-card">
-        <h3>Project Gamma</h3>
-        <p>Cyberpunk portfolio template powered by Three.js particles.</p>
-      </div>
+<!-- About -->
+<section id="about" class="container about">
+  <div class="about-left">
+    <img src="https://picsum.photos/200/200?random=3" alt="avatar" class="avatar">
+  </div>
+  <div class="about-right">
+    <h2 class="section-title">About Me</h2>
+    <p>I build things for the web. From React & Node to WebGL particles, I love turning ideas into polished, interactive experiences. Always curious, always learning.</p>
+  </div>
+  <div class="skew-divider"></div>
+</section>
+
+<!-- Projects -->
+<section id="projects" class="container">
+  <h2 class="section-title">Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <h3>Project Nebula</h3>
+      <p>Real-time collaborative editor powered by WebRTC and Next.js.</p>
     </div>
-  </section>
+    <div class="project-card">
+      <h3>Quantum Dash</h3>
+      <p>Data-dashboard with Three.js particle networks and live APIs.</p>
+    </div>
+    <div class="project-card">
+      <h3>Cyberpunk Portfolio</h3>
+      <p>A template featuring GSAP scroll triggers and glitch effects.</p>
+    </div>
+  </div>
+</section>
 
-  <!-- Contact -->
-  <section id="contact" class="section">
-    <h2>Contact</h2>
-    <ul class="contact-list">
-      <li><a href="mailto:you@example.com">📧 you@example.com</a></li>
-      <li><a href="https://github.com/you" target="_blank">💻 GitHub</a></li>
-      <li><a href="https://twitter.com/you" target="_blank">🐦 Twitter</a></li>
-    </ul>
-  </section>
-</div>
+<!-- Contact -->
+<section id="contact" class="container contact">
+  <h2 class="section-title">Get In Touch</h2>
+  <p>Want to collaborate or just say hi? Drop me a message.</p>
+  <div class="contact-list">
+    <a class="contact-item" href="mailto:you@example.com">
+      <span>📧</span> you@example.com
+    </a>
+    <a class="contact-item" href="https://github.com/you" target="_blank">
+      <span>💻</span> GitHub
+    </a>
+    <a class="contact-item" href="https://twitter.com/you" target="_blank">
+      <span>🐦</span> Twitter
+    </a>
+  </div>
+</section>
 
-<!-- 页脚 -->
+<!-- Footer -->
 <footer>
-  © 2024 TechPort. Built with ❤️ and CSS.
+  © 2024 NeoTech. Built with pure HTML/CSS/JS & particles.
 </footer>
 
-<!-- 暗色切换 -->
+<!-- 粒子脚本 -->
 <script>
-document.getElementById('themeToggle').onclick=()=>{
-  document.documentElement.toggleAttribute('data-theme','dark');
-};
+!(function () {
+  const canvas = document.getElementById("particles");
+  const ctx = canvas.getContext("2d");
+  let w = (canvas.width = window.innerWidth);
+  let h = (canvas.height = window.innerHeight);
+  const particles = [];
+  const particleCount = 60;
+  class Particle {
+    constructor() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.size = Math.random() * 2 + 1;
+      this.speedX = Math.random() * 0.8 - 0.4;
+      this.speedY = Math.random() * 0.8 - 0.4;
+    }
+    update() {
+      if (this.x > w || this.x < 0) this.speedX *= -1;
+      if (this.y > h || this.y < 0) this.speedY *= -1;
+      this.x += this.speedX;
+      this.y += this.speedY;
+    }
+    draw() {
+      ctx.fillStyle = "#00f2ff";
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  function init() {
+    for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+  }
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+    }
+    requestAnimationFrame(animate);
+  }
+  init();
+  animate();
+  window.addEventListener("resize", () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  });
+})();
 </script>
 </body>
 </html>
