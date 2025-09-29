@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" id="html-root">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -7,14 +7,26 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- 暗色/亮色切换按钮 -->
+  <button id="theme-toggle" aria-label="切换主题">🌓</button>
+
+  <!-- 回到顶部按钮 -->
+  <button id="back-to-top" aria-label="回到顶部">↑</button>
+
+  <!-- 语言切换 -->
+  <div class="lang-switcher">
+    <button onclick="setLanguage('zh')">中文</button>
+    <button onclick="setLanguage('en')">English</button>
+  </div>
+
   <!-- 导航栏 -->
   <nav class="navbar">
     <div class="container">
       <div class="logo">JIM</div>
       <ul class="nav-links">
-        <li><a href="#about">关于我</a></li>
-        <li><a href="#projects">项目</a></li>
-        <li><a href="#contact">联系</a></li>
+        <li><a href="#about" data-i18n="nav.about">关于我</a></li>
+        <li><a href="#projects" data-i18n="nav.projects">项目</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">联系</a></li>
       </ul>
     </div>
   </nav>
@@ -23,34 +35,43 @@
   <main class="container">
     <!-- 关于我 -->
     <section id="about" class="section">
-      <h2>关于我</h2>
-      <p>你好！我是 JIM，一名前端开发爱好者，热爱学习新技术，正在构建自己的第一个个人网站。</p>
+      <h2 data-i18n="about.title">关于我</h2>
+      <p data-i18n="about.desc">你好！我是 JIM，一名前端开发爱好者，热爱学习新技术，正在构建自己的第一个个人网站。</p>
       <img src="https://via.placeholder.com/150" alt="我的头像" class="avatar">
     </section>
 
     <!-- 项目展示 -->
     <section id="projects" class="section">
-      <h2>我的项目</h2>
+      <h2 data-i18n="projects.title">我的项目</h2>
       <div class="projects-grid">
         <div class="project-card">
-          <h3>待办事项应用</h3>
-          <p>使用 HTML、CSS 和 JavaScript 构建的简单任务管理器。</p>
+          <h3 data-i18n="project1.title">待办事项应用</h3>
+          <p data-i18n="project1.desc">使用 HTML、CSS 和 JavaScript 构建的简单任务管理器。</p>
         </div>
         <div class="project-card">
-          <h3>天气小工具</h3>
-          <p>调用公开 API 获取实时天气信息。</p>
+          <h3 data-i18n="project2.title">天气小工具</h3>
+          <p data-i18n="project2.desc">调用公开 API 获取实时天气信息。</p>
         </div>
         <div class="project-card">
-          <h3>个人博客</h3>
-          <p>正在开发中，计划用 Markdown 写文章。</p>
+          <h3 data-i18n="project3.title">个人博客</h3>
+          <p data-i18n="project3.desc">正在开发中，计划用 Markdown 写文章。</p>
         </div>
       </div>
     </section>
 
     <!-- 联系方式 -->
     <section id="contact" class="section">
-      <h2>联系我</h2>
-      <p>欢迎通过以下方式与我交流：</p>
+      <h2 data-i18n="contact.title">联系我</h2>
+      <p data-i18n="contact.intro">欢迎通过以下方式与我交流：</p>
+      
+      <!-- 简易联系表单（前端演示） -->
+      <form id="contact-form" onsubmit="handleSubmit(event)">
+        <input type="text" placeholder="你的名字" required />
+        <input type="3276911761@qq.com" placeholder="你的邮箱" required />
+        <textarea placeholder="留言内容" rows="4" required></textarea>
+        <button type="submit">发送</button>
+      </form>
+
       <ul class="contact-list">
         <li>📧 <a href="mailto:your.email@example.com">your.email@example.com</a></li>
         <li>🐙 <a href="https://github.com/你的用户名" target="_blank">GitHub</a></li>
@@ -62,8 +83,99 @@
   <!-- 页脚 -->
   <footer>
     <div class="container">
-      <p>&copy; 2025 JIM. 保留所有权利。</p>
+      <p>&copy; 2025 JIM. <span data-i18n="footer.rights">保留所有权利。</span></p>
     </div>
   </footer>
+
+  <!-- JavaScript 功能脚本 -->
+  <script>
+    // ========== 主题切换 ==========
+    const themeToggle = document.getElementById('theme-toggle');
+    const htmlRoot = document.getElementById('html-root');
+
+    // 从 localStorage 读取用户偏好
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    htmlRoot.setAttribute('data-theme', savedTheme);
+    themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌓';
+
+    themeToggle.addEventListener('click', () => {
+      const current = htmlRoot.getAttribute('data-theme');
+      const newTheme = current === 'dark' ? 'light' : 'dark';
+      htmlRoot.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌓';
+    });
+
+    // ========== 回到顶部 ==========
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      backToTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
+    });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ========== 语言切换 ==========
+    const translations = {
+      en: {
+        'nav.about': 'About',
+        'nav.projects': 'Projects',
+        'nav.contact': 'Contact',
+        'about.title': 'About Me',
+        'about.desc': 'Hi! I\'m JIM, a frontend enthusiast learning new tech and building my first personal website.',
+        'projects.title': 'My Projects',
+        'project1.title': 'Todo App',
+        'project1.desc': 'A simple task manager built with HTML, CSS, and JavaScript.',
+        'project2.title': 'Weather Widget',
+        'project2.desc': 'Fetches real-time weather using a public API.',
+        'project3.title': 'Personal Blog',
+        'project3.desc': 'Under development, will support Markdown posts.',
+        'contact.title': 'Get in Touch',
+        'contact.intro': 'Feel free to reach out via:',
+        'footer.rights': 'All rights reserved.',
+        'form.success': '感谢你的留言！（演示）',
+        'form.error': '请填写所有字段。'
+      },
+      zh: {
+        'nav.about': '关于我',
+        'nav.projects': '项目',
+        'nav.contact': '联系',
+        'about.title': '关于我',
+        'about.desc': '你好！我是 JIM，一名前端开发爱好者，热爱学习新技术，正在构建自己的第一个个人网站。',
+        'projects.title': '我的项目',
+        'project1.title': '待办事项应用',
+        'project1.desc': '使用 HTML、CSS 和 JavaScript 构建的简单任务管理器。',
+        'project2.title': '天气小工具',
+        'project2.desc': '调用公开 API 获取实时天气信息。',
+        'project3.title': '个人博客',
+        'project3.desc': '正在开发中，计划用 Markdown 写文章。',
+        'contact.title': '联系我',
+        'contact.intro': '欢迎通过以下方式与我交流：',
+        'footer.rights': '保留所有权利。',
+        'form.success': 'Thank you for your message! (Demo)',
+        'form.error': 'Please fill in all fields.'
+      }
+    };
+
+    function setLanguage(lang) {
+      localStorage.setItem('lang', lang);
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        el.textContent = translations[lang][key] || el.textContent;
+      });
+    }
+
+    // 初始化语言
+    const savedLang = localStorage.getItem('lang') || 'zh';
+    setLanguage(savedLang);
+
+    // ========== 表单提交（前端模拟） ==========
+    function handleSubmit(e) {
+      e.preventDefault();
+      const lang = localStorage.getItem('lang') || 'zh';
+      alert(lang === 'zh' ? '感谢你的留言！（演示）' : 'Thank you for your message! (Demo)');
+      e.target.reset();
+    }
+  </script>
 </body>
 </html>
