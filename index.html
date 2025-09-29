@@ -1,373 +1,127 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>NeoTech | 个人主页</title>
-<style>
-/* ---------------- 变量库 ---------------- */
-:root {
-  --bg: #0a0e1a;
-  --primary: #00f2ff;
-  --accent: #ff00c1;
-  --text: #e6f7ff;
-  --gray: #8a9bb0;
-  --blur: blur(20px);
-  --radius: 16px;
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-/* ---------------- 全局重置 ---------------- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-html {
-  scroll-behavior: smooth;
-}
-body {
-  font-family: "Inter", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-a {
-  color: var(--primary);
-  text-decoration: none;
-}
-/* ---------------- 粒子背景 ---------------- */
-#particles {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-}
-/* ---------------- 导航栏 ---------------- */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 5%;
-  background: rgba(22, 28, 45, 0.65);
-  backdrop-filter: var(--blur);
-  border-bottom: 1px solid rgba(0, 242, 255, 0.15);
-  z-index: 1000;
-}
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-}
-.nav-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-}
-.nav-links a {
-  position: relative;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0;
-  height: 2px;
-  background: var(--primary);
-  transition: width 0.3s;
-}
-.nav-links a:hover::after {
-  width: 100%;
-}
-/* ---------------- 通用容器 ---------------- */
-.container {
-  width: 90%;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 80px 0;
-}
-/* ---------------- Hero 区域 ---------------- */
-.hero {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-.hero-left h1 {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 800;
-  line-height: 1.2;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.hero-left p {
-  margin: 1rem 0 2rem;
-  font-size: 1.1rem;
-  color: var(--gray);
-}
-.btn-neon {
-  position: relative;
-  padding: 12px 32px;
-  border: 1px solid var(--primary);
-  border-radius: 30px;
-  background: transparent;
-  color: var(--primary);
-  font-weight: 600;
-  overflow: hidden;
-  transition: 0.4s;
-}
-.btn-neon:hover {
-  color: var(--bg);
-  background: var(--primary);
-  box-shadow: 0 0 20px var(--primary);
-}
-.hero-right {
-  flex: 1 1 400px;
-  height: 400px;
-  background: url("https://picsum.photos/600/400?random=2") center/cover;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-/* ---------------- About 区域 ---------------- */
-.about {
-  display: flex;
-  align-items: center;
-  gap: 3rem;
-  flex-wrap: wrap;
-}
-.about-left {
-  flex: 1 1 300px;
-  text-align: center;
-}
-.avatar {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid var(--primary);
-  box-shadow: 0 0 20px var(--primary);
-}
-.about-right {
-  flex: 2 1 400px;
-}
-.section-title {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: var(--primary);
-}
-/* ---------------- Projects 区域 ---------------- */
-.projects-grid {
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  margin-top: 2rem;
-}
-.project-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(0, 242, 255, 0.15);
-  border-radius: var(--radius);
-  padding: 25px;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 25px var(--primary);
-}
-.project-card h3 {
-  margin-bottom: 0.5rem;
-  color: var(--primary);
-}
-.project-card p {
-  color: var(--gray);
-}
-/* ---------------- Contact 区域 ---------------- */
-.contact {
-  text-align: center;
-}
-.contact-list {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin-top: 1.5rem;
-}
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem;
-}
-.contact-item span {
-  color: var(--gray);
-}
-/* ---------------- 倾斜分割 ---------------- */
-.skew-divider {
-  position: absolute;
-  bottom: -60px;
-  left: 0;
-  width: 100%;
-  height: 120px;
-  background: var(--bg);
-  clip-path: polygon(0 60%, 100% 0, 100% 100%, 0 100%);
-}
-/* ---------------- Footer ---------------- */
-footer {
-  padding: 40px 0;
-  text-align: center;
-  font-size: 0.875rem;
-  color: var(--gray);
-}
-/* ---------------- 响应式 ---------------- */
-@media (max-width: 768px) {
-  .nav-links {
-    gap: 1rem;
-  }
-  .hero {
-    text-align: center;
-  }
-  .about {
-    flex-direction: column;
-  }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="pageTitle">我的技术档案</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
 <body>
-<!-- 粒子背景 -->
-<canvas id="particles"></canvas>
+    <div id="particles-js"></div>
 
-<!-- 导航 -->
-<nav class="navbar">
-  <div class="logo">NeoTech</div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-microchip"></i> <span data-lang-key="logoText">技术档案</span>
+            </a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="#hero" data-lang-key="navHome">首页</a></li>
+                    <li><a href="#about" data-lang-key="navAbout">关于</a></li>
+                    <li><a href="#projects" data-lang-key="navProjects">项目</a></li>
+                    <li><a href="#contact" data-lang-key="navContact">联系</a></li>
+                </ul>
+                <button id="langToggle" data-current-lang="zh-CN">English / <span>中文</span></button>
+            </nav>
+        </div>
+    </header>
 
-<!-- Hero -->
-<section id="hero" class="container hero">
-  <div class="hero-left">
-    <h1>Hi, I'm <br>Alpha Coder</h1>
-    <p>Full-stack developer · AI enthusiast · UI experimenter</p>
-    <a href="#projects" class="btn-neon">Explore My Work</a>
-  </div>
-  <div class="hero-right"></div>
-</section>
+    <main class="main-content">
+        <section id="hero" class="hero-section">
+            <div class="hero-card neon-border">
+                <img src="https://picsum.photos/200/200?random=1" alt="Avatar" class="avatar glitch">
+                <h1 class="glitch" data-text="李华" data-lang-key="heroName">李华</h1>
+                <p class="role" data-lang-key="heroRole">全栈开发工程师</p>
+                <div class="social-links">
+                    <a href="https://github.com/your-github" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/your-linkedin" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="mailto:your.email@example.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="hero-text">
+                <h2 data-lang-key="heroWelcome">你好，世界！</h2>
+                <p data-lang-key="heroIntro">我是一位对技术充满热情的全栈开发工程师，专注于构建高性能、用户友好的数字产品。我热爱解决复杂问题并创造创新解决方案。</p>
+                <a href="#projects" class="cta-button" data-lang-key="heroCta">查看我的项目 <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
 
-<!-- About -->
-<section id="about" class="container about">
-  <div class="about-left">
-    <img src="https://picsum.photos/200/200?random=3" alt="avatar" class="avatar">
-  </div>
-  <div class="about-right">
-    <h2 class="section-title">About Me</h2>
-    <p>I build things for the web. From React & Node to WebGL particles, I love turning ideas into polished, interactive experiences. Always curious, always learning.</p>
-  </div>
-  <div class="skew-divider"></div>
-</section>
+        <section id="about" class="content-section">
+            <h2 data-lang-key="aboutTitle">关于我</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p data-lang-key="aboutP1">我拥有丰富的后端开发经验（Node.js, Python）和前端开发技能（React, Vue），能够独立完成从设计到部署的整个开发周期。</p>
+                    <p data-lang-key="aboutP2">我对最新的技术趋势保持高度关注，并持续学习和实践，以提供最前沿的解决方案。除了编码，我还热衷于开源项目和技术社区分享。</p>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-card neon-border-sm">
+                        <h3><i class="fas fa-code"></i> <span data-lang-key="skillFrontend">前端</span></h3>
+                        <p>React, Vue, JavaScript, HTML, CSS</p>
+                    </div>
+                    <div class="skill-card neon-border-sm">
+                        <h3><i class="fas fa-server"></i> <span data-lang-key="skillBackend">后端</span></h3>
+                        <p>Node.js, Python, Express, Django</p>
+                    </div>
+                    <div class="skill-card neon-border-sm">
+                        <h3><i class="fas fa-database"></i> <span data-lang-key="skillDatabase">数据库</span></h3>
+                        <p>MongoDB, PostgreSQL, MySQL</p>
+                    </div>
+                    <div class="skill-card neon-border-sm">
+                        <h3><i class="fas fa-cloud"></i> <span data-lang-key="skillDevOps">DevOps</span></h3>
+                        <p>Docker, AWS, Git, CI/CD</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<!-- Projects -->
-<section id="projects" class="container">
-  <h2 class="section-title">Projects</h2>
-  <div class="projects-grid">
-    <div class="project-card">
-      <h3>Project Nebula</h3>
-      <p>Real-time collaborative editor powered by WebRTC and Next.js.</p>
-    </div>
-    <div class="project-card">
-      <h3>Quantum Dash</h3>
-      <p>Data-dashboard with Three.js particle networks and live APIs.</p>
-    </div>
-    <div class="project-card">
-      <h3>Cyberpunk Portfolio</h3>
-      <p>A template featuring GSAP scroll triggers and glitch effects.</p>
-    </div>
-  </div>
-</section>
+        <section id="projects" class="content-section">
+            <h2 data-lang-key="projectsTitle">精选项目</h2>
+            <div class="projects-grid">
+                <a href="#" class="project-card neon-border-sm">
+                    <i class="fas fa-globe project-icon"></i>
+                    <h3 data-lang-key="proj1Title">智能电商平台</h3>
+                    <p data-lang-key="proj1Desc">基于AI推荐算法的电商解决方案，提升用户购物体验。</p>
+                    <span class="project-tech">React | Node.js | MongoDB</span>
+                </a>
+                <a href="#" class="project-card neon-border-sm">
+                    <i class="fas fa-robot project-icon"></i>
+                    <h3 data-lang-key="proj2Title">自动化数据分析工具</h3>
+                    <p data-lang-key="proj2Desc">利用Python进行大数据处理和可视化。</p>
+                    <span class="project-tech">Python | Pandas | Matplotlib</span>
+                </a>
+                <a href="#" class="project-card neon-border-sm">
+                    <i class="fas fa-lightbulb project-icon"></i>
+                    <h3 data-lang-key="proj3Title">智能家居控制系统</h3>
+                    <p data-lang-key="proj3Desc">实时监控与控制设备，提升生活便利性。</p>
+                    <span class="project-tech">IoT | Raspberry Pi | Vue.js</span>
+                </a>
+                <a href="#" class="project-card neon-border-sm">
+                    <i class="fas fa-network-wired project-icon"></i>
+                    <h3 data-lang-key="proj4Title">区块链投票系统</h3>
+                    <p data-lang-key="proj4Desc">去中心化、安全透明的投票解决方案。</p>
+                    <span class="project-tech">Solidity | Web3.js | React</span>
+                </a>
+            </div>
+        </section>
 
-<!-- Contact -->
-<section id="contact" class="container contact">
-  <h2 class="section-title">Get In Touch</h2>
-  <p>Want to collaborate or just say hi? Drop me a message.</p>
-  <div class="contact-list">
-    <a class="contact-item" href="mailto:you@example.com">
-      <span>📧</span> you@example.com
-    </a>
-    <a class="contact-item" href="https://github.com/you" target="_blank">
-      <span>💻</span> GitHub
-    </a>
-    <a class="contact-item" href="https://twitter.com/you" target="_blank">
-      <span>🐦</span> Twitter
-    </a>
-  </div>
-</section>
+        <section id="contact" class="content-section">
+            <h2 data-lang-key="contactTitle">联系我</h2>
+            <p data-lang-key="contactIntro">如果您有任何项目合作意向或只是想交流技术，欢迎随时联系我！</p>
+            <form class="contact-form">
+                <input type="text" placeholder="您的姓名" required data-lang-key="formNamePlaceholder">
+                <input type="email" placeholder="您的邮箱" required data-lang-key="formEmailPlaceholder">
+                <textarea placeholder="您的消息" rows="5" required data-lang-key="formMessagePlaceholder"></textarea>
+                <button type="submit" class="cta-button" data-lang-key="formSend">发送消息 <i class="fas fa-paper-plane"></i></button>
+            </form>
+        </section>
+    </main>
 
-<!-- Footer -->
-<footer>
-  © 2024 NeoTech. Built with pure HTML/CSS/JS & particles.
-</footer>
+    <footer class="footer">
+        <p>&copy; 2024 <span data-lang-key="footerText">李华的技术档案。保留所有权利。</span></p>
+    </footer>
 
-<!-- 粒子脚本 -->
-<script>
-!(function () {
-  const canvas = document.getElementById("particles");
-  const ctx = canvas.getContext("2d");
-  let w = (canvas.width = window.innerWidth);
-  let h = (canvas.height = window.innerHeight);
-  const particles = [];
-  const particleCount = 60;
-  class Particle {
-    constructor() {
-      this.x = Math.random() * w;
-      this.y = Math.random() * h;
-      this.size = Math.random() * 2 + 1;
-      this.speedX = Math.random() * 0.8 - 0.4;
-      this.speedY = Math.random() * 0.8 - 0.4;
-    }
-    update() {
-      if (this.x > w || this.x < 0) this.speedX *= -1;
-      if (this.y > h || this.y < 0) this.speedY *= -1;
-      this.x += this.speedX;
-      this.y += this.speedY;
-    }
-    draw() {
-      ctx.fillStyle = "#00f2ff";
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-  function init() {
-    for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-  }
-  function animate() {
-    ctx.clearRect(0, 0, w, h);
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].update();
-      particles[i].draw();
-    }
-    requestAnimationFrame(animate);
-  }
-  init();
-  animate();
-  window.addEventListener("resize", () => {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  });
-})();
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
