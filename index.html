@@ -1,340 +1,309 @@
 <!DOCTYPE html>
-<html lang="zh-CN">   <!-- 浏览器默认语言：中文 -->
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />   <!-- 文件字符编码：UTF-8（支持中英文） -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />   <!-- 移动设备适配 -->
-<title>科技个人主页</title>   <!-- 页面标题（浏览器标签） -->
-<!-- Google 字体：Inter，西文+中文都好看 -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JIM - 科技个人主页</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* ========= 颜色变量（默认暗色科技） ========= */
+/* ========= 变量库 ========= */
 :root {
-  --bg: #0a0e1a;              /* 深空蓝黑背景 */
-  --primary: #00f2ff;          /* 电光青主色 */
-  --accent: #ff00c1;           /* 赛博粉点缀 */
-  --text: #e6f7ff;             /* 雾白文字 */
-  --gray: #8a9bb0;             /* 辅助灰 */
-  --blur: blur(20px);          /* 毛玻璃模糊值 */
-  --radius: 16px;              /* 卡片圆角 */
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);   /* 卡片阴影 */
+  --bg: #0a0e1a; --primary: #00f2ff; --accent: #ff00c1; --text: #e6f7ff; --gray: #8a9bb0;
+  --blur: blur(20px); --radius: 16px; --shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
-/* ===== 浅色模式覆盖 ===== */
 [data-theme="light"] {
-  --bg: #f8f9fa;               /* 浅灰白背景 */
-  --primary: #4a90e2;          /* 柔和蓝 */
-  --accent: #ff00c1;           /* 保持点缀 */
-  --text: #212529;             /* 深灰文字 */
-  --gray: #6c757d;             /* 辅助灰 */
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);  /* 更淡阴影 */
+  --bg: #f8f9fa; --primary: #4a90e2; --accent: #ff00c1; --text: #212529; --gray: #6c757d;
+  --shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
-
-/* ========= 全局重置 ========= */
+/* ========= 基础 ========= */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }   /* 平滑滚动 */
-
-body {
-  font-family: "Inter", sans-serif;   /* 应用谷歌字体 */
-  background: var(--bg);              /* 使用变量背景 */
-  color: var(--text);                 /* 使用变量文字色 */
-  line-height: 1.6;                   /* 行高：阅读友好 */
-  transition: background .3s, color .3s;   /* 主题切换过渡 */
-  overflow-x: hidden;                 /* 禁止横向滚动条 */
-}
-a { color: var(--primary); text-decoration: none; }   /* 链接统一样式 */
-
-/* ========= 粒子背景 ========= */
-#particles {
-  position: fixed;   /* 固定视口，不随滚动 */
-  inset: 0;          /* top:0 right:0 bottom:0 left:0 简写 */
-  z-index: -1;       /* 放到最底层，避免遮挡内容 */
-}
-
-/* ========= 导航栏 ========= */
-.navbar {
-  position: fixed;               /* 粘性置顶 */
-  top: 0; left: 0; right: 0;     /* 撑满横向 */
-  display: flex;                 /* Flex 左右结构 */
-  align-items: center;           /* 垂直居中 */
-  justify-content: space-between; /* 左右两端对齐 */
-  padding: 20px 5%;              /* 上下20 左右5% */
-  background: rgba(22, 28, 45, 0.65);   /* 半透明毛玻璃底 */
-  backdrop-filter: var(--blur);  /* 毛玻璃特效 */
-  border-bottom: 1px solid rgba(0, 242, 255, 0.15);   /* 霓虹下划线 */
-  z-index: 1000;                 /* 保证在最上层 */
-}
-.logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; }   /* Logo 样式 */
-.nav-links { display: flex; gap: 2rem; list-style: none; }   /* 导航链接横排 */
-.nav-links a { color: var(--text); font-weight: 500; transition: color .3s; }   /* 默认文字色 */
-.nav-links a:hover,
-.nav-links a.active { color: var(--primary); }   /* 悬停/当前页高亮主色 */
-
-/* 控制按钮组（语言+主题） */
+html { scroll-behavior: smooth; }
+body { font-family: "Inter", sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; transition: background .3s, color .3s; overflow-x: hidden; }
+a { color: var(--primary); text-decoration: none; }
+/* 粒子背景 */
+#particles { position: fixed; inset: 0; z-index: -1; }
+/* 导航 */
+.navbar { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 20px 5%; background: rgba(22, 28, 45, 0.65); backdrop-filter: var(--blur); border-bottom: 1px solid rgba(0, 242, 255, 0.15); z-index: 1000; }
+.logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { color: var(--text); font-weight: 500; transition: color .3s; }
+.nav-links a:hover, .nav-links a.active { color: var(--primary); }
 .controls { display: flex; align-items: center; gap: 1rem; }
-.controls button {
-  background: transparent; border: 1px solid var(--primary); color: var(--primary);
-  padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: .3s;
-}
-.controls button:hover { background: var(--primary); color: var(--bg); }   /* 悬停反色 */
+.controls button { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 6px 14px; border-radius: 20px; cursor: pointer; transition: .3s; }
+.controls button:hover { background: var(--primary); color: var(--bg); }
+/* 容器 */
+.container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 80px 0; }
+.section-title { font-size: 2rem; margin-bottom: 1rem; color: var(--primary); }
+/* 返回顶部 */
+#backTop { position: fixed; bottom: 30px; right: 30px; background: var(--primary); color: var(--bg); border: none; padding: 10px 14px; border-radius: 50%; cursor: pointer; display: none; transition: .3s; }
+#backTop:hover { box-shadow: 0 0 15px var(--primary); }
 
-/* ========= 主容器 ========= */
-.container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 80px 0; }   /* 居中+上下留白 */
+/* ========= 多页切换（平滑滚动） ========= */
+.page { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
 
-/* ========= Hero 区域 ========= */
-.hero { height: 100vh; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2rem; }
-.hero-left h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; line-height: 1.2; }   /* 响应式字号 */
-.hero-left .gradient { background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }   /* 渐变大标题 */
-.hero-left p { margin: 1rem 0 2rem; font-size: 1.1rem; color: var(--gray); }   /* 副标题 */
-.btn-neon { position: relative; padding: 12px 32px; border: 1px solid var(--primary); border-radius: 30px; background: transparent; color: var(--primary); font-weight: 600; transition: .4s; }
-.btn-neon:hover { background: var(--primary); color: var(--bg); box-shadow: 0 0 20px var(--primary); }   /* 霓虹按钮 */
-.hero-right { flex: 1 1 400px; height: 400px; background: url("https://picsum.photos/600/400?random=2") center/cover; border-radius: var(--radius); box-shadow: var(--shadow); }   /* 右侧大图 */
+/* ========= Home 打字机 ========= */
+#typed { border-right: 2px solid var(--primary); padding-right: 4px; animation: blink .8s infinite; }
+@keyframes blink { 50% { border-color: transparent; } }
 
-/* ========= About 区域 ========= */
-.about { display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; }   /* 左右结构+换行 */
-.about-left { flex: 1 1 300px; text-align: center; }   /* 头像区域 */
-.avatar { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); box-shadow: 0 0 20px var(--primary); }   /* 圆形头像+发光 */
-.about-right { flex: 2 1 400px; }   /* 右侧文字 */
-.section-title { font-size: 2rem; margin-bottom: 1rem; color: var(--primary); }   /* 区域标题 */
+/* ========= About 技能条 ========= */
+.skills { margin-top: 1.5rem; }
+.skill-bar { background: rgba(0, 242, 255, 0.15); border-radius: 10px; overflow: hidden; height: 10px; margin: 8px 0 20px; }
+.skill-fill { height: 100%; background: var(--primary); width: 0; transition: width 1.5s ease-in-out; }
 
-/* ========= Projects 区域 ========= */
-.projects-grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 2rem; }   /* 自适应三列 */
-.project-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: var(--radius); padding: 25px; transition: transform .3s, box-shadow .3s; }
-.project-card:hover { transform: translateY(-5px); box-shadow: 0 0 25px var(--primary); }   /* 悬停上浮+霓虹阴影 */
-.project-card h3 { margin-bottom: .5rem; color: var(--primary); }   /* 项目名 */
-.project-card p { color: var(--gray); }   /* 项目简介 */
+/* ========= Projects 轮播 ========= */
+.carousel { position: relative; overflow: hidden; border-radius: var(--radius); }
+.carousel-inner { display: flex; transition: transform .5s ease; }
+.carousel-item { min-width: 100%; height: 300px; background: center/cover no-repeat; }
+.carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,.5); color: #fff; border: none; padding: 1rem; cursor: pointer; }
+#prev { left: 10px; }
+#next { right: 10px; }
 
-/* ========= Contact 区域 ========= */
-.contact { text-align: center; }   /* 居中 */
-.contact-list { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1.5rem; }   /* 横排联系图标 */
-.contact-item { display: flex; align-items: center; gap: .5rem; }   /* 图标与文字对齐 */
-.contact-item span { color: var(--gray); }   /* 图标颜色 */
+/* ========= Contact 表单 ========= */
+form { display: flex; flex-direction: column; gap: 1rem; max-width: 500px; margin: 2rem auto 0; }
+input, textarea { background: rgba(255,255,255,.05); border: 1px solid rgba(0,242,255,.3); border-radius: 8px; padding: 12px; color: var(--text); font-family: inherit; }
+input::placeholder, textarea::placeholder { color: var(--gray); }
+button[type="submit"] { border: 1px solid var(--primary); background: transparent; color: var(--primary); padding: 12px; border-radius: 8px; cursor: pointer; transition: .3s; }
+button[type="submit"]:hover { background: var(--primary); color: var(--bg); }
 
-/* ========= Footer ========= */
-footer { text-align: center; padding: 30px 0; font-size: .875rem; color: var(--gray); }   /* 页脚小字 */
-
-/* ========= 倾斜分割 ========= */
-.skew-divider { position: absolute; bottom: -60px; left: 0; width: 100%; height: 120px; background: var(--bg); clip-path: polygon(0 60%, 100% 0, 100% 100%, 0 100%); }   /* 斜切过渡 */
-
-/* ========= 响应式 ========= */
-@media (max-width: 768px) {
-  .nav-links { gap: 1rem; }   /* 导航缩小间距 */
-  .hero { text-align: center; }   /* Hero 居中 */
-  .about { flex-direction: column; }   /* About 换列 */
-}
+/* ========= 页脚 ========= */
+footer { text-align: center; padding: 40px 0 20px; font-size: .875rem; color: var(--gray); }
 </style>
 </head>
 
-<body data-lang="zh">   <!-- 默认中文 -->
-<!-- 粒子背景画布 -->
+<body data-lang="zh">
+<!-- 粒子画布 -->
 <canvas id="particles"></canvas>
 
-<!-- 导航栏 -->
+<!-- 导航 -->
 <nav class="navbar">
   <div class="logo">JIM</div>
   <ul class="nav-links">
-    <!-- data-i18n 标记需要切换的文本 -->
+    <li><a href="#home" class="active" data-i18n="nav.home">首页</a></li>
     <li><a href="#about" data-i18n="nav.about">关于我</a></li>
     <li><a href="#projects" data-i18n="nav.projects">项目</a></li>
     <li><a href="#contact" data-i18n="nav.contact">联系</a></li>
   </ul>
   <div class="controls">
-    <!-- 语言切换按钮 -->
     <button id="langBtn" data-i18n="btn.lang">EN</button>
-    <!-- 主题切换按钮 -->
     <button id="themeBtn">🌓</button>
   </div>
 </nav>
 
-<!-- Hero 区域 -->
-<section id="hero" class="container hero">
-  <div class="hero-left">
-    <!-- 渐变名字 -->
-    <h1><span class="gradient" data-i18n="hero.name">Alpha Coder</span></h1>
-    <p data-i18n="hero.bio">全栈开发者 · AI 爱好者 · UI 实验者</p>
-    <a href="#projects" class="btn-neon" data-i18n="hero.explore">探索作品</a>
+<!-- 首页 -->
+<section id="home" class="page">
+  <div class="container">
+    <h1><span id="typed" data-i18n="home.name">JIM</span></h1>
+    <p data-i18n="home.bio">全栈开发者 · AI 爱好者 · UI 实验者</p>
+    <a href="#about" class="btn-neon" data-i18n="home.more">了解更多</a>
   </div>
-  <div class="hero-right"></div>   <!-- 右侧大图 -->
 </section>
 
-<!-- About 区域 -->
-<section id="about" class="container about">
-  <div class="about-left">
-    <!-- 头像 -->
-    <img src="https://picsum.photos/200/200?random=3" alt="avatar" class="avatar">
-  </div>
-  <div class="about-right">
+<!-- 关于 -->
+<section id="about" class="page">
+  <div class="container">
     <h2 class="section-title" data-i18n="about.title">关于我</h2>
     <p data-i18n="about.desc">我构建 Web 应用。从 React & Node 到 WebGL 粒子，我喜欢把想法打磨成可交互的体验。保持好奇，持续学习。</p>
-  </div>
-  <!-- 斜切分割线 -->
-  <div class="skew-divider"></div>
-</section>
-
-<!-- Projects 区域 -->
-<section id="projects" class="container">
-  <h2 class="section-title" data-i18n="projects.title">项目</h2>
-  <div class="projects-grid">
-    <!-- 项目卡片 1 -->
-    <div class="project-card">
-      <h3 data-i18n="projects.p1.name">Project Nebula</h3>
-      <p data-i18n="projects.p1.desc">基于 WebRTC 与 Next.js 的实时协作编辑器。</p>
-    </div>
-    <!-- 项目卡片 2 -->
-    <div class="project-card">
-      <h3 data-i18n="projects.p2.name">Quantum Dash</h3>
-      <p data-i18n="projects.p2.desc">使用 Three.js 粒子网络与实时 API 的数据仪表板。</p>
-    </div>
-    <!-- 项目卡片 3 -->
-    <div class="project-card">
-      <h3 data-i18n="projects.p3.name">Cyberpunk Portfolio</h3>
-      <p data-i18n="projects.p3.desc">集成 GSAP 滚动触发与故障特效的模板。</p>
+    <div class="skills">
+      <div data-skill="85" data-i18n="about.skill1">前端 React / Vue</div>
+      <div class="skill-bar"><div class="skill-fill"></div></div>
+      <div data-skill="80" data-i18n="about.skill2">后端 Node / Python</div>
+      <div class="skill-bar"><div class="skill-fill"></div></div>
+      <div data-skill="70" data-i18n="about.skill3">WebGL / Three.js</div>
+      <div class="skill-bar"><div class="skill-fill"></div></div>
     </div>
   </div>
 </section>
 
-<!-- Contact 区域 -->
-<section id="contact" class="container contact">
-  <h2 class="section-title" data-i18n="contact.title">联系我</h2>
-  <p data-i18n="contact.sub">想合作或打招呼？给我写信吧。</p>
-  <div class="contact-list">
-    <!-- 邮箱 -->
-    <a class="contact-item" href="mailto:you@example.com">
-      <span>📧</span> <span data-i18n="contact.mail">3276911761@qq.com</span>
-    </a>
-    <!-- GitHub -->
-    <a class="contact-item" href="https://github.com/you" target="_blank">
-      <span>💻</span> Google
-    </a>
-    <!-- Twitter -->
-    <a class="contact-item" href="https://twitter.com/you" target="_blank">
-      <span>🐦</span> Twitter
-    </a>
+<!-- 项目 -->
+<section id="projects" class="page">
+  <div class="container">
+    <h2 class="section-title" data-i18n="projects.title">项目</h2>
+    <div class="carousel">
+      <div class="carousel-inner" id="carouselInner">
+        <div class="carousel-item" style="background-image:url(https://picsum.photos/800/400?random=4)"></div>
+        <div class="carousel-item" style="background-image:url(https://picsum.photos/800/400?random=5)"></div>
+        <div class="carousel-item" style="background-image:url(https://picsum.photos/800/400?random=6)"></div>
+      </div>
+      <button id="prev" class="carousel-btn">‹</button>
+      <button id="next" class="carousel-btn">›</button>
+    </div>
+    <div style="text-align:center; margin-top:1rem;">
+      <p data-i18n="projects.tip">← 左右切换作品 →</p>
+    </div>
+  </div>
+</section>
+
+<!-- 联系 -->
+<section id="contact" class="page">
+  <div class="container">
+    <h2 class="section-title" data-i18n="contact.title">联系我</h2>
+    <p data-i18n="contact.sub">期待与你相遇❤️</p>
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Name / 姓名" required>
+      <input type="email" name="email" placeholder="Email / 邮箱" required>
+      <textarea name="message" rows="5" placeholder="Message / 留言" required></textarea>
+      <button type="submit" data-i18n="contact.send">发送</button>
+    </form>
   </div>
 </section>
 
 <!-- 页脚 -->
 <footer>
-  <!-- 版权文本也支持切换 -->
-  <span data-i18n="footer">© 2024 NeoTech. 用 ❤️ 与 CSS 构建。</span>
+  <span>期待与你相遇❤️</span>
 </footer>
 
-<!-- ========= 语言包对象（中文 & 英文） ========= -->
+<!-- 返回顶部 -->
+<button id="backTop">↑</button>
+
+<!-- 语言包 -->
 <script>
 const i18n = {
   zh: {
-    "nav.about": "关于我",
-    "nav.projects": "项目",
-    "nav.contact": "联系",
-    "btn.lang": "EN",
-    "hero.name": "Alpha Coder",
-    "hero.bio": "全栈开发者 · AI 爱好者 · UI 实验者",
-    "hero.explore": "探索作品",
-    "about.title": "关于我",
-    "about.desc": "我构建 Web 应用。从 React & Node 到 WebGL 粒子，我喜欢把想法打磨成可交互的体验。保持好奇，持续学习。",
-    "projects.title": "项目",
-    "projects.p1.name": "Project Nebula",
-    "projects.p1.desc": "基于 WebRTC 与 Next.js 的实时协作编辑器。",
-    "projects.p2.name": "Quantum Dash",
-    "projects.p2.desc": "使用 Three.js 粒子网络与实时 API 的数据仪表板。",
-    "projects.p3.name": "Cyberpunk Portfolio",
-    "projects.p3.desc": "集成 GSAP 滚动触发与故障特效的模板。",
-    "contact.title": "联系我",
-    "contact.sub": "想合作或打招呼？给我写信吧。",
-    "contact.mail": "you@example.com",
-    "footer": "© 2024 NeoTech. 用 ❤️ 与 CSS 构建。"
+    "nav.home":"首页","nav.about":"关于我","nav.projects":"项目","nav.contact":"联系",
+    "btn.lang":"EN","home.name":"JIM","home.bio":"全栈开发者 · AI 爱好者 · UI 实验者","home.more":"了解更多",
+    "about.title":"关于我","about.desc":"我构建 Web 应用。从 React & Node 到 WebGL 粒子，我喜欢把想法打磨成可交互的体验。保持好奇，持续学习。",
+    "about.skill1":"前端 React / Vue","about.skill2":"后端 Node / Python","about.skill3":"WebGL / Three.js",
+    "projects.title":"项目","projects.tip":"← 左右切换作品 →",
+    "contact.title":"联系我","contact.sub":"期待与你相遇❤️","contact.send":"发送"
   },
   en: {
-    "nav.about": "About",
-    "nav.projects": "Projects",
-    "nav.contact": "Contact",
-    "btn.lang": "中",
-    "hero.name": "Alpha Coder",
-    "hero.bio": "Full-stack developer · AI enthusiast · UI experimenter",
-    "hero.explore": "Explore My Work",
-    "about.title": "About Me",
-    "about.desc": "I build web apps. From React & Node to WebGL particles, I love turning ideas into interactive experiences. Stay curious, keep learning.",
-    "projects.title": "Projects",
-    "projects.p1.name": "Project Nebula",
-    "projects.p1.desc": "Real-time collaborative editor powered by WebRTC and Next.js.",
-    "projects.p2.name": "Quantum Dash",
-    "projects.p2.desc": "Data-dashboard with Three.js particle networks and live APIs.",
-    "projects.p3.name": "Cyberpunk Portfolio",
-    "projects.p3.desc": "Template featuring GSAP scroll triggers and glitch effects.",
-    "contact.title": "Contact Me",
-    "contact.sub": "Want to collaborate or just say hi? Drop me a message.",
-    "contact.mail": "you@example.com",
-    "footer": "© 2024 NeoTech. Built with ❤️ and CSS."
+    "nav.home":"Home","nav.about":"About","nav.projects":"Projects","nav.contact":"Contact",
+    "btn.lang":"中","home.name":"JIM","home.bio":"Full-stack developer · AI enthusiast · UI experimenter","home.more":"More",
+    "about.title":"About Me","about.desc":"I build web apps. From React & Node to WebGL particles, I love turning ideas into interactive experiences. Stay curious, keep learning.",
+    "about.skill1":"Front-end React / Vue","about.skill2":"Back-end Node / Python","about.skill3":"WebGL / Three.js",
+    "projects.title":"Projects","projects.tip":"← Switch projects →",
+    "contact.title":"Contact Me","contact.sub":"Looking forward to meeting you❤️","contact.send":"Send"
   }
 };
-
-let currentLang = "zh";   // 默认中文
+let currentLang = "zh";
 const langBtn = document.getElementById("langBtn");
-
 function setLanguage(lang) {
-  currentLang = lang;   // 记录当前语种
-  // 遍历所有带 data-i18n 属性的元素
+  currentLang = lang;
   document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.getAttribute("data-i18n");   // 取出语言 key
-    if (i18n[lang][key]) el.textContent = i18n[lang][key];   // 替换文本
+    const key = el.getAttribute("data-i18n");
+    if (i18n[lang][key]) el.textContent = i18n[lang][key];
   });
-  langBtn.textContent = i18n[lang]["btn.lang"];   // 按钮自身文字切换
-  document.documentElement.setAttribute("lang", lang === "zh" ? "zh-CN" : "en");   // 修改<html lang>属性，辅助SEO
+  langBtn.textContent = i18n[lang]["btn.lang"];
+  document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
 }
-langBtn.addEventListener("click", () => setLanguage(currentLang === "zh" ? "en" : "zh"));   // 点击按钮切换语言
+langBtn.addEventListener("click", () => setLanguage(currentLang === "zh" ? "en" : "zh"));
 
-/* 主题切换按钮 */
+/* 主题切换 */
 document.getElementById("themeBtn").addEventListener("click", () => {
-  document.documentElement.toggleAttribute("data-theme");   // 添加/移除 data-theme 即可变色
+  document.documentElement.toggleAttribute("data-theme");
 });
-</script>
 
-<!-- ========= 粒子背景脚本（纯原生 JS） ========= -->
-<script>
+/* 导航高亮 */
+const sections = document.querySelectorAll(".page");
+const navLinks = document.querySelectorAll(".nav-links a");
+window.addEventListener("scroll", () => {
+  let current = "";
+  sections.forEach(sec => {
+    if (scrollY >= sec.offsetTop - 100) current = sec.getAttribute("id");
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle("active", link.getAttribute("href") === `#${current}`);
+  });
+  // 返回顶部按钮显隐
+  document.getElementById("backTop").style.display = scrollY > 300 ? "block" : "none";
+});
+
+/* 返回顶部 */
+document.getElementById("backTop").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+/* 技能条动画 */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const bar = entry.target;
+      const percent = bar.getAttribute("data-skill");
+      bar.style.width = percent + "%";
+    }
+  });
+});
+document.querySelectorAll(".skill-fill").forEach(el => observer.observe(el));
+
+/* 轮播图 */
+let carouselIndex = 0;
+const inner = document.getElementById("carouselInner");
+const items = inner.children.length;
+document.getElementById("prev").addEventListener("click", () => {
+  carouselIndex = (carouselIndex - 1 + items) % items;
+  inner.style.transform = `translateX(-${carouselIndex * 100}%)`;
+});
+document.getElementById("next").addEventListener("click", () => {
+  carouselIndex = (carouselIndex + 1) % items;
+  inner.style.transform = `translateX(-${carouselIndex * 100}%)`;
+});
+
+/* 联系表单 */
+document.getElementById("contactForm").addEventListener("submit", e => {
+  e.preventDefault();
+  alert(currentLang === "zh" ? "已收到您的留言！📬" : "Message received! 📬");
+  e.target.reset();
+});
+
+/* 打字机效果 */
+const typed = document.getElementById("typed");
+const texts = ["JIM", "Full-Stack Developer", "AI Enthusiast", "UI Experimenter"];
+let i = 0, j = 0, currentTxt = "", isDel = false;
+function typeWriter() {
+  if (i === texts.length) i = 0;
+  currentTxt = texts[i];
+  if (!isDel && j <= currentTxt.length) {
+    typed.textContent = currentLang === "zh" ? "JIM" : currentTxt.substring(0, j++);
+  } else if (isDel && j >= 0) {
+    typed.textContent = currentLang === "zh" ? "JIM" : currentTxt.substring(0, j--);
+  } else {
+    isDel = !isDel;
+    if (!isDel) i++;
+  }
+  setTimeout(typeWriter, 150);
+}
+typeWriter();
+
+/* 粒子背景 */
 !(function () {
-  const canvas = document.getElementById("particles");   // 获取画布
-  const ctx = canvas.getContext("2d");                  // 2D 绘图上下文
-  let w = (canvas.width = window.innerWidth);           // 画布宽 = 视口宽
-  let h = (canvas.height = window.innerHeight);         // 画布高 = 视口高
-  const particles = [];                                 // 粒子对象池
-  const particleCount = 60;                             // 粒子数量（可增减）
-
+  const canvas = document.getElementById("particles");
+  const ctx = canvas.getContext("2d");
+  let w = (canvas.width = window.innerWidth);
+  let h = (canvas.height = window.innerHeight);
+  const particles = [];
+  const particleCount = 60;
   class Particle {
     constructor() {
-      this.x = Math.random() * w;      // 随机初始 X
-      this.y = Math.random() * h;      // 随机初始 Y
-      this.size = Math.random() * 2 + 1;   // 随机大小 1~3
-      this.speedX = Math.random() * 0.8 - 0.4;   // X 速度（-0.4~0.4）
-      this.speedY = Math.random() * 0.8 - 0.4;   // Y 速度
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.size = Math.random() * 2 + 1;
+      this.speedX = Math.random() * 0.8 - 0.4;
+      this.speedY = Math.random() * 0.8 - 0.4;
     }
     update() {
-      if (this.x > w || this.x < 0) this.speedX *= -1;   // 边界反弹
+      if (this.x > w || this.x < 0) this.speedX *= -1;
       if (this.y > h || this.y < 0) this.speedY *= -1;
-      this.x += this.speedX;   // 移动
+      this.x += this.speedX;
       this.y += this.speedY;
     }
     draw() {
-      ctx.fillStyle = "#00f2ff";      // 粒子颜色：主色
+      ctx.fillStyle = "#00f2ff";
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);   // 画圆
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
     }
   }
-
   function init() {
-    for (let i = 0; i < particleCount; i++) particles.push(new Particle());   // 初始化粒子
+    for (let i = 0; i < particleCount; i++) particles.push(new Particle());
   }
   function animate() {
-    ctx.clearRect(0, 0, w, h);   // 清空画布
+    ctx.clearRect(0, 0, w, h);
     for (let i = 0; i < particles.length; i++) {
-      particles[i].update();     // 更新位置
-      particles[i].draw();       // 绘制
+      particles[i].update();
+      particles[i].draw();
     }
-    requestAnimationFrame(animate);   // 下一帧
+    requestAnimationFrame(animate);
   }
-
-  init();     // 启动粒子
-  animate();  // 启动动画
-
-  /* 窗口大小改变时重新设置画布尺寸 */
+  init();
+  animate();
   window.addEventListener("resize", () => {
     w = canvas.width = window.innerWidth;
     h = canvas.height = window.innerHeight;
