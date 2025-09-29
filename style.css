@@ -1,99 +1,127 @@
-/* style.css */
+/* ====== 全局重置 ====== */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0;                    /* 去掉浏览器默认外边距 */
+  padding: 0;                   /* 去掉浏览器默认内边距 */
+  box-sizing: border-box;       /* 让 width/height 包含边框和内边距，方便计算 */
 }
 
+/* ====== 页面基础 ====== */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background-color: #fafafa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 无衬线字体，Win/Mac 都好看 */
+  line-height: 1.6;             /* 行高 1.6，阅读更舒适 */
+  color: #fff;                  /* 文字白色，配合深色背景图 */
+  margin: 0;                    /* 再次确保无外留白 */
+  padding: 0;
+
+  /* --- 背景图设置 --- */
+  background-image: url('https://images.unsplash.com/photo-1506784365847-bbad93f05928?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;       /* 图片铺满整个视口 */
+  background-position: center;  /* 图片始终居中 */
+  background-attachment: fixed; /* 滚动时背景不动（视差效果） */
+  background-repeat: no-repeat; /* 不重复平铺 */
+
+  /* 为后续伪元素遮罩做准备 */
+  position: relative;
 }
 
-.container {
-  width: 90%;
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 15px;
-}
-
-/* 导航栏 */
-.navbar {
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  position: sticky;
+/* ====== 深色半透明遮罩层 ====== */
+body::before {
+  content: "";                  /* 伪元素必须写 content */
+  position: fixed;              /* 固定定位，跟随视口 */
   top: 0;
-  z-index: 100;
+  left: 0;
+  width: 100%;                  /* 满宽 */
+  height: 100%;                 /* 满高 */
+  background-color: rgba(0, 0, 0, 0.6); /* 黑色 60% 透明度，降低背景图亮度 */
+  z-index: -1;                  /* 放到最底层，避免挡住正文 */
+}
+
+/* ====== 通用容器 ====== */
+.container {
+  width: 90%;                   /* 占屏幕 90%，两侧留呼吸空间 */
+  max-width: 960px;             /* 最大 960px，防止超宽屏行过长 */
+  margin: 0 auto;               /* 水平居中 */
+  padding: 0 15px;              /* 左右内边距，避免贴边 */
+}
+
+/* ====== 顶部导航栏 ====== */
+.navbar {
+  background-color: #fff;       /* 纯白背景，与深色 body 形成对比 */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* 微阴影，增加层级感 */
+  position: sticky;             /* 粘性定位，滚动时一直悬停顶部 */
+  top: 0;                       /* 距离顶部 0px */
+  z-index: 100;                 /* 保证导航在最上层 */
 }
 
 .navbar .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 0;
+  display: flex;                /* 弹性布局，左右结构 */
+  justify-content: space-between; /* 两端对齐（Logo 左，菜单右） */
+  align-items: center;          /* 垂直居中 */
+  padding: 15px 0;              /* 上下 15px 内边距 */
 }
 
+/* Logo 文字 */
 .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #2c3e50;
+  font-size: 1.5rem;            /* 24px 左右 */
+  font-weight: bold;            /* 加粗 */
+  color: #2c3e50;               /* 深蓝灰，低调专业 */
 }
 
+/* 导航链接列表 */
 .nav-links {
-  display: flex;
-  list-style: none;
-  gap: 20px;
+  display: flex;                /* 横排 */
+  list-style: none;             /* 去掉小黑点 */
+  gap: 20px;                    /* 项与项间距 20px */
 }
 
 .nav-links a {
-  text-decoration: none;
-  color: #2c3e50;
-  font-weight: 500;
-  transition: color 0.3s;
+  text-decoration: none;        /* 去掉下划线 */
+  color: #2c3e50;               /* 与 Logo 同色 */
+  font-weight: 500;             /* 中等粗细 */
+  transition: color 0.3s;       /* 悬停变色过渡动画 */
 }
 
 .nav-links a:hover {
-  color: #3498db;
+  color: #3498db;               /* 悬停变亮蓝 */
 }
 
-/* 主内容区 */
+/* ====== 主内容区域 ====== */
 .section {
-  margin: 40px 0;
-  padding: 20px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin: 40px 0;               /* 上下外间距 40px，段落拉开 */
+  padding: 20px;                /* 内边距 20px，文字不贴边 */
+  background: #fff;             /* 纯白背景，方便阅读 */
+  border-radius: 10px;          /* 圆角现代感 */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* 极淡阴影，提升卡片感 */
 }
 
 .section h2 {
-  margin-bottom: 15px;
-  color: #2c3e50;
+  margin-bottom: 15px;          /* 标题与正文距离 */
+  color: #2c3e50;               /* 与导航同一深蓝灰 */
 }
 
+/* 头像 */
 .avatar {
-  display: block;
-  margin: 15px auto;
-  border-radius: 50%;
+  display: block;               /* 块级，方便居中 */
+  margin: 15px auto;            /* 上下 15px，左右 auto 居中 */
+  border-radius: 50%;           /* 正圆 */
   width: 120px;
   height: 120px;
-  object-fit: cover;
+  object-fit: cover;            /* 图片裁剪填满，不变形 */
 }
 
-/* 项目网格 */
+/* ====== 项目展示网格 ====== */
 .projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  display: grid;                                    /* CSS 网格布局 */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 自动列，最小 280px，不够就换行 */
+  gap: 20px;                                        /* 格子间距 20px */
   margin-top: 20px;
 }
 
 .project-card {
   padding: 20px;
-  background: #f8f9fa;
+  background: #f8f9fa;            /* 极浅灰背景 */
   border-radius: 8px;
-  border-left: 4px solid #3498db;
+  border-left: 4px solid #3498db; /* 左侧亮条装饰 */
 }
 
 .project-card h3 {
@@ -101,46 +129,46 @@ body {
   margin-bottom: 10px;
 }
 
-/* 联系方式 */
+/* ====== 联系方式 ====== */
 .contact-list {
-  list-style: none;
+  list-style: none;   /* 去黑点 */
   margin-top: 10px;
 }
 
 .contact-list li {
-  margin: 8px 0;
+  margin: 8px 0;      /* 每项上下间距 8px */
 }
 
 .contact-list a {
-  color: #3498db;
+  color: #3498db;     /* 亮蓝 */
   text-decoration: none;
 }
 
 .contact-list a:hover {
-  text-decoration: underline;
+  text-decoration: underline; /* 悬停出现下划线 */
 }
 
-/* 页脚 */
+/* ====== 页脚 ====== */
 footer {
-  background-color: #2c3e50;
-  color: #ecf0f1;
+  background-color: #2c3e50; /* 与导航文字同色，整体统一 */
+  color: #ecf0f1;            /* 浅灰白，对比足够 */
   text-align: center;
-  padding: 20px 0;
-  margin-top: 40px;
+  padding: 20px 0;            /* 上下内边距 20px */
+  margin-top: 40px;           /* 与上面内容拉开距离 */
 }
 
-/* 响应式：手机适配 */
+/* ====== 响应式：窄屏适配 ====== */
 @media (max-width: 600px) {
   .navbar .container {
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: column; /* 导航栏上下堆叠 */
+    gap: 10px;              /* 项与项间距 10px */
   }
 
   .nav-links {
-    gap: 15px;
+    gap: 15px;              /* 链接间距稍小 */
   }
 
   .projects-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* 项目卡片单列显示 */
   }
 }
