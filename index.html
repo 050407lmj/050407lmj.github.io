@@ -1,149 +1,291 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>JIM · Neo-Cyber</title>
-  <style>
-    :root{
-      --primary:#00f2ff;
-      --bg:#0a0e1a;
-      --text:#e6f7ff;
-      --grid:rgba(0,242,255,.07);
-      --glow:0 0 10px rgba(0,242,255,.8)
-    }
-    [data-theme="light"]{
-      --primary:#ff00c1;
-      --bg:#f0f4f8;
-      --text:#0f172a;
-      --grid:rgba(255,0,193,.07);
-      --glow:0 0 10px rgba(255,0,193,.8)
-    }
-    *{box-sizing:border-box;margin:0}
-    body{background:var(--bg);color:var(--text);font-family:Inter,system-ui;overflow:hidden}
-    canvas#cyber{position:fixed;inset:0;z-index:-9}
-    nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:18px 5%;backdrop-filter:blur(12px);background:rgba(10,14,26,.4);border-bottom:1px solid var(--primary)}
-    .logo{font-size:1.5rem;font-weight:700;letter-spacing:2px;text-shadow:var(--glow)}
-    main{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center}
-    h1{font-size:clamp(3rem,8vw,5rem);letter-spacing:6px;background:linear-gradient(90deg,var(--primary),#fff,var(--primary));background-size:200% auto;color:transparent;-webkit-background-clip:text;background-clip:text;animation:shine 3s linear infinite;text-shadow:var(--glow)}
-    @keyframes shine{to{background-position:200% center}}
-  </style>
-</head>
-<body data-theme="dark">
-<canvas id="cyber"></canvas>
-<nav>
-  <div class="logo">JIM</div>
-  <button id="themeBtn" style="background:transparent;border:1px solid var(--primary);color:var(--primary);padding:6px 12px;border-radius:4px;cursor:pointer">🌓</button>
-</nav>
-<main><h1 id="typed">JIM</h1></main>
-
-<script>
-/* 打字机 */
-const txts=["JIM","Neo-Cyber","Fluid Light","Pure Math"];
-let i=0,j=0,del=false;
-function type(){
-  const cur=txts[i];
-  if(!del&&j<=cur.length)typed.textContent=cur.substring(0,j++);
-  else if(del&&j>=0)typed.textContent=cur.substring(0,j--);
-  else{del=!del;if(!del)i=(i+1)%txts.length}
-  setTimeout(type,180);
+[data-theme="light"] {
+  --bg: #0f172a;
+  --primary: #4ade80;
+  --accent: #f87171;
+  --text: #f1f5f9;
+  --grid-color: rgba(74, 222, 128, 0.05);
+  --scanline: rgba(74, 222, 128, 0.03);
+  --glow: 0 0 10px rgba(74, 222, 128, 0.5);
 }
-type();
 
-/* WebGL 霓虹流体 */
-const gl=document.getElementById('cyber').getContext('webgl2',{alpha:false,antialias:true,powerPreference:'high-performance'});
-if(!gl)alert('WebGL2 unsupported');
-const canvas=gl.canvas;
-function resize(){canvas.width=innerWidth;canvas.height=innerHeight;gl.viewport(0,0,canvas.width,canvas.height);}
-resize();addEventListener('resize',resize);
-
-const vert=`#version 300 es
-in vec2 a;
-void main(){gl_Position=vec4(a,0,1);}`;
-const frag=`#version 300 es
-precision highp float;
-uniform float t;
-uniform vec2 r;
-uniform vec2 m;
-out vec4 o;
-// 旋转
-mat2 rot(float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c);}
-// 渐变噪声
-float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
-float noise(vec2 p){
-  vec2 i=floor(p),f=fract(p);
-  float a=hash(i),b=hash(i+vec2(1,0)),c=hash(i+vec2(0,1)),d=hash(i+vec2(1,1));
-  vec2 u=f*f*(3.-2.*f);
-  return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);
+/* ========= 基础 ========= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Inter", var(--font-mono), sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background .3s, color .3s;
+  overflow-x: hidden;
+  position: relative;
 }
-float fbm(vec2 p){
-  float v=0.;float a=.5;
-  for(int i=0;i<5;i++){v+=a*noise(p);p*=2.;a*=.5;}
-  return v;
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: 
+    linear-gradient(rgba(10, 14, 26, 0.9), rgba(10, 14, 26, 0.9)),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      var(--grid-color) 1px,
+      var(--grid-color) 2px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 1px,
+      var(--grid-color) 1px,
+      var(--grid-color) 2px
+    );
+  z-index: -2;
 }
-// 主色循环
-vec3 hsl2rgb(vec3 c){
-  vec3 rgb=clamp(abs(mod(c.x*6.+vec3(0,4,2),6.)-3.)-1.,0.,1.);
-  return c.z+c.y*(rgb-.5)*(1.-abs(2.*c.z-1.));
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; height: 8px;
+  background: linear-gradient(to bottom, transparent, var(--scanline), transparent);
+  animation: scan 8s linear infinite;
+  z-index: -1;
+  pointer-events: none;
 }
-void main(){
-  vec2 uv=(gl_FragCoord.xy*2.-r)/min(r.x,r.y);
-  vec2 mu=(m*2.-r)/min(r.x,r.y);
-  // 液态形变
-  vec2 tuv=uv*rot(t*.1);
-  tuv+=fbm(uv*3.+t)*.3;
-  tuv+=fbm(uv*5.-t*.7)*.15;
-  // 径向彩虹
-  float d=length(tuv-mu);
-  float hue=d*1.5-t*.2;
-  vec3 col=hsl2rgb(vec3(hue,.9,.6));
-  // 高斯光晕
-  float glow=exp(-d*3.)*.8;
-  col+=hsl2rgb(vec3(hue+.3,1.,.5))*glow;
-  o=vec4(col,1);
-}`;
-
-function compile(src,type){
-  const s=gl.createShader(type);
-  gl.shaderSource(s,src);
-  gl.compileShader(s);
-  if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(s));
-  return s;
+@keyframes scan {
+  0% { top: 0; }
+  100% { top: 100vh; }
 }
-const prog=gl.createProgram();
-gl.attachShader(prog,compile(vert,gl.VERTEX_SHADER));
-gl.attachShader(prog,compile(frag,gl.FRAGMENT_SHADER));
-gl.linkProgram(prog);
-gl.useProgram(prog);
 
-const buf=gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER,buf);
-gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
-const loc=gl.getAttribLocation(prog,'a');
-gl.enableVertexAttribArray(loc);
-gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
-
-const ut=gl.getUniformLocation(prog,'t');
-const ur=gl.getUniformLocation(prog,'r');
-const um=gl.getUniformLocation(prog,'m');
-
-let mx=0,my=0;
-canvas.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=canvas.height-e.clientY;
-});
-
-let start=performance.now();
-function frame(){
-  const t=(performance.now()-start)/1000;
-  gl.uniform1f(ut,t);
-  gl.uniform2f(ur,canvas.width,canvas.height);
-  gl.uniform2f(um,mx,my);
-  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
-  requestAnimationFrame(frame);
+a { color: var(--primary); text-decoration: none; position: relative; }
+a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--primary);
+  transition: width 0.3s;
 }
-frame();
+a:hover::after { width: 100%; }
 
-themeBtn.onclick=()=>document.documentElement.toggleAttribute("data-theme");
-</script>
-</body>
-</html>
+/* ========= 粒子背景 ========= */
+#particles { position: fixed; inset: 0; z-index: -3; }
+
+/* ========= 导航 ========= */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 5%;
+  background: rgba(10, 14, 26, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 242, 255, 0.2);
+  box-shadow: var(--glow);
+  z-index: 1000;
+  border-radius: 0 0 16px 16px;
+}
+.logo {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-shadow: 0 0 8px var(--primary);
+}
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  position: relative;
+}
+.nav-links a.active, .nav-links a:hover {
+  color: var(--primary);
+  text-shadow: 0 0 6px var(--primary);
+}
+.controls { display: flex; align-items: center; gap: 1rem; }
+.controls button {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: .3s;
+  font-family: var(--font-mono);
+}
+.controls button:hover {
+  background: var(--primary);
+  color: var(--bg);
+  box-shadow: var(--glow);
+}
+
+/* ========= 容器 ========= */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 100px 0;
+}
+.section-title {
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+  position: relative;
+}
+.section-title::before {
+  content: "> ";
+  color: var(--accent);
+}
+
+/* ========= Home ========= */
+#home .container {
+  max-width: 800px;
+}
+#typed {
+  font-family: var(--font-mono);
+  font-size: 2.8rem;
+  border-right: 2px solid var(--primary);
+  padding-right: 4px;
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* ========= About ========= */
+.about-content p::before {
+  content: "$ ";
+  color: var(--accent);
+  font-family: var(--font-mono);
+}
+
+/* ========= 技能条 ========= */
+.skills { margin-top: 1.5rem; }
+.skill-bar {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 242, 255, 0.2);
+  border-radius: 4px;
+  height: 12px;
+  margin: 10px 0 20px;
+  overflow: hidden;
+}
+.skill-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), #00a8ff);
+  width: 0;
+  box-shadow: 0 0 8px var(--primary);
+  transition: width 1.5s ease-in-out;
+}
+
+/* ========= 项目卡片 ========= */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+.project-card {
+  background: rgba(10, 20, 40, 0.6);
+  border: 1px solid rgba(0, 242, 255, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.4s, box-shadow 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+.project-card:hover {
+  transform: translateY(-8px) rotateX(5deg);
+  box-shadow: var(--glow), 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.project-card h3 {
+  font-family: var(--font-mono);
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+.project-card p:nth-child(2) {
+  font-size: 0.85rem;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+  font-family: var(--font-mono);
+}
+.project-card a {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+}
+
+/* ========= 表单 ========= */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 2rem auto 0;
+}
+input, textarea {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 242, 255, 0.3);
+  border-radius: 4px;
+  padding: 12px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  caret-color: var(--primary);
+}
+input::placeholder, textarea::placeholder {
+  color: var(--gray);
+  font-family: var(--font-mono);
+}
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(0, 242, 255, 0.2);
+}
+button[type="submit"] {
+  font-family: var(--font-mono);
+  border: 1px solid var(--primary);
+  background: transparent;
+  color: var(--primary);
+  padding: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: .3s;
+}
+button[type="submit"]:hover {
+  background: var(--primary);
+  color: var(--bg);
+  box-shadow: var(--glow);
+}
+
+/* ========= 返回顶部 ========= */
+#backTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--primary);
+  color: var(--bg);
+  border: none;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  font-family: var(--font-mono);
+  box-shadow: var(--glow);
+}
+#backTop:hover {
+  transform: scale(1.1);
+}
+
+/* ========= 页脚 ========= */
+footer {
+  text-align: center;
+  padding: 40px 0 20px;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--gray);
+  border-top: 1px solid rgba(0, 242, 255, 0.1);
+}
