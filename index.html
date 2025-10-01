@@ -1,269 +1,166 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>JIM - 个人主页</title>
-
-  <!-- 字体预取 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
-
-  <!-- 关键路径 CSS（首屏） -->
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>JIM · Zero-Resource</title>
   <style>
-    :root{--bg:#0a0e1a;--primary:#00f2ff;--accent:#ff00c1;--text:#e6f7ff;--gray:#8a9bb0;--glow:0 0 10px rgba(0,242,255,.6);--font-mono:"Fira Code",monospace}
-    [data-theme="light"]{--bg:#f0f4f8;--primary:#4ade80;--accent:#f87171;--text:#0f172a;--glow:0 0 10px rgba(74,222,128,.5)}
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,var(--font-mono);line-height:1.6;overflow-x:hidden}
-    a{color:var(--primary);text-decoration:none}
-    .navbar{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:18px 5%;background:rgba(10,14,26,.7);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,242,255,.2);z-index:1000}
-    .logo{font-family:var(--font-mono);font-size:1.5rem;font-weight:700;letter-spacing:2px;text-shadow:0 0 8px var(--primary)}
-    .nav-links{display:flex;gap:1.5rem;list-style:none}
-    #home{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center}
-    #typed{font-size:clamp(2rem,5vw,3rem);border-right:2px solid var(--primary);padding-right:4px;animation:blink 1s infinite}
-    @keyframes blink{50%{border-color:transparent}}
-    #currentTime{font-size:.9rem;color:var(--gray)}
-    section{min-height:100vh;padding:100px 0}
-    .container{width:90%;max-width:1100px;margin:auto}
-    .section-title{font-family:var(--font-mono);font-size:2rem;margin-bottom:1rem;color:var(--primary)}
-    .section-title::before{content:"> ";color:var(--accent)}
-    .skill-bar{height:12px;background:rgba(0,0,0,.3);border:1px solid rgba(0,242,255,.2);border-radius:4px;margin:.5rem 0 1.5rem;overflow:hidden;contain:layout size}
-    .skill-fill{height:100%;background:linear-gradient(90deg,var(--primary),#00a8ff);width:0;box-shadow:var(--glow);transition:width 1.5s ease-in-out}
-    .projects-grid{display:grid;gap:2rem;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-    .project-card{background:rgba(10,20,40,.6);border:1px solid rgba(0,242,255,.2);border-radius:12px;padding:1.5rem;transition:transform .4s,box-shadow .4s}
-    .project-card:hover{transform:translateY(-6px);box-shadow:var(--glow),0 8px 24px rgba(0,0,0,.4)}
-    form{display:flex;flex-direction:column;gap:1rem;max-width:500px;margin:2rem auto 0}
-    input,textarea{background:rgba(0,0,0,.3);border:1px solid rgba(0,242,255,.3);border-radius:4px;padding:12px;color:var(--text);font-family:var(--font-mono);caret-color:var(--primary)}
-    button[type=submit]{border:1px solid var(--primary);background:transparent;color:var(--primary);padding:12px;border-radius:4px;cursor:pointer;transition:.3s;font-family:var(--font-mono)}
-    button[type=submit]:hover{background:var(--primary);color:var(--bg);box-shadow:var(--glow)}
-    footer{text-align:center;padding:40px 0 20px;font-size:.875rem;color:var(--gray);border-top:1px solid rgba(0,242,255,.1)}
-    #backTop{position:fixed;bottom:30px;right:30px;background:var(--primary);color:var(--bg);border:none;padding:10px 12px;border-radius:50%;cursor:pointer;display:none;font-family:var(--font-mono);box-shadow:var(--glow)}
+    :root{--primary:#00f2ff;--bg:#0a0e1a;--text:#e6f7ff}
+    [data-theme="light"]{--primary:#4ade80;--bg:#f0f4f8;--text:#0f172a}
+    *{box-sizing:border-box;margin:0}
+    body{background:var(--bg);color:var(--text);overflow:hidden;font-family:monospace}
+    canvas#cyber{position:fixed;inset:0;z-index:-9}
+    nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:18px 5%;backdrop-filter:blur(12px);background:rgba(10,14,26,.4);border-bottom:1px solid rgba(0,242,255,.2)}
+    .logo{font-size:1.5rem;font-weight:700;letter-spacing:2px;text-shadow:0 0 8px var(--primary)}
+    main{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center}
+    h1{font-size:clamp(2.5rem,6vw,4rem);letter-spacing:4px;text-shadow:0 0 12px var(--primary)}
+    #controls{position:fixed;top:60px;right:20px;background:rgba(0,0,0,.5);border:1px solid var(--primary);padding:10px;display:none;flex-direction:column;gap:8px;font-size:12px}
+    #controls label{display:flex;align-items:center;gap:6px}
   </style>
-
-  <!-- 异步非关键 CSS -->
-  <link rel="preload" href="data:text/css,@layer%20rest%7B%2C%7D" as="style" onload="this.onload=null;this.rel='stylesheet'">
 </head>
+<body data-theme="dark">
+<canvas id="cyber"></canvas>
+<nav>
+  <div class="logo">JIM</div>
+  <button id="themeBtn" style="background:transparent;border:1px solid var(--primary);color:var(--primary);padding:6px 12px;border-radius:4px;cursor:pointer">🌓</button>
+</nav>
+<main><h1 id="typed">JIM</h1></main>
+<div id="controls">
+  <label>流速 <input type="range" id="speed" min="0.1" max="5" value="1" step="0.1"></label>
+  <label>反射 <input type="range" id="refl" min="0" max="2" value="0.8" step="0.1"></label>
+</div>
 
-<body data-lang="zh">
-  <!-- 粒子画布 -->
-  <canvas id="particles" style="position:fixed;inset:0;z-index:-3"></canvas>
+<script>
+/* 打字机 */
+const txts=["JIM","Full-Stack","AI Enthusiast","UI Experimenter"];
+let i=0,j=0,del=false;
+function type(){
+  const cur=txts[i];
+  if(!del&&j<=cur.length)typed.textContent=cur.substring(0,j++);
+  else if(del&&j>=0)typed.textContent=cur.substring(0,j--);
+  else{del=!del;if(!del)i=(i+1)%txts.length;}
+  setTimeout(type,160);
+}
+type();
 
-  <!-- 导航 -->
-  <nav class="navbar">
-    <div class="logo">JIM</div>
-    <ul class="nav-links">
-      <li><a href="#home" class="active">首页</a></li>
-      <li><a href="#about">关于我</a></li>
-      <li><a href="#projects">项目</a></li>
-      <li><a href="#contact">联系</a></li>
-    </ul>
-    <div class="controls">
-      <button id="langBtn" aria-label="切换语言">EN</button>
-      <button id="themeBtn" aria-label="切换主题">🌓</button>
-    </div>
-  </nav>
+/* WebGL2 零资源管线 */
+const gl=document.getElementById('cyber').getContext('webgl2',{alpha:false,antialias:false,powerPreference:'high-performance'});
+if(!gl)alert('WebGL2 unsupported');
+const canvas=gl.canvas;
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;gl.viewport(0,0,canvas.width,canvas.height);}
+resize();addEventListener('resize',resize);
 
-  <!-- 首页 -->
-  <section id="home">
-    <div class="container">
-      <h1><span id="typed">JIM</span></h1>
-      <p>全栈开发者 · AI 爱好者 · UI 实验者</p>
-      <p id="currentTime"></p>
-      <a href="#about" style="display:inline-block;margin-top:1rem">[了解更多]</a>
-    </div>
-  </section>
+const vert=`#version 300 es
+in vec2 a;
+void main(){gl_Position=vec4(a,0,1);}`;
+const frag=`#version 300 es
+precision highp float;
+uniform float t;
+uniform vec2 r;
+uniform vec2 m;
+uniform float speed;
+uniform float refl;
+out vec4 o;
+// 2D 旋转
+mat2 rot(float a){float c=cos(a),s=sin(a);return mat2(c,-s,s,c);}
+// 2D Simplex
+float snoise(vec2 p){
+  const vec4 C=vec4(.211324865405187,.366025403784439,-.577350269189626,.024390243902439);
+  vec2 i=floor(p+dot(p,C.yy));
+  vec2 x0=p-i+dot(i,C.xx);
+  vec2 i1=(x0.x>x0.y)?vec2(1.,0.):vec2(0.,1.);
+  vec2 x1=x0-i1+C.xx;
+  vec2 x2=x0-1.+2.*C.xx;
+  i=mod289(i);
+  vec4 p12=i.xyxy+vec4(0.,i1.xy);
+  p12=mod289(p12);
+  vec3 m=max(0.5-vec3(dot(x0,x0),dot(x1,x1),dot(x2,x2)),0.);
+  m=m*m;m=m*m;
+  vec3 x=2.*fract(p12*C.www)-1.;
+  vec3 h=abs(x)-0.5;
+  vec3 ox=floor(x+0.5);
+  vec3 a0=x-ox;
+  m*=1.79284291400159-0.85373472095314*(a0*a0+h*h);
+  vec3 g;
+  g.x=a0.x*x0.x+h.x*x0.y;
+  g.yz=a0.yz*x1.xz+h.yz*x1.yw;
+  return 130.*dot(m,g);
+}
+float fbm(vec2 p){
+  float v=0.;float a=.5;
+  for(int i=0;i<5;i++){v+=a*snoise(p);p*=2.;a*=.5;}
+  return v;
+}
+void main(){
+  vec2 uv=(gl_FragCoord.xy*2.-r)/min(r.x,r.y);
+  vec2 mu=(m*2.-r)/min(r.x,r.y);
+  // 扭曲
+  vec2 tuv=uv+fbm(uv*3.+t*speed)*.3;
+  float d=length(tuv-mu);
+  vec3 col=vec3(0);
+  // 主色
+  vec3 base=mix(vec3(.1,.3,1),vec3(1,.6,.2),sin(d*3.-t*speed)*.5+.5);
+  // 反射
+  vec2 rf=reflect(tuv,mu);
+  vec3 refCol=mix(vec3(1,.2,.4),vec3(.2,1,1),sin(rf.x*5.+t)*.5+.5);
+  col=mix(base,refCol,refl*exp(-d*2.));
+  // 扫描线
+  float scan=sin(uv.y*30.-t*speed*6.)*.04;
+  col+=scan;
+  o=vec4(col,1);
+}`;
 
-  <!-- 关于 -->
-  <section id="about">
-    <div class="container">
-      <h2 class="section-title">关于我</h2>
-      <p>我构建 Web 应用。从 React & Node 到 WebGL 粒子，我喜欢把想法打磨成可交互的体验。保持好奇，持续学习。</p>
-      <div class="skills">
-        <div data-skill="85">前端 React / Vue</div>
-        <div class="skill-bar"><div class="skill-fill"></div></div>
-        <div data-skill="80">后端 Node / Python</div>
-        <div class="skill-bar"><div class="skill-fill"></div></div>
-        <div data-skill="70">WebGL / Three.js</div>
-        <div class="skill-bar"><div class="skill-fill"></div></div>
-      </div>
-    </div>
-  </section>
+function compile(src,type){
+  const s=gl.createShader(type);
+  gl.shaderSource(s,src);
+  gl.compileShader(s);
+  if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(s));
+  return s;
+}
+const prog=gl.createProgram();
+gl.attachShader(prog,compile(vert,gl.VERTEX_SHADER));
+gl.attachShader(prog,compile(frag,gl.FRAGMENT_SHADER));
+gl.linkProgram(prog);
+gl.useProgram(prog);
 
-  <!-- 项目 -->
-  <section id="projects">
-    <div class="container">
-      <h2 class="section-title">项目</h2>
-      <div class="projects-grid">
-        <div class="project-card">
-          <h3>NEURAL RENDER</h3>
-          <p>React · Three.js · WebGPU</p>
-          <p>实时神经风格迁移 + 3D 场景渲染，60FPS 流畅体验。</p>
-          <div style="margin-top:1rem;display:flex;gap:1rem"><a href="#">[DEMO]</a><a href="#">[CODE]</a></div>
-        </div>
-        <div class="project-card">
-          <h3>QUANTUM CLI</h3>
-          <p>Node.js · WebAssembly · TUI</p>
-          <p>终端内运行的量子算法模拟器，支持 ASCII 可视化。</p>
-          <div style="margin-top:1rem;display:flex;gap:1rem"><a href="#">[DEMO]</a><a href="#">[CODE]</a></div>
-        </div>
-        <div class="project-card">
-          <h3>AI AGENT DASHBOARD</h3>
-          <p>Next.js · LangChain · WebSocket</p>
-          <p>多智能体协作监控面板，实时日志流 + 决策树可视化。</p>
-          <div style="margin-top:1rem;display:flex;gap:1rem"><a href="#">[DEMO]</a><a href="#">[CODE]</a></div>
-        </div>
-      </div>
-    </div>
-  </section>
+const buf=gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+const loc=gl.getAttribLocation(prog,'a');
+gl.enableVertexAttribArray(loc);
+gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
 
-  <!-- 联系 -->
-  <section id="contact">
-    <div class="container">
-      <h2 class="section-title">联系我</h2>
-      <p>期待与你相遇❤️</p>
-      <form id="contactForm">
-        <input name="name" placeholder="Name / 姓名" required>
-        <input type="email" name="email" placeholder="Email / 邮箱" required>
-        <textarea name="message" rows="5" placeholder="Message / 留言" required></textarea>
-        <button type="submit">[发送]</button>
-      </form>
-      <p style="text-align:center;margin-top:1rem">
-        <button id="copyEmail">📧 复制邮箱</button>
-        <span id="copyTip" style="margin-left:.5rem;color:var(--accent);display:none">已复制！</span>
-      </p>
-    </div>
-  </section>
+const ut=gl.getUniformLocation(prog,'t');
+const ur=gl.getUniformLocation(prog,'r');
+const um=gl.getUniformLocation(prog,'m');
+const uspeed=gl.getUniformLocation(prog,'speed');
+const urefl=gl.getUniformLocation(prog,'refl');
 
-  <!-- 页脚 -->
-  <footer>
-    <div>
-      <a href="https://github.com/yourname" target="_blank">[GitHub]</a>
-      <a href="https://twitter.com/yourname" target="_blank">[Twitter]</a>
-      <a href="https://linkedin.com/in/yourname" target="_blank">[LinkedIn]</a>
-    </div>
-    <div>© 2025 JIM. 期待与你相遇 ❤️</div>
-  </footer>
+const speedCtrl=document.getElementById('speed');
+const reflCtrl=document.getElementById('refl');
+let mx=0,my=0;
+canvas.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=canvas.height-e.clientY;
+});
 
-  <!-- 返回顶部 -->
-  <button id="backTop" aria-label="返回顶部">↑</button>
+addEventListener('keydown',e=>{
+  if(e.ctrlKey&&e.shiftKey&&e.key==='K')document.getElementById('controls').style.display='flex';
+});
 
-  <!-- 核心脚本 -->
-  <script>
-    /* 国际化 */
-    const i18n = {
-      zh: { btn: "EN", copy: "复制邮箱", copied: "已复制！" },
-      en: { btn: "中", copy: Copy Email", copied: "Copied!" }
-    };
-    let lang = "zh";
-    langBtn.onclick = () => {
-      lang = lang === "zh" ? "en" : "zh";
-      langBtn.textContent = i18n[lang].btn;
-      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
-    };
+let start=performance.now();
+function frame(){
+  const t=(performance.now()-start)/1000;
+  gl.uniform1f(ut,t);
+  gl.uniform2f(ur,canvas.width,canvas.height);
+  gl.uniform2f(um,mx,my);
+  gl.uniform1f(uspeed,parseFloat(speedCtrl.value));
+  gl.uniform1f(urefl,parseFloat(reflCtrl.value));
+  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+  requestAnimationFrame(frame);
+}
+frame();
 
-    /* 主题 */
-    themeBtn.onclick = () => document.documentElement.toggleAttribute("data-theme");
-
-    /* 导航高亮 + 返回顶部 */
-    const links = document.querySelectorAll(".nav-links a");
-    window.addEventListener("scroll", () => {
-      let cur = "";
-      document.querySelectorAll("section").forEach(s => {
-        if (scrollY >= s.offsetTop - 100) cur = s.id;
-      });
-      links.forEach(a => a.classList.toggle("active", a.hash === `#${cur}`));
-      backTop.style.display = scrollY > 300 ? "block" : "none";
-    });
-    backTop.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
-
-    /* 技能条动画 */
-    const io = new IntersectionObserver((ents) => {
-      ents.forEach(e => {
-        if (e.isIntersecting) {
-          const bar = e.target;
-          bar.style.width = bar.parentElement.dataset.skill + "%";
-          io.unobserve(bar);
-        }
-      });
-    });
-    document.querySelectorAll(".skill-fill").forEach(el => io.observe(el));
-
-    /* 联系表单 & 复制邮箱 */
-    contactForm.onsubmit = e => {
-      e.preventDefault();
-      alert(lang === "zh" ? "已收到您的留言！📬" : "Message received! 📬");
-      e.target.reset();
-    };
-    copyEmail.onclick = async () => {
-      await navigator.clipboard.writeText("3276911761@qq.com");
-      copyTip.style.display = "inline";
-      setTimeout(() => copyTip.style.display = "none", 2000);
-    };
-
-    /* 实时时间 */
-    function updTime() {
-      const d = new Date();
-      currentTime.textContent = `[TIME] ${d.toLocaleTimeString("zh-CN", { hour12: false })} · ${d.toLocaleDateString("zh-CN")}`;
-    }
-    updTime();
-    setInterval(updTime, 1000);
-
-    /* 打字机 */
-    const txts = ["JIM", "Full-Stack Developer", "AI Enthusiast", "UI Experimenter"];
-    let i = 0, j = 0, curr = "", del = false;
-    function type() {
-      if (i === txts.length) i = 0;
-      curr = txts[i];
-      if (!del && j <= curr.length) typed.textContent = curr.substring(0, j++);
-      else if (del && j >= 0) typed.textContent = curr.substring(0, j--);
-      else { del = !del; if (!del) i++; }
-      setTimeout(type, 180);
-    }
-    type();
-
-    /* 粒子背景（45 fps + 降分辨率） */
-    !function () {
-      const canvas = particles;
-      const ctx = canvas.getContext("2d");
-      const dpr = Math.min(window.devicePixelRatio, 1.5);
-      let w = canvas.width = window.innerWidth * dpr;
-      let h = canvas.height = window.innerHeight * dpr;
-      canvas.style.width = window.innerWidth + "px";
-      canvas.style.height = window.innerHeight + "px";
-      ctx.scale(dpr, dpr);
-      const pts = [];
-      const num = 60;
-      for (let i = 0; i < num; i++) pts.push({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.5 + .5, vx: (Math.random() - .5) * .4, vy: (Math.random() - .5) * .4 });
-      let then = 0;
-      const fps = 45;
-      function draw() {
-        ctx.clearRect(0, 0, w, h);
-        pts.forEach(p => {
-          p.x += p.vx; p.y += p.vy;
-          if (p.x < 0 || p.x > w) p.vx *= -1;
-          if (p.y < 0 || p.y > h) p.vy *= -1;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = "var(--primary)";
-          ctx.fill();
-        });
-      }
-      function run(now) {
-        requestAnimationFrame(run);
-        if (now - then < 1000 / fps) return;
-        then = now;
-        draw();
-      }
-      run(0);
-      window.addEventListener("resize", () => {
-        w = canvas.width = window.innerWidth * dpr;
-        h = canvas.height = window.innerHeight * dpr;
-        canvas.style.width = window.innerWidth + "px";
-        canvas.style.height = window.innerHeight + "px";
-        ctx.scale(dpr, dpr);
-      });
-    }();
-  </script>
+themeBtn.onclick=()=>document.documentElement.toggleAttribute("data-theme");
+</script>
 </body>
 </html>
