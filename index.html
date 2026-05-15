@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>刘明金 · 嵌入式 & 全栈开发者</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #06060c;
+  --bg-card: rgba(15, 15, 30, 0.6);
+  --cyan: #00d4ff;
+  --cyan-dim: rgba(0, 212, 255, 0.15);
+  --purple: #8b5cf6;
+  --purple-dim: rgba(139, 92, 246, 0.15);
+  --teal: #2dd4bf;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --border: rgba(255, 255, 255, 0.06);
+  --radius: 16px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans SC', sans-serif;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ── Canvas Background ── */
+#particle-canvas {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  z-index: 0; pointer-events: none;
+}
+
+/* ── Custom Cursor ── */
+.cursor { display:none; }
+@media (hover: hover) {
+  .cursor {
+    display:block;
+    width:8px; height:8px;
+    background: var(--cyan);
+    border-radius:50%;
+    position:fixed; z-index:9999;
+    pointer-events:none;
+    transform: translate(-50%,-50%);
+    transition: width 0.2s, height 0.2s, background 0.2s;
+    box-shadow: 0 0 20px var(--cyan), 0 0 60px var(--cyan);
+  }
+  .cursor.hover { width:24px; height:24px; background:transparent; border:2px solid var(--cyan); box-shadow: 0 0 30px var(--cyan); }
+}
+
+/* ── Nav ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding: 16px 0;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(6,6,12,0.7);
+  border-bottom: 1px solid var(--border);
+  transition: transform 0.3s;
+}
+nav.hidden { transform: translateY(-100%); }
+.nav-inner {
+  max-width:1100px; margin:0 auto; padding:0 24px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem; font-weight: 500;
+  color: var(--cyan); letter-spacing: -0.5px;
+}
+.nav-links { display:flex; gap:32px; list-style:none; }
+.nav-links a {
+  color: var(--text-dim); text-decoration:none;
+  font-size: 0.9rem; font-weight:400;
+  transition: color 0.3s; position:relative;
+}
+.nav-links a::after {
+  content:''; position:absolute; bottom:-4px; left:0;
+  width:0; height:1.5px; background: var(--cyan);
+  transition: width 0.3s;
+}
+.nav-links a:hover { color: var(--cyan); }
+.nav-links a:hover::after { width:100%; }
+
+/* ── Sections ── */
+section {
+  position:relative; z-index:1;
+  max-width:1100px; margin:0 auto;
+  padding: 100px 24px;
+}
+
+/* ── Hero ── */
+.hero {
+  min-height:100vh; display:flex; align-items:center;
+  padding-top: 80px;
+}
+.hero-content { max-width:700px; }
+.hero-greeting {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem; color: var(--teal);
+  margin-bottom: 16px; opacity:0; animation: fadeUp 0.6s 0.2s forwards;
+}
+.hero-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 900; line-height:1.15;
+  background: linear-gradient(135deg, #e2e8f0 0%, #00d4ff 50%, #8b5cf6 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  opacity:0; animation: fadeUp 0.6s 0.35s forwards;
+}
+.hero-tagline {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--text-dim); font-weight:300;
+  margin-top:20px; opacity:0; animation: fadeUp 0.6s 0.5s forwards;
+}
+.hero-tagline .typing {
+  color: var(--cyan); font-weight:500;
+  border-right: 2px solid var(--cyan);
+  animation: blink 0.8s infinite;
+}
+.hero-cta {
+  display:flex; gap:16px; margin-top:40px;
+  opacity:0; animation: fadeUp 0.6s 0.65s forwards;
+}
+.btn {
+  display:inline-flex; align-items:center; gap:8px;
+  padding: 12px 28px; border-radius:50px;
+  font-size:0.95rem; font-weight:500;
+  text-decoration:none; cursor:pointer;
+  transition: all 0.3s; position:relative;
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  color:#fff; border:none;
+  box-shadow: 0 0 30px rgba(0,212,255,0.25);
+}
+.btn-primary:hover { box-shadow: 0 0 50px rgba(0,212,255,0.45); transform: translateY(-2px); }
+.btn-outline {
+  border-color: rgba(255,255,255,0.2); color: var(--text);
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.03);
+}
+.btn-outline:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(0,212,255,0.06); }
+
+/* ── Section Titles ── */
+.section-header { margin-bottom:60px; }
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem; color: var(--cyan);
+  text-transform:uppercase; letter-spacing:2px;
+}
+.section-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight:700; margin-top:8px;
+}
+
+/* ── About ── */
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+.about-text { color: var(--text-dim); line-height:1.8; font-weight:300; font-size:1.05rem; }
+.about-text strong { color: var(--text); font-weight:500; }
+.skill-cloud { display:flex; flex-wrap:wrap; gap:10px; }
+.skill-tag {
+  padding: 8px 18px; border-radius:50px;
+  font-size:0.85rem; font-family: 'JetBrains Mono', monospace;
+  font-weight:400;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  color: var(--text-dim);
+  transition: all 0.3s;
+  cursor:default;
+}
+.skill-tag:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  box-shadow: 0 0 20px rgba(0,212,255,0.15);
+  transform: translateY(-2px);
+}
+
+/* ── Projects ── */
+.projects-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.project-card {
+  perspective:1000px;
+}
+.project-card-inner {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  height:100%; display:flex; flex-direction:column;
+  cursor:pointer; position:relative;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.1s;
+  transform-style: preserve-3d;
+  overflow:hidden;
+}
+.project-card-inner::before {
+  content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+  background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+  opacity:0; transition: opacity 0.4s;
+}
+.project-card-inner:hover { border-color: rgba(0,212,255,0.3); }
+.project-card-inner:hover::before { opacity:1; }
+.project-icon {
+  font-size:2rem; margin-bottom:20px; position:relative; z-index:1;
+}
+.project-name {
+  font-family: 'Noto Serif SC', serif;
+  font-size:1.2rem; font-weight:700; margin-bottom:12px;
+  position:relative; z-index:1;
+}
+.project-desc {
+  color: var(--text-dim); font-size:0.9rem; line-height:1.7;
+  font-weight:300; flex:1; position:relative; z-index:1;
+}
+.project-tech {
+  display:flex; flex-wrap:wrap; gap:6px; margin-top:20px;
+  position:relative; z-index:1;
+}
+.project-tech span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size:0.7rem; padding:4px 10px;
+  border-radius:20px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text-dim);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: all 0.3s;
+}
+.project-card:hover .project-tech span { border-color: rgba(0,212,255,0.2); }
+
+/* ── Contact ── */
+.contact-inner { text-align:center; max-width:500px; margin:0 auto; }
+.contact-links { display:flex; justify-content:center; gap:24px; margin-top:32px; flex-wrap:wrap; }
+.contact-link {
+  display:flex; align-items:center; gap:10px;
+  padding:14px 28px; border-radius:50px;
+  border: 1px solid rgba(255,255,255,0.1);
+  text-decoration:none; color: var(--text);
+  font-weight:400; transition: all 0.3s;
+  background: rgba(255,255,255,0.02);
+}
+.contact-link:hover {
+  border-color: var(--cyan);
+  background: var(--cyan-dim);
+  color: var(--cyan);
+  box-shadow: 0 0 25px rgba(0,212,255,0.15);
+}
+.contact-link svg { width:20px; height:20px; }
+
+/* ── Footer ── */
+footer {
+  text-align:center; padding:40px 24px; position:relative; z-index:1;
+  color: var(--text-dim); font-size:0.85rem; border-top:1px solid var(--border);
+  max-width:1100px; margin:0 auto;
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(30px); }
+  to { opacity:1; transform: translateY(0); }
+}
+@keyframes blink {
+  0%,100% { border-color: transparent; }
+  50% { border-color: var(--cyan); }
+}
+.reveal {
+  opacity:0; transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible { opacity:1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── Glow Line ── */
+.glow-line {
+  width:60px; height:2px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  margin-bottom: 16px; border-radius:1px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .about-grid { grid-template-columns:1fr; gap:32px; }
+  .projects-grid { grid-template-columns:1fr; }
+  .nav-links { gap:18px; }
+  .nav-links a { font-size:0.8rem; }
+  section { padding:64px 20px; }
+  .hero { min-height:90vh; }
+}
+@media (max-width: 480px) {
+  .hero-cta { flex-direction:column; }
+  .btn { justify-content:center; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<canvas id="particle-canvas"></canvas>
+
+<!-- ── Navigation ── -->
+<nav id="nav">
+  <div class="nav-inner">
+    <span class="nav-logo">&lt;lmj /&gt;</span>
+    <ul class="nav-links">
+      <li><a href="#home">首页</a></li>
+      <li><a href="#about">关于</a></li>
+      <li><a href="#projects">项目</a></li>
+      <li><a href="#contact">联系</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <p class="hero-greeting">> Hello, World!_</p>
+    <h1 class="hero-name">刘明金</h1>
+    <p class="hero-tagline">
+      <span class="typing" id="typing-text"></span>
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        查看项目
+      </a>
+      <a href="#contact" class="btn btn-outline">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        联系我
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── About ── -->
+<section id="about">
+  <div class="section-header reveal">
+    <div class="glow-line"></div>
+    <p class="section-label">About</p>
+    <h2 class="section-title">关于我</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal reveal-delay-1">
+      <p>
+        嵌入式系统与全栈开发的探索者。热爱底层技术与应用开发的贯通 —
+        从单片机驱动到 Web 服务，享受用代码解决实际问题的过程。
+      </p>
+      <p style="margin-top:16px;">
+        目前专注于嵌入式 RTOS、图形界面（LVGL）以及 Web 后端的学与实践。
+      </p>
+    </div>
+    <div class="skill-cloud reveal reveal-delay-2">
+      <span class="skill-tag">C</span>
+      <span class="skill-tag">RT-Thread</span>
+      <span class="skill-tag">LVGL</span>
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">Django</span>
+      <span class="skill-tag">Docker</span>
+      <span class="skill-tag">Embedded</span>
+      <span class="skill-tag">MCU</span>
+      <span class="skill-tag">Git</span>
+      <span class="skill-tag">Linux</span>
+      <span class="skill-tag">SQLite</span>
+      <span class="skill-tag">Shell</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Projects ── -->
+<section id="projects">
+  <div class="section-header reveal">
+    <div class="glow-line"></div>
+    <p class="section-label">Projects</p>
+    <h2 class="section-title">项目展示</h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal reveal-delay-1" data-tilt>
+      <div class="project-card-inner" style="align-items:center; justify-content:center; text-align:center;">
+        <div class="project-icon" style="font-size:3rem; margin-bottom:16px;">🚀</div>
+        <h3 class="project-name">项目即将上线</h3>
+        <p class="project-desc" style="text-align:center;">正在整理和上传项目中，敬请期待。</p>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2" data-tilt>
+      <div class="project-card-inner" style="align-items:center; justify-content:center; text-align:center; border-style:dashed;">
+        <div class="project-icon" style="font-size:3rem; margin-bottom:16px; opacity:0.5;">📦</div>
+        <h3 class="project-name" style="color:var(--text-dim);">待添加</h3>
+        <p class="project-desc" style="text-align:center;">你的下一个项目会在这里展示。</p>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-3" data-tilt>
+      <div class="project-card-inner" style="align-items:center; justify-content:center; text-align:center; border-style:dashed;">
+        <div class="project-icon" style="font-size:3rem; margin-bottom:16px; opacity:0.5;">📦</div>
+        <h3 class="project-name" style="color:var(--text-dim);">待添加</h3>
+        <p class="project-desc" style="text-align:center;">你的下一个项目会在这里展示。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact ── -->
+<section id="contact">
+  <div class="section-header reveal">
+    <div class="glow-line"></div>
+    <p class="section-label">Contact</p>
+    <h2 class="section-title">联系我</h2>
+  </div>
+  <div class="contact-inner reveal reveal-delay-1">
+    <div class="contact-links">
+      <a href="https://github.com/050407lmj" target="_blank" rel="noopener" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="mailto:j3276911761@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>&copy; 2025 刘明金. Built with &hearts; and code.</p>
+</footer>
+
+<script>
+/* ────────────────────────────────
+   Particle Constellation Background
+   ──────────────────────────────── */
+(() => {
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [];
+  const PARTICLE_COUNT = 80;
+  const CONNECT_DIST = 140;
+  let mouse = { x: -1000, y: -1000 };
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  class Particle {
+    constructor() {
+      this.reset();
+      this.y = Math.random() * h;
+    }
+    reset() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.vx = (Math.random() - 0.5) * 0.5;
+      this.vy = (Math.random() - 0.5) * 0.5;
+      this.r = Math.random() * 1.5 + 0.8;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < -20 || this.x > w + 20) this.vx *= -1;
+      if (this.y < -20 || this.y > h + 20) this.vy *= -1;
+
+      // Mouse interaction: gentle pull
+      const dx = mouse.x - this.x;
+      const dy = mouse.y - this.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 200) {
+        const force = 0.003;
+        this.vx -= dx * force * (1 - dist / 200);
+        this.vy -= dy * force * (1 - dist / 200);
+      }
+      // Speed limit
+      const speed = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
+      if (speed > 1.2) { this.vx *= 0.98; this.vy *= 0.98; }
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(255,255,255,0.5)';
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push(new Particle());
+  }
+
+  let animId;
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+
+    for (const p of particles) { p.update(); p.draw(); }
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < CONNECT_DIST) {
+          const alpha = 1 - dist / CONNECT_DIST;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(0,212,255,${alpha * 0.2})`;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Mouse glow
+    if (mouse.x > 0 && mouse.y > 0) {
+      const grad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 120);
+      grad.addColorStop(0, 'rgba(0,212,255,0.08)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(mouse.x - 120, mouse.y - 120, 240, 240);
+    }
+
+    animId = requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+  // Touch support
+  window.addEventListener('touchmove', e => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; });
+  window.addEventListener('touchend', () => { mouse.x = -1000; mouse.y = -1000; });
+
+  animate();
+})();
+
+/* ────────────────────────────────
+   Custom Cursor
+   ──────────────────────────────── */
+{
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  // Add hover class when over interactive elements
+  const hoverTargets = document.querySelectorAll('a, button, .btn, .project-card, .skill-tag');
+  hoverTargets.forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+}
+
+/* ────────────────────────────────
+   Scroll Reveal (Intersection Observer)
+   ──────────────────────────────── */
+{
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+/* ────────────────────────────────
+   3D Tilt on Project Cards
+   ──────────────────────────────── */
+{
+  document.querySelectorAll('[data-tilt] .project-card-inner').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -8;
+      const rotateY = ((x - centerX) / centerX) * 8;
+      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 0.5s ease';
+      card.style.transform = 'rotateX(0) rotateY(0)';
+    });
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.1s ease';
+    });
+  });
+}
+
+/* ────────────────────────────────
+   Nav Hide/Show on Scroll
+   ──────────────────────────────── */
+{
+  let lastScroll = 0;
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    const current = window.scrollY;
+    if (current > lastScroll && current > 100) {
+      nav.classList.add('hidden');
+    } else {
+      nav.classList.remove('hidden');
+    }
+    lastScroll = current;
+  }, { passive: true });
+}
+
+/* ────────────────────────────────
+   Typing Effect
+   ──────────────────────────────── */
+{
+  const phrases = ['嵌入式开发 · 全栈工程', '从 Bare Metal 到 Cloud Native', '写得了驱动，搭得了服务', '持续学习，持续构建'];
+  let phraseIdx = 0, charIdx = 0, isDeleting = false;
+  const el = document.getElementById('typing-text');
+
+  function type() {
+    const current = phrases[phraseIdx];
+    if (isDeleting) {
+      el.textContent = current.substring(0, charIdx - 1);
+      charIdx--;
+    } else {
+      el.textContent = current.substring(0, charIdx + 1);
+      charIdx++;
+    }
+
+    let speed = isDeleting ? 40 : 80;
+
+    if (!isDeleting && charIdx === current.length) {
+      speed = 2000; // Pause at end
+      isDeleting = true;
+    } else if (isDeleting && charIdx === 0) {
+      isDeleting = false;
+      phraseIdx = (phraseIdx + 1) % phrases.length;
+      speed = 400;
+    }
+
+    setTimeout(type, speed);
+  }
+
+  type();
+}
+</script>
+
+</body>
+</html>
