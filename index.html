@@ -21,287 +21,141 @@
   --border: rgba(255, 255, 255, 0.06);
   --radius: 16px;
 }
-
 * { margin:0; padding:0; box-sizing:border-box; }
-
 html { scroll-behavior:smooth; }
-
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Noto Sans SC', sans-serif;
   overflow-x: hidden;
-  cursor: default;
 }
 
-/* ── Canvas Background ── */
-#particle-canvas {
-  position: fixed; top:0; left:0; width:100%; height:100%;
-  z-index: 0; pointer-events: none;
-}
+/* Canvas */
+#particle-canvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
 
-/* ── Custom Cursor ── */
+/* Cursor */
 .cursor { display:none; }
-@media (hover: hover) {
-  .cursor {
-    display:block;
-    width:8px; height:8px;
-    background: var(--cyan);
-    border-radius:50%;
-    position:fixed; z-index:9999;
-    pointer-events:none;
-    transform: translate(-50%,-50%);
-    transition: width 0.2s, height 0.2s, background 0.2s;
-    box-shadow: 0 0 20px var(--cyan), 0 0 60px var(--cyan);
-  }
-  .cursor.hover { width:24px; height:24px; background:transparent; border:2px solid var(--cyan); box-shadow: 0 0 30px var(--cyan); }
+@media (hover:hover) {
+  .cursor { display:block; width:8px; height:8px; background:var(--cyan); border-radius:50%; position:fixed; z-index:9999; pointer-events:none; transform:translate(-50%,-50%); transition:width .2s,height .2s; box-shadow:0 0 20px var(--cyan),0 0 60px var(--cyan); }
+  .cursor.hover { width:24px; height:24px; background:transparent; border:2px solid var(--cyan); box-shadow:0 0 30px var(--cyan); }
 }
 
-/* ── Nav ── */
-nav {
-  position:fixed; top:0; left:0; right:0; z-index:100;
-  padding: 16px 0;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  background: rgba(6,6,12,0.7);
-  border-bottom: 1px solid var(--border);
-  transition: transform 0.3s;
-}
-nav.hidden { transform: translateY(-100%); }
-.nav-inner {
-  max-width:1100px; margin:0 auto; padding:0 24px;
-  display:flex; align-items:center; justify-content:space-between;
-}
-.nav-logo {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.1rem; font-weight: 500;
-  color: var(--cyan); letter-spacing: -0.5px;
-}
-.nav-links { display:flex; gap:32px; list-style:none; }
-.nav-links a {
-  color: var(--text-dim); text-decoration:none;
-  font-size: 0.9rem; font-weight:400;
-  transition: color 0.3s; position:relative;
-}
-.nav-links a::after {
-  content:''; position:absolute; bottom:-4px; left:0;
-  width:0; height:1.5px; background: var(--cyan);
-  transition: width 0.3s;
-}
-.nav-links a:hover { color: var(--cyan); }
+/* Nav */
+nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:16px 0; backdrop-filter:blur(20px) saturate(180%); -webkit-backdrop-filter:blur(20px) saturate(180%); background:rgba(6,6,12,.7); border-bottom:1px solid var(--border); transition:transform .3s; }
+nav.hidden { transform:translateY(-100%); }
+.nav-inner { max-width:1100px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; }
+.nav-logo { font-family:'JetBrains Mono',monospace; font-size:1.1rem; font-weight:500; color:var(--cyan); }
+.nav-links { display:flex; gap:24px; list-style:none; }
+.nav-links a { color:var(--text-dim); text-decoration:none; font-size:.85rem; transition:color .3s; position:relative; }
+.nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:1.5px; background:var(--cyan); transition:width .3s; }
+.nav-links a:hover { color:var(--cyan); }
 .nav-links a:hover::after { width:100%; }
 
-/* ── Sections ── */
-section {
-  position:relative; z-index:1;
-  max-width:1100px; margin:0 auto;
-  padding: 100px 24px;
-}
-
-/* ── Hero ── */
-.hero {
-  min-height:100vh; display:flex; align-items:center;
-  padding-top: 80px;
-}
-.hero-content { max-width:700px; }
-.hero-greeting {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem; color: var(--teal);
-  margin-bottom: 16px; opacity:0; animation: fadeUp 0.6s 0.2s forwards;
-}
-.hero-name {
-  font-family: 'Noto Serif SC', serif;
-  font-size: clamp(2.8rem, 6vw, 4.5rem);
-  font-weight: 900; line-height:1.15;
-  background: linear-gradient(135deg, #e2e8f0 0%, #00d4ff 50%, #8b5cf6 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
-  opacity:0; animation: fadeUp 0.6s 0.35s forwards;
-}
-.hero-tagline {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  color: var(--text-dim); font-weight:300;
-  margin-top:20px; opacity:0; animation: fadeUp 0.6s 0.5s forwards;
-}
-.hero-tagline .typing {
-  color: var(--cyan); font-weight:500;
-  border-right: 2px solid var(--cyan);
-  animation: blink 0.8s infinite;
-}
-.hero-cta {
-  display:flex; gap:16px; margin-top:40px;
-  opacity:0; animation: fadeUp 0.6s 0.65s forwards;
-}
-.btn {
-  display:inline-flex; align-items:center; gap:8px;
-  padding: 12px 28px; border-radius:50px;
-  font-size:0.95rem; font-weight:500;
-  text-decoration:none; cursor:pointer;
-  transition: all 0.3s; position:relative;
-  border: 1px solid transparent;
-}
-.btn-primary {
-  background: linear-gradient(135deg, var(--cyan), var(--purple));
-  color:#fff; border:none;
-  box-shadow: 0 0 30px rgba(0,212,255,0.25);
-}
-.btn-primary:hover { box-shadow: 0 0 50px rgba(0,212,255,0.45); transform: translateY(-2px); }
-.btn-outline {
-  border-color: rgba(255,255,255,0.2); color: var(--text);
-  backdrop-filter: blur(10px);
-  background: rgba(255,255,255,0.03);
-}
-.btn-outline:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(0,212,255,0.06); }
-
-/* ── Section Titles ── */
+/* Sections */
+section { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:100px 24px; }
 .section-header { margin-bottom:60px; }
-.section-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem; color: var(--cyan);
-  text-transform:uppercase; letter-spacing:2px;
-}
-.section-title {
-  font-family: 'Noto Serif SC', serif;
-  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-  font-weight:700; margin-top:8px;
-}
+.section-label { font-family:'JetBrains Mono',monospace; font-size:.8rem; color:var(--cyan); text-transform:uppercase; letter-spacing:2px; }
+.section-title { font-family:'Noto Serif SC',serif; font-size:clamp(1.8rem,3.5vw,2.5rem); font-weight:700; margin-top:8px; }
+.glow-line { width:60px; height:2px; background:linear-gradient(90deg,var(--cyan),var(--purple)); margin-bottom:16px; border-radius:1px; }
 
-/* ── About ── */
-.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
-.about-text { color: var(--text-dim); line-height:1.8; font-weight:300; font-size:1.05rem; }
-.about-text strong { color: var(--text); font-weight:500; }
-.skill-cloud { display:flex; flex-wrap:wrap; gap:10px; }
-.skill-tag {
-  padding: 8px 18px; border-radius:50px;
-  font-size:0.85rem; font-family: 'JetBrains Mono', monospace;
-  font-weight:400;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.03);
-  color: var(--text-dim);
-  transition: all 0.3s;
-  cursor:default;
-}
-.skill-tag:hover {
-  border-color: var(--cyan);
-  color: var(--cyan);
-  background: var(--cyan-dim);
-  box-shadow: 0 0 20px rgba(0,212,255,0.15);
-  transform: translateY(-2px);
-}
+/* Hero */
+.hero { min-height:100vh; display:flex; align-items:center; padding-top:80px; }
+.hero-content { max-width:700px; }
+.hero-greeting { font-family:'JetBrains Mono',monospace; font-size:.85rem; color:var(--teal); margin-bottom:16px; opacity:0; animation:fadeUp .6s .2s forwards; }
+.hero-name { font-family:'Noto Serif SC',serif; font-size:clamp(2.8rem,6vw,4.5rem); font-weight:900; line-height:1.15; background:linear-gradient(135deg,#e2e8f0 0%,#00d4ff 50%,#8b5cf6 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; opacity:0; animation:fadeUp .6s .35s forwards; }
+.hero-info { display:flex; flex-wrap:wrap; gap:12px 28px; margin-top:16px; opacity:0; animation:fadeUp .6s .45s forwards; }
+.hero-info span { color:var(--text-dim); font-size:.9rem; }
+.hero-info span strong { color:var(--text); font-weight:500; }
+.hero-tagline { font-size:clamp(1rem,2vw,1.25rem); color:var(--text-dim); font-weight:300; margin-top:24px; opacity:0; animation:fadeUp .6s .5s forwards; }
+.hero-tagline .typing { color:var(--cyan); font-weight:500; border-right:2px solid var(--cyan); animation:blink .8s infinite; }
+.hero-cta { display:flex; gap:16px; margin-top:40px; opacity:0; animation:fadeUp .6s .65s forwards; }
+.btn { display:inline-flex; align-items:center; gap:8px; padding:12px 28px; border-radius:50px; font-size:.95rem; font-weight:500; text-decoration:none; cursor:pointer; transition:all .3s; border:1px solid transparent; }
+.btn-primary { background:linear-gradient(135deg,var(--cyan),var(--purple)); color:#fff; box-shadow:0 0 30px rgba(0,212,255,.25); }
+.btn-primary:hover { box-shadow:0 0 50px rgba(0,212,255,.45); transform:translateY(-2px); }
+.btn-outline { border-color:rgba(255,255,255,.2); color:var(--text); backdrop-filter:blur(10px); background:rgba(255,255,255,.03); }
+.btn-outline:hover { border-color:var(--cyan); color:var(--cyan); background:rgba(0,212,255,.06); }
 
-/* ── Projects ── */
-.projects-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
-.project-card {
-  perspective:1000px;
-}
-.project-card-inner {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 32px 28px;
-  height:100%; display:flex; flex-direction:column;
-  cursor:pointer; position:relative;
-  transition: border-color 0.3s, box-shadow 0.3s, transform 0.1s;
-  transform-style: preserve-3d;
-  overflow:hidden;
-}
-.project-card-inner::before {
-  content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
-  background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
-  opacity:0; transition: opacity 0.4s;
-}
-.project-card-inner:hover { border-color: rgba(0,212,255,0.3); }
+/* Info Cards */
+.info-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+.info-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:24px 20px; text-align:center; transition:border-color .3s; }
+.info-card:hover { border-color:rgba(0,212,255,.3); }
+.info-card-label { font-size:.75rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+.info-card-value { font-size:1.05rem; font-weight:500; color:var(--text); }
+
+/* Education */
+.edu-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:36px; }
+.edu-card h3 { font-family:'Noto Serif SC',serif; font-size:1.3rem; margin-bottom:8px; }
+.edu-card .edu-meta { color:var(--cyan); font-size:.9rem; margin-bottom:20px; }
+.edu-card .courses { color:var(--text-dim); font-size:.9rem; line-height:1.8; margin-bottom:24px; }
+.cert-tags { display:flex; gap:12px; flex-wrap:wrap; }
+.cert-tag { padding:8px 16px; border-radius:50px; font-size:.8rem; border:1px solid rgba(0,212,255,.3); color:var(--cyan); background:var(--cyan-dim); }
+
+/* Skills */
+.skills-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+.skill-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:28px; transition:border-color .3s; }
+.skill-card:hover { border-color:rgba(0,212,255,.3); }
+.skill-card-icon { font-size:1.5rem; margin-bottom:12px; }
+.skill-card h3 { font-family:'Noto Serif SC',serif; font-size:1.1rem; margin-bottom:10px; }
+.skill-card p { color:var(--text-dim); font-size:.85rem; line-height:1.7; }
+.skill-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+.skill-tag { padding:5px 12px; border-radius:20px; font-family:'JetBrains Mono',monospace; font-size:.7rem; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.03); color:var(--text-dim); transition:all .3s; }
+.skill-tag:hover { border-color:var(--cyan); color:var(--cyan); background:var(--cyan-dim); }
+
+/* Projects */
+.projects-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+.project-card { perspective:1000px; }
+.project-card-inner { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:32px 28px; height:100%; cursor:pointer; position:relative; transition:border-color .3s,box-shadow .3s,transform .1s; transform-style:preserve-3d; overflow:hidden; }
+.project-card-inner::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle,rgba(0,212,255,.06) 0%,transparent 70%); opacity:0; transition:opacity .4s; }
+.project-card-inner:hover { border-color:rgba(0,212,255,.3); }
 .project-card-inner:hover::before { opacity:1; }
-.project-icon {
-  font-size:2rem; margin-bottom:20px; position:relative; z-index:1;
-}
-.project-name {
-  font-family: 'Noto Serif SC', serif;
-  font-size:1.2rem; font-weight:700; margin-bottom:12px;
-  position:relative; z-index:1;
-}
-.project-desc {
-  color: var(--text-dim); font-size:0.9rem; line-height:1.7;
-  font-weight:300; flex:1; position:relative; z-index:1;
-}
-.project-tech {
-  display:flex; flex-wrap:wrap; gap:6px; margin-top:20px;
-  position:relative; z-index:1;
-}
-.project-tech span {
-  font-family: 'JetBrains Mono', monospace;
-  font-size:0.7rem; padding:4px 10px;
-  border-radius:20px;
-  background: rgba(255,255,255,0.04);
-  color: var(--text-dim);
-  border: 1px solid rgba(255,255,255,0.06);
-  transition: all 0.3s;
-}
-.project-card:hover .project-tech span { border-color: rgba(0,212,255,0.2); }
+.project-icon { font-size:2rem; margin-bottom:20px; position:relative; z-index:1; }
+.project-name { font-family:'Noto Serif SC',serif; font-size:1.15rem; font-weight:700; margin-bottom:16px; position:relative; z-index:1; }
+.project-bullets { list-style:none; position:relative; z-index:1; }
+.project-bullets li { color:var(--text-dim); font-size:.85rem; line-height:1.8; padding-left:16px; position:relative; margin-bottom:8px; }
+.project-bullets li::before { content:'·'; position:absolute; left:0; color:var(--cyan); font-weight:700; }
+.project-tech { display:flex; flex-wrap:wrap; gap:6px; margin-top:20px; position:relative; z-index:1; }
+.project-tech span { font-family:'JetBrains Mono',monospace; font-size:.7rem; padding:4px 10px; border-radius:20px; background:rgba(255,255,255,.04); color:var(--text-dim); border:1px solid rgba(255,255,255,.06); }
+.project-card:hover .project-tech span { border-color:rgba(0,212,255,.2); }
 
-/* ── Contact ── */
+/* AI Tools */
+.ai-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.ai-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:28px; text-align:center; transition:border-color .3s; }
+.ai-card:hover { border-color:rgba(139,92,246,.3); }
+.ai-card h3 { font-size:.85rem; color:var(--purple); margin-bottom:16px; }
+.ai-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+.ai-tag { padding:6px 14px; border-radius:20px; font-size:.8rem; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.03); color:var(--text-dim); transition:all .3s; }
+.ai-tag:hover { border-color:var(--purple); color:#c4b5fd; background:var(--purple-dim); }
+
+/* Contact */
 .contact-inner { text-align:center; max-width:500px; margin:0 auto; }
 .contact-links { display:flex; justify-content:center; gap:24px; margin-top:32px; flex-wrap:wrap; }
-.contact-link {
-  display:flex; align-items:center; gap:10px;
-  padding:14px 28px; border-radius:50px;
-  border: 1px solid rgba(255,255,255,0.1);
-  text-decoration:none; color: var(--text);
-  font-weight:400; transition: all 0.3s;
-  background: rgba(255,255,255,0.02);
-}
-.contact-link:hover {
-  border-color: var(--cyan);
-  background: var(--cyan-dim);
-  color: var(--cyan);
-  box-shadow: 0 0 25px rgba(0,212,255,0.15);
-}
+.contact-link { display:flex; align-items:center; gap:10px; padding:14px 28px; border-radius:50px; border:1px solid rgba(255,255,255,.1); text-decoration:none; color:var(--text); font-weight:400; transition:all .3s; background:rgba(255,255,255,.02); }
+.contact-link:hover { border-color:var(--cyan); background:var(--cyan-dim); color:var(--cyan); box-shadow:0 0 25px rgba(0,212,255,.15); }
 .contact-link svg { width:20px; height:20px; }
 
-/* ── Footer ── */
-footer {
-  text-align:center; padding:40px 24px; position:relative; z-index:1;
-  color: var(--text-dim); font-size:0.85rem; border-top:1px solid var(--border);
-  max-width:1100px; margin:0 auto;
-}
+/* Footer */
+footer { text-align:center; padding:40px 24px; position:relative; z-index:1; color:var(--text-dim); font-size:.85rem; border-top:1px solid var(--border); max-width:1100px; margin:0 auto; }
 
-/* ── Animations ── */
-@keyframes fadeUp {
-  from { opacity:0; transform: translateY(30px); }
-  to { opacity:1; transform: translateY(0); }
-}
-@keyframes blink {
-  0%,100% { border-color: transparent; }
-  50% { border-color: var(--cyan); }
-}
-.reveal {
-  opacity:0; transform: translateY(40px);
-  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
-}
-.reveal.visible { opacity:1; transform: translateY(0); }
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
+/* Animations */
+@keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+@keyframes blink { 0%,100% { border-color:transparent; } 50% { border-color:var(--cyan); } }
+.reveal { opacity:0; transform:translateY(40px); transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1); }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-delay-1 { transition-delay:.1s; }
+.reveal-delay-2 { transition-delay:.2s; }
+.reveal-delay-3 { transition-delay:.3s; }
+.reveal-delay-4 { transition-delay:.4s; }
 
-/* ── Glow Line ── */
-.glow-line {
-  width:60px; height:2px;
-  background: linear-gradient(90deg, var(--cyan), var(--purple));
-  margin-bottom: 16px; border-radius:1px;
-}
-
-/* ── Responsive ── */
-@media (max-width: 768px) {
-  .about-grid { grid-template-columns:1fr; gap:32px; }
-  .projects-grid { grid-template-columns:1fr; }
-  .nav-links { gap:18px; }
-  .nav-links a { font-size:0.8rem; }
+@media (max-width:768px) {
+  .info-grid { grid-template-columns:repeat(2,1fr); }
+  .skills-grid, .projects-grid, .ai-grid { grid-template-columns:1fr; }
+  .nav-links { gap:14px; }
+  .nav-links a { font-size:.78rem; }
   section { padding:64px 20px; }
   .hero { min-height:90vh; }
 }
-@media (max-width: 480px) {
+@media (max-width:480px) {
+  .info-grid { grid-template-columns:1fr 1fr; }
   .hero-cta { flex-direction:column; }
   .btn { justify-content:center; }
 }
@@ -312,121 +166,202 @@ footer {
 <div class="cursor" id="cursor"></div>
 <canvas id="particle-canvas"></canvas>
 
-<!-- ── Navigation ── -->
-<nav id="nav">
-  <div class="nav-inner">
-    <span class="nav-logo">&lt;lmj /&gt;</span>
-    <ul class="nav-links">
-      <li><a href="#home">首页</a></li>
-      <li><a href="#about">关于</a></li>
-      <li><a href="#projects">项目</a></li>
-      <li><a href="#contact">联系</a></li>
-    </ul>
-  </div>
-</nav>
+<!-- NAV -->
+<nav id="nav"><div class="nav-inner">
+  <span class="nav-logo">&lt;lmj /&gt;</span>
+  <ul class="nav-links">
+    <li><a href="#home">首页</a></li>
+    <li><a href="#skills">技能</a></li>
+    <li><a href="#projects">项目</a></li>
+    <li><a href="#ai">AI工具</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</div></nav>
 
-<!-- ── Hero ── -->
-<section class="hero" id="home">
-  <div class="hero-content">
-    <p class="hero-greeting">> Hello, World!_</p>
-    <h1 class="hero-name">刘明金</h1>
-    <p class="hero-tagline">
-      <span class="typing" id="typing-text"></span>
-    </p>
-    <div class="hero-cta">
-      <a href="#projects" class="btn btn-primary">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-        查看项目
-      </a>
-      <a href="#contact" class="btn btn-outline">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        联系我
-      </a>
-    </div>
+<!-- HERO -->
+<section class="hero" id="home"><div class="hero-content">
+  <p class="hero-greeting">> Hello, World!_</p>
+  <h1 class="hero-name">刘明金</h1>
+  <div class="hero-info">
+    <span>民族：<strong>汉族</strong></span>
+    <span>出生年月：<strong>2005.04</strong></span>
+    <span>性别：<strong>男</strong></span>
+    <span>政治面貌：<strong>共青团员</strong></span>
   </div>
-</section>
+  <p class="hero-tagline"><span class="typing" id="typing-text"></span></p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      查看项目
+    </a>
+    <a href="#contact" class="btn btn-outline">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      联系我
+    </a>
+  </div>
+</div></section>
 
-<!-- ── About ── -->
+<!-- BASIC INFO + EDUCATION -->
 <section id="about">
   <div class="section-header reveal">
     <div class="glow-line"></div>
-    <p class="section-label">About</p>
-    <h2 class="section-title">关于我</h2>
+    <p class="section-label">Education & Info</p>
+    <h2 class="section-title">教育背景</h2>
   </div>
-  <div class="about-grid">
-    <div class="about-text reveal reveal-delay-1">
-      <p style="margin-bottom:20px;">
-        <strong>江苏工程职业技术学院</strong> · 信息工程学院
-        <br><span style="color:var(--text-dim);font-size:0.9rem;">物联网应用技术 · 2024.09 - 2027.06</span>
-      </p>
-      <p style="color:var(--text-dim);font-size:0.9rem;line-height:1.8;">
-        主修课程：Java 程序设计、C 语言、Python 网络编程、单片机应用技术、物联网 LoRa 与 NB-IoT 应用技术、嵌入式网关技术与应用、移动应用开发实践、弱电 CAD 制图。
-      </p>
-    </div>
-    <div class="skill-cloud reveal reveal-delay-2">
-      <span class="skill-tag">C</span>
-      <span class="skill-tag">RT-Thread</span>
-      <span class="skill-tag">FreeRTOS</span>
-      <span class="skill-tag">STM32</span>
-      <span class="skill-tag">CH32</span>
-      <span class="skill-tag">YOLO11</span>
-      <span class="skill-tag">Roboflow</span>
-      <span class="skill-tag">Android</span>
-      <span class="skill-tag">Python</span>
-      <span class="skill-tag">微信小程序</span>
-      <span class="skill-tag">PCB</span>
-      <span class="skill-tag">Linux</span>
+
+  <div class="info-grid reveal reveal-delay-1" style="margin-bottom:24px;">
+    <div class="info-card"><div class="info-card-label">院校</div><div class="info-card-value">江苏工程职业技术学院</div></div>
+    <div class="info-card"><div class="info-card-label">学院</div><div class="info-card-value">信息工程学院</div></div>
+    <div class="info-card"><div class="info-card-label">专业</div><div class="info-card-value">物联网应用技术</div></div>
+    <div class="info-card"><div class="info-card-label">就读时间</div><div class="info-card-value">2024.09 - 2027.06</div></div>
+  </div>
+
+  <div class="edu-card reveal reveal-delay-2">
+    <h3>主修课程</h3>
+    <p class="courses">Java 程序设计、C 语言、Python 网络编程、单片机应用技术、物联网 LoRa 与 NB-IoT 应用技术、嵌入式网关技术与应用、移动应用开发实践、弱电 CAD 制图</p>
+    <h3 style="font-family:'Noto Serif SC',serif; font-size:1.1rem; margin-bottom:12px;">资格证书</h3>
+    <div class="cert-tags">
+      <span class="cert-tag">大学英语四级（CET-4）</span>
+      <span class="cert-tag">全国计算机等级考试一级</span>
     </div>
   </div>
 </section>
 
-<!-- ── Projects ── -->
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <div class="glow-line"></div>
+    <p class="section-label">Skills</p>
+    <h2 class="section-title">专业技能</h2>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill-card reveal reveal-delay-1">
+      <div class="skill-card-icon">🔌</div>
+      <h3>嵌入式与硬件</h3>
+      <p>熟悉国产 CH32 系列（V307/H417）及 STM32F407 芯片开发；熟悉 FreeRTOS、RT-Thread 实时操作系统；具备绘制原理图及 PCB 布局布线能力。</p>
+      <div class="skill-tags"><span class="skill-tag">C</span><span class="skill-tag">CH32</span><span class="skill-tag">STM32</span><span class="skill-tag">RT-Thread</span><span class="skill-tag">FreeRTOS</span><span class="skill-tag">PCB</span></div>
+    </div>
+    <div class="skill-card reveal reveal-delay-2">
+      <div class="skill-card-icon">🤖</div>
+      <h3>端侧 AI 与视觉</h3>
+      <p>熟练掌握 YOLO11 目标检测与分类模型全生命周期训练；熟练运用 Roboflow 完成数据清洗与标注；具备端侧模型推理加速及准确率调优经验。</p>
+      <div class="skill-tags"><span class="skill-tag">YOLO11</span><span class="skill-tag">Roboflow</span><span class="skill-tag">Python</span><span class="skill-tag">端侧推理</span></div>
+    </div>
+    <div class="skill-card reveal reveal-delay-3">
+      <div class="skill-card-icon">📱</div>
+      <h3>应用与全栈</h3>
+      <p>熟悉 Android（Java）客户端开发；熟悉微信小程序原生开发及云服务器独立部署。</p>
+      <div class="skill-tags"><span class="skill-tag">Android</span><span class="skill-tag">Java</span><span class="skill-tag">微信小程序</span><span class="skill-tag">Linux</span></div>
+    </div>
+    <div class="skill-card reveal reveal-delay-4">
+      <div class="skill-card-icon">📡</div>
+      <h3>物联网通信</h3>
+      <p>熟悉应用 Wi-Fi、Zigbee；熟悉复杂异构网络通信链路的搭建与维护。</p>
+      <div class="skill-tags"><span class="skill-tag">Wi-Fi</span><span class="skill-tag">Zigbee</span><span class="skill-tag">LoRa</span><span class="skill-tag">NB-IoT</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
 <section id="projects">
   <div class="section-header reveal">
     <div class="glow-line"></div>
     <p class="section-label">Projects</p>
-    <h2 class="section-title">项目展示</h2>
+    <h2 class="section-title">项目经历</h2>
   </div>
+
   <div class="projects-grid">
-    <div class="project-card reveal reveal-delay-1" data-tilt>
-      <div class="project-card-inner">
-        <div class="project-icon">🏆</div>
-        <h3 class="project-name">嵌入式系统应用开发赛项</h3>
-        <p class="project-desc">江苏省职业院校技能大赛。基于 CH32H417QEU6 芯片完成底层驱动开发，搭建 RT-Thread 多任务调度框架，实现传感器采集、通信交互、外设控制等模块并发运行。</p>
-        <div class="project-tech">
-          <span>C</span><span>RT-Thread</span><span>CH32</span><span>RTOS</span>
-        </div>
+    <!-- Project 1 -->
+    <div class="project-card reveal reveal-delay-1" data-tilt><div class="project-card-inner">
+      <div class="project-icon">🏆</div>
+      <h3 class="project-name">江苏省职业院校技能大赛 — 嵌入式系统应用开发</h3>
+      <ul class="project-bullets">
+        <li>基于 CH32H417QEU6 芯片完成底层驱动开发、外设控制与功能模块实现</li>
+        <li>基于 RT-Thread 搭建多任务调度框架，实现传感器采集、通信交互、外设控制、数据显示等模块并发运行</li>
+        <li>负责竞赛任务分析、系统架构设计、模块功能划分与开发推进，完成从需求理解到整机联调的完整流程</li>
+        <li>围绕 GPIO、串口、定时器、通信模块及显示模块进行驱动适配和联调，解决数据异常、任务阻塞和通信不稳定等问题</li>
+      </ul>
+      <div class="project-tech"><span>C</span><span>RT-Thread</span><span>CH32</span><span>RTOS</span></div>
+    </div></div>
+
+    <!-- Project 2 -->
+    <div class="project-card reveal reveal-delay-2" data-tilt><div class="project-card-inner">
+      <div class="project-icon">🤖</div>
+      <h3 class="project-name">嵌入式小车移动控制平台 — 视觉识别与 Android 客户端</h3>
+      <ul class="project-bullets">
+        <li>利用 Roboflow 建立数据集，基于 YOLO11 训练车牌、红绿灯、交通标志、二维码、颜色、TFT 屏幕检测、行人等 10 余种模型</li>
+        <li>通过持续迭代与参数微调，将多任务综合识别准确率提升至 99.5%，优化模型输入分辨率与置信度阈值改善实时视频流帧率</li>
+        <li>在 Android 端完成底层数据接口维护，实现多路传感器信号与视频流稳定接收解析，确保多车协同指令准确下发</li>
+        <li>维护底层 Java 代码并重构冗余逻辑，重新设计客户端 UI，提升高密度信息面板与实时画框的交互体验</li>
+      </ul>
+      <div class="project-tech"><span>YOLO11</span><span>Roboflow</span><span>Android</span><span>Java</span><span>Python</span></div>
+    </div></div>
+
+    <!-- Project 3 -->
+    <div class="project-card reveal reveal-delay-3" data-tilt><div class="project-card-inner">
+      <div class="project-icon">📐</div>
+      <h3 class="project-name">嘉立创 EDA / PCB 设计与硬件调试</h3>
+      <ul class="project-bullets">
+        <li>熟练使用嘉立创 EDA，独立完成多款开发板及硬件拓展坞设计，覆盖原理图绘制、器件选型、封装匹配、网络检查与电路结构规划</li>
+        <li>独立完成 PCB 布局布线、走线优化、丝印整理、DRC 检查、Gerber 文件输出与打样下单，具备从设计文件到实物板卡的完整落地经验</li>
+        <li>对打样板进行焊接、上电测试、供电检查、接口连通性验证与基础功能调试，能定位并修复焊接异常、走线问题、供电不稳定及外设连接错误</li>
+        <li>结合 MCU 程序开发对核心外设、拓展接口和通信功能进行验证，为后续项目开发、课程实践和竞赛训练提供可复用的硬件平台</li>
+      </ul>
+      <div class="project-tech"><span>嘉立创EDA</span><span>PCB</span><span>MCU</span><span>硬件调试</span></div>
+    </div></div>
+
+    <!-- Project 4 -->
+    <div class="project-card reveal reveal-delay-4" data-tilt><div class="project-card-inner">
+      <div class="project-icon">✨</div>
+      <h3 class="project-name">星斗星盒 — AI 情感共振微信小程序</h3>
+      <ul class="project-bullets">
+        <li>独立负责微信小程序前后端开发，引入"情绪共振星图"与"认知重塑"互动机制</li>
+        <li>打通云服务器部署流程，对接大语言模型，构建情绪分析与自然语言响应体系</li>
+      </ul>
+      <div class="project-tech"><span>微信小程序</span><span>LLM</span><span>云服务</span></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- AI TOOLS -->
+<section id="ai">
+  <div class="section-header reveal">
+    <div class="glow-line"></div>
+    <p class="section-label">AI Toolkit</p>
+    <h2 class="section-title">AI 工具掌握</h2>
+  </div>
+
+  <div class="ai-grid">
+    <div class="ai-card reveal reveal-delay-1">
+      <h3>模型工具</h3>
+      <div class="ai-tags">
+        <span class="ai-tag">GPT</span><span class="ai-tag">Gemini</span><span class="ai-tag">Claude</span>
+        <span class="ai-tag">通义</span><span class="ai-tag">DeepSeek</span><span class="ai-tag">GLM</span>
+        <span class="ai-tag">Kimi</span><span class="ai-tag">MiniMax</span>
       </div>
     </div>
-    <div class="project-card reveal reveal-delay-2" data-tilt>
-      <div class="project-card-inner">
-        <div class="project-icon">🤖</div>
-        <h3 class="project-name">嵌入式小车移动控制平台</h3>
-        <p class="project-desc">基于 YOLO11 训练车牌、红绿灯、交通标志等 10 余种视觉识别模型，综合识别准确率 99.5%。负责 Android 客户端维护与实时视频流检测优化。</p>
-        <div class="project-tech">
-          <span>YOLO11</span><span>Roboflow</span><span>Android</span><span>Python</span>
-        </div>
+    <div class="ai-card reveal reveal-delay-2">
+      <h3>开发提效</h3>
+      <div class="ai-tags">
+        <span class="ai-tag">AI 编程</span><span class="ai-tag">Bug 修复</span><span class="ai-tag">Agent</span><span class="ai-tag">Dify</span>
       </div>
     </div>
-    <div class="project-card reveal reveal-delay-3" data-tilt>
-      <div class="project-card-inner" style="align-items:center; justify-content:center; text-align:center; border-style:dashed;">
-        <div class="project-icon" style="font-size:3rem; margin-bottom:16px; opacity:0.5;">📦</div>
-        <h3 class="project-name" style="color:var(--text-dim);">更多项目</h3>
-        <p class="project-desc" style="text-align:center;">访问 GitHub 查看更多项目。</p>
-        <div class="project-tech" style="justify-content:center;">
-          <span style="cursor:pointer;" onclick="window.open('https://github.com/050407lmj','_blank')">GitHub →</span>
-        </div>
+    <div class="ai-card reveal reveal-delay-3">
+      <h3>工作提效</h3>
+      <div class="ai-tags">
+        <span class="ai-tag">文档撰写</span><span class="ai-tag">方案整理</span><span class="ai-tag">PPT 制作</span><span class="ai-tag">资料检索</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── Contact ── -->
+<!-- CONTACT -->
 <section id="contact">
   <div class="section-header reveal">
     <div class="glow-line"></div>
     <p class="section-label">Contact</p>
-    <h2 class="section-title">联系我</h2>
+    <h2 class="section-title">联系方式</h2>
   </div>
   <div class="contact-inner reveal reveal-delay-1">
     <div class="contact-links">
@@ -446,226 +381,101 @@ footer {
   </div>
 </section>
 
-<!-- ── Footer ── -->
 <footer>
   <p>&copy; 2025 刘明金. Built with &hearts; and code.</p>
 </footer>
 
 <script>
-/* ────────────────────────────────
-   Particle Constellation Background
-   ──────────────────────────────── */
+/* Particle Background */
 (() => {
   const canvas = document.getElementById('particle-canvas');
   const ctx = canvas.getContext('2d');
   let w, h, particles = [];
-  const PARTICLE_COUNT = 80;
-  const CONNECT_DIST = 140;
+  const PC = 80, CD = 140;
   let mouse = { x: -1000, y: -1000 };
-
-  function resize() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
+  function resize() { w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; }
+  window.addEventListener('resize', resize); resize();
   class Particle {
-    constructor() {
-      this.reset();
-      this.y = Math.random() * h;
-    }
-    reset() {
-      this.x = Math.random() * w;
-      this.y = Math.random() * h;
-      this.vx = (Math.random() - 0.5) * 0.5;
-      this.vy = (Math.random() - 0.5) * 0.5;
-      this.r = Math.random() * 1.5 + 0.8;
-    }
+    constructor() { this.reset(); this.y=Math.random()*h; }
+    reset() { this.x=Math.random()*w; this.y=Math.random()*h; this.vx=(Math.random()-.5)*.5; this.vy=(Math.random()-.5)*.5; this.r=Math.random()*1.5+.8; }
     update() {
-      this.x += this.vx;
-      this.y += this.vy;
-      if (this.x < -20 || this.x > w + 20) this.vx *= -1;
-      if (this.y < -20 || this.y > h + 20) this.vy *= -1;
-
-      // Mouse interaction: gentle pull
-      const dx = mouse.x - this.x;
-      const dy = mouse.y - this.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      if (dist < 200) {
-        const force = 0.003;
-        this.vx -= dx * force * (1 - dist / 200);
-        this.vy -= dy * force * (1 - dist / 200);
-      }
-      // Speed limit
-      const speed = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
-      if (speed > 1.2) { this.vx *= 0.98; this.vy *= 0.98; }
+      this.x+=this.vx; this.y+=this.vy;
+      if(this.x<-20||this.x>w+20) this.vx*=-1;
+      if(this.y<-20||this.y>h+20) this.vy*=-1;
+      const dx=mouse.x-this.x, dy=mouse.y-this.y, dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<200) { const f=.003; this.vx-=dx*f*(1-dist/200); this.vy-=dy*f*(1-dist/200); }
+      const speed=Math.sqrt(this.vx*this.vx+this.vy*this.vy);
+      if(speed>1.2) { this.vx*=.98; this.vy*=.98; }
     }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(255,255,255,0.5)';
-      ctx.fill();
-    }
+    draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,.5)'; ctx.fill(); }
   }
-
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push(new Particle());
-  }
-
-  let animId;
+  for(let i=0;i<PC;i++) particles.push(new Particle());
   function animate() {
-    ctx.clearRect(0, 0, w, h);
-
-    for (const p of particles) { p.update(); p.draw(); }
-
-    // Draw connections
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < CONNECT_DIST) {
-          const alpha = 1 - dist / CONNECT_DIST;
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(0,212,255,${alpha * 0.2})`;
-          ctx.lineWidth = 0.6;
-          ctx.stroke();
-        }
-      }
+    ctx.clearRect(0,0,w,h);
+    for(const p of particles) { p.update(); p.draw(); }
+    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
+      const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<CD) { const a=1-dist/CD; ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=`rgba(0,212,255,${a*.2})`; ctx.lineWidth=.6; ctx.stroke(); }
     }
-
-    // Mouse glow
-    if (mouse.x > 0 && mouse.y > 0) {
-      const grad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 120);
-      grad.addColorStop(0, 'rgba(0,212,255,0.08)');
-      grad.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(mouse.x - 120, mouse.y - 120, 240, 240);
-    }
-
-    animId = requestAnimationFrame(animate);
+    if(mouse.x>0&&mouse.y>0) { const g=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,120); g.addColorStop(0,'rgba(0,212,255,.08)'); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=g; ctx.fillRect(mouse.x-120,mouse.y-120,240,240); }
+    requestAnimationFrame(animate);
   }
-
-  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-  window.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
-  // Touch support
-  window.addEventListener('touchmove', e => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; });
-  window.addEventListener('touchend', () => { mouse.x = -1000; mouse.y = -1000; });
-
+  window.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY});
+  window.addEventListener('mouseleave',()=>{mouse.x=-1000;mouse.y=-1000});
+  window.addEventListener('touchmove',e=>{mouse.x=e.touches[0].clientX;mouse.y=e.touches[0].clientY});
+  window.addEventListener('touchend',()=>{mouse.x=-1000;mouse.y=-1000});
   animate();
 })();
 
-/* ────────────────────────────────
-   Custom Cursor
-   ──────────────────────────────── */
+/* Cursor */
 {
-  const cursor = document.getElementById('cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-  });
-  // Add hover class when over interactive elements
-  const hoverTargets = document.querySelectorAll('a, button, .btn, .project-card, .skill-tag');
-  hoverTargets.forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  const c=document.getElementById('cursor');
+  document.addEventListener('mousemove',e=>{c.style.left=e.clientX+'px';c.style.top=e.clientY+'px'});
+  document.querySelectorAll('a,button,.btn,.project-card,.skill-tag,.ai-tag,.info-card,.skill-card,.ai-card,.cert-tag').forEach(el=>{
+    el.addEventListener('mouseenter',()=>c.classList.add('hover'));
+    el.addEventListener('mouseleave',()=>c.classList.remove('hover'));
   });
 }
 
-/* ────────────────────────────────
-   Scroll Reveal (Intersection Observer)
-   ──────────────────────────────── */
+/* Scroll Reveal */
 {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.15,rootMargin:'0px 0px -50px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 }
 
-/* ────────────────────────────────
-   3D Tilt on Project Cards
-   ──────────────────────────────── */
+/* 3D Tilt */
 {
-  document.querySelectorAll('[data-tilt] .project-card-inner').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -8;
-      const rotateY = ((x - centerX) / centerX) * 8;
-      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  document.querySelectorAll('[data-tilt] .project-card-inner').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
+      card.style.transform=`rotateX(${((y-r.height/2)/(r.height/2))*-8}deg) rotateY(${((x-r.width/2)/(r.width/2))*8}deg)`;
     });
-    card.addEventListener('mouseleave', () => {
-      card.style.transition = 'transform 0.5s ease';
-      card.style.transform = 'rotateX(0) rotateY(0)';
-    });
-    card.addEventListener('mouseenter', () => {
-      card.style.transition = 'transform 0.1s ease';
-    });
+    card.addEventListener('mouseleave',()=>{card.style.transition='transform .5s ease';card.style.transform='rotateX(0) rotateY(0)'});
+    card.addEventListener('mouseenter',()=>{card.style.transition='transform .1s ease'});
   });
 }
 
-/* ────────────────────────────────
-   Nav Hide/Show on Scroll
-   ──────────────────────────────── */
+/* Nav Scroll */
 {
-  let lastScroll = 0;
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    const current = window.scrollY;
-    if (current > lastScroll && current > 100) {
-      nav.classList.add('hidden');
-    } else {
-      nav.classList.remove('hidden');
-    }
-    lastScroll = current;
-  }, { passive: true });
+  let ls=0; const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>{const c=window.scrollY; nav.classList.toggle('hidden',c>ls&&c>100); ls=c},{passive:true});
 }
 
-/* ────────────────────────────────
-   Typing Effect
-   ──────────────────────────────── */
+/* Typing */
 {
-  const phrases = ['物联网应用技术 · 嵌入式开发', 'RT-Thread · FreeRTOS · YOLO11', '从底层驱动到端侧AI', '持续学习，持续构建'];
-  let phraseIdx = 0, charIdx = 0, isDeleting = false;
-  const el = document.getElementById('typing-text');
-
-  function type() {
-    const current = phrases[phraseIdx];
-    if (isDeleting) {
-      el.textContent = current.substring(0, charIdx - 1);
-      charIdx--;
-    } else {
-      el.textContent = current.substring(0, charIdx + 1);
-      charIdx++;
-    }
-
-    let speed = isDeleting ? 40 : 80;
-
-    if (!isDeleting && charIdx === current.length) {
-      speed = 2000; // Pause at end
-      isDeleting = true;
-    } else if (isDeleting && charIdx === 0) {
-      isDeleting = false;
-      phraseIdx = (phraseIdx + 1) % phrases.length;
-      speed = 400;
-    }
-
-    setTimeout(type, speed);
+  const phrases=['物联网应用技术 · 嵌入式开发','RT-Thread · FreeRTOS · YOLO11','从底层驱动到端侧AI','PCB设计 · 微信小程序 · Android'];
+  let pi=0, ci=0, del=false; const el=document.getElementById('typing-text');
+  function type(){
+    const cur=phrases[pi];
+    el.textContent=cur.substring(0,del?ci-1:ci+1);
+    ci+=del?-1:1;
+    let s=del?40:80;
+    if(!del&&ci===cur.length) { s=2000; del=true; }
+    else if(del&&ci===0) { del=false; pi=(pi+1)%phrases.length; s=400; }
+    setTimeout(type,s);
   }
-
   type();
 }
 </script>
-
 </body>
 </html>
