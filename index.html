@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>刘明金 · 嵌入式 & 全栈开发者</title>
+<title>刘明金 · 物联网应用技术 · 嵌入式开发者</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
@@ -355,27 +355,27 @@ footer {
   </div>
   <div class="about-grid">
     <div class="about-text reveal reveal-delay-1">
-      <p>
-        嵌入式系统与全栈开发的探索者。热爱底层技术与应用开发的贯通 —
-        从单片机驱动到 Web 服务，享受用代码解决实际问题的过程。
+      <p style="margin-bottom:20px;">
+        <strong>江苏工程职业技术学院</strong> · 信息工程学院
+        <br><span style="color:var(--text-dim);font-size:0.9rem;">物联网应用技术 · 2024.09 - 2027.06</span>
       </p>
-      <p style="margin-top:16px;">
-        目前专注于嵌入式 RTOS、图形界面（LVGL）以及 Web 后端的学与实践。
+      <p style="color:var(--text-dim);font-size:0.9rem;line-height:1.8;">
+        主修课程：Java 程序设计、C 语言、Python 网络编程、单片机应用技术、物联网 LoRa 与 NB-IoT 应用技术、嵌入式网关技术与应用、移动应用开发实践、弱电 CAD 制图。
       </p>
     </div>
     <div class="skill-cloud reveal reveal-delay-2">
       <span class="skill-tag">C</span>
       <span class="skill-tag">RT-Thread</span>
-      <span class="skill-tag">LVGL</span>
+      <span class="skill-tag">FreeRTOS</span>
+      <span class="skill-tag">STM32</span>
+      <span class="skill-tag">CH32</span>
+      <span class="skill-tag">YOLO11</span>
+      <span class="skill-tag">Roboflow</span>
+      <span class="skill-tag">Android</span>
       <span class="skill-tag">Python</span>
-      <span class="skill-tag">Django</span>
-      <span class="skill-tag">Docker</span>
-      <span class="skill-tag">Embedded</span>
-      <span class="skill-tag">MCU</span>
-      <span class="skill-tag">Git</span>
+      <span class="skill-tag">微信小程序</span>
+      <span class="skill-tag">PCB</span>
       <span class="skill-tag">Linux</span>
-      <span class="skill-tag">SQLite</span>
-      <span class="skill-tag">Shell</span>
     </div>
   </div>
 </section>
@@ -389,24 +389,33 @@ footer {
   </div>
   <div class="projects-grid">
     <div class="project-card reveal reveal-delay-1" data-tilt>
-      <div class="project-card-inner" style="align-items:center; justify-content:center; text-align:center;">
-        <div class="project-icon" style="font-size:3rem; margin-bottom:16px;">🚀</div>
-        <h3 class="project-name">项目即将上线</h3>
-        <p class="project-desc" style="text-align:center;">正在整理和上传项目中，敬请期待。</p>
+      <div class="project-card-inner">
+        <div class="project-icon">🏆</div>
+        <h3 class="project-name">嵌入式系统应用开发赛项</h3>
+        <p class="project-desc">江苏省职业院校技能大赛。基于 CH32H417QEU6 芯片完成底层驱动开发，搭建 RT-Thread 多任务调度框架，实现传感器采集、通信交互、外设控制等模块并发运行。</p>
+        <div class="project-tech">
+          <span>C</span><span>RT-Thread</span><span>CH32</span><span>RTOS</span>
+        </div>
       </div>
     </div>
     <div class="project-card reveal reveal-delay-2" data-tilt>
-      <div class="project-card-inner" style="align-items:center; justify-content:center; text-align:center; border-style:dashed;">
-        <div class="project-icon" style="font-size:3rem; margin-bottom:16px; opacity:0.5;">📦</div>
-        <h3 class="project-name" style="color:var(--text-dim);">待添加</h3>
-        <p class="project-desc" style="text-align:center;">你的下一个项目会在这里展示。</p>
+      <div class="project-card-inner">
+        <div class="project-icon">🤖</div>
+        <h3 class="project-name">嵌入式小车移动控制平台</h3>
+        <p class="project-desc">基于 YOLO11 训练车牌、红绿灯、交通标志等 10 余种视觉识别模型，综合识别准确率 99.5%。负责 Android 客户端维护与实时视频流检测优化。</p>
+        <div class="project-tech">
+          <span>YOLO11</span><span>Roboflow</span><span>Android</span><span>Python</span>
+        </div>
       </div>
     </div>
     <div class="project-card reveal reveal-delay-3" data-tilt>
       <div class="project-card-inner" style="align-items:center; justify-content:center; text-align:center; border-style:dashed;">
         <div class="project-icon" style="font-size:3rem; margin-bottom:16px; opacity:0.5;">📦</div>
-        <h3 class="project-name" style="color:var(--text-dim);">待添加</h3>
-        <p class="project-desc" style="text-align:center;">你的下一个项目会在这里展示。</p>
+        <h3 class="project-name" style="color:var(--text-dim);">更多项目</h3>
+        <p class="project-desc" style="text-align:center;">访问 GitHub 查看更多项目。</p>
+        <div class="project-tech" style="justify-content:center;">
+          <span style="cursor:pointer;" onclick="window.open('https://github.com/050407lmj','_blank')">GitHub →</span>
+        </div>
       </div>
     </div>
   </div>
@@ -425,9 +434,13 @@ footer {
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
         GitHub
       </a>
-      <a href="mailto:j3276911761@gmail.com" class="contact-link">
+      <a href="mailto:3276911761@qq.com" class="contact-link">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         Email
+      </a>
+      <a href="tel:13196772580" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        电话
       </a>
     </div>
   </div>
@@ -622,7 +635,7 @@ footer {
    Typing Effect
    ──────────────────────────────── */
 {
-  const phrases = ['嵌入式开发 · 全栈工程', '从 Bare Metal 到 Cloud Native', '写得了驱动，搭得了服务', '持续学习，持续构建'];
+  const phrases = ['物联网应用技术 · 嵌入式开发', 'RT-Thread · FreeRTOS · YOLO11', '从底层驱动到端侧AI', '持续学习，持续构建'];
   let phraseIdx = 0, charIdx = 0, isDeleting = false;
   const el = document.getElementById('typing-text');
 
