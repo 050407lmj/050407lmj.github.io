@@ -394,81 +394,180 @@ footer { text-align:center; padding:44px 28px; position:relative; z-index:1; col
 </footer>
 
 <script>
-/* ── Frost Particle System ── */
+/* ── Arctic Network: Multi-Layer Background System ── */
 (() => {
   const c = document.getElementById('particle-canvas');
   const ctx = c.getContext('2d');
-  let W, H, parts = [];
-  const N = 100;
-  let mouse = { x: -500, y: -500, active: false };
+  let W, H, t = 0;
+  const nodes = [], sparks = [], packets = [];
+  const NODES = 70, SPARKS = 25, PACKETS = 12;
+  const CONNECT_DIST = 130;
+  let mouse = { x: -500, y: -500, active: false, tx: -500, ty: -500 };
 
   function resize() { W = c.width = innerWidth; H = c.height = innerHeight; }
   addEventListener('resize', resize); resize();
 
-  class Frost {
+  /* ── Layer 1: Geometric Network Nodes ── */
+  class Node {
     constructor() {
-      this.reset(true);
-    }
-    reset(init) {
-      this.x = Math.random() * W;
-      this.y = init ? Math.random() * H : -20;
-      this.r = Math.random() * 2.2 + .6;
-      this.vx = (Math.random() - .5) * .3;
-      this.vy = Math.random() * .4 + .15;
-      this.opacity = Math.random() * .5 + .2;
-      this.wobble = Math.random() * Math.PI * 2;
-      this.wobbleSpeed = (Math.random() - .5) * .015;
-      this.wobbleAmp = Math.random() * .4 + .1;
+      this.x = Math.random() * W; this.y = Math.random() * H;
+      this.vx = (Math.random() - .5) * .35; this.vy = (Math.random() - .5) * .35;
+      this.r = Math.random() * 2.2 + 1.2;
+      this.opacity = Math.random() * .35 + .2;
+      this.phase = Math.random() * Math.PI * 2;
+      this.shape = Math.random() < .3 ? 'diamond' : 'hex';
+      this.rotation = Math.random() * Math.PI;
+      this.rv = (Math.random() - .5) * .004;
     }
     update() {
-      this.wobble += this.wobbleSpeed;
-      this.x += this.vx + Math.sin(this.wobble) * this.wobbleAmp;
-      this.y += this.vy;
+      this.x += this.vx; this.y += this.vy; this.rotation += this.rv;
+      if (this.x < -30 || this.x > W + 30) this.vx *= -1;
+      if (this.y < -30 || this.y > H + 30) this.vy *= -1;
 
+      // Mouse repulsion
       if (mouse.active) {
-        const dx = mouse.x - this.x, dy = mouse.y - this.y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 140) {
-          const force = .015;
-          this.vx -= dx * force * (1 - dist/140);
-          this.vy -= dy * force * (1 - dist/140);
+        const dx = mouse.x - this.x, dy = mouse.y - this.y, dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 150) {
+          const f = .02 * (1 - dist / 150);
+          this.vx -= dx * f; this.vy -= dy * f;
         }
       }
-
-      if (this.y > H + 30 || this.x < -30 || this.x > W + 30) {
-        this.reset(false);
-      }
-      const speed = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
-      if (speed > 1.5) { this.vx *= .97; this.vy *= .97; }
+      // Speed damping
+      const s = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
+      if (s > .8) { this.vx *= .98; this.vy *= .98; }
+      if (s < .1) { this.vx += (Math.random()-.5)*.06; this.vy += (Math.random()-.5)*.06; }
     }
     draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(180,215,240,${this.opacity})`;
-      ctx.fill();
-      // Frost glow
-      if (this.r > 1.5) {
+      ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.rotation);
+      const a = this.opacity * (.8 + .2 * Math.sin(t * .03 + this.phase));
+      ctx.strokeStyle = `rgba(140,200,248,${a})`;
+      ctx.fillStyle = `rgba(140,200,248,${a * .5})`;
+      ctx.lineWidth = .7;
+      if (this.shape === 'diamond') {
+        ctx.beginPath(); ctx.moveTo(0, -this.r*1.4); ctx.lineTo(this.r*.8, 0); ctx.lineTo(0, this.r*1.4); ctx.lineTo(-this.r*.8, 0); ctx.closePath();
+        ctx.fill(); ctx.stroke();
+      } else {
+        const s = this.r * .7;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r*2.5, 0, Math.PI*2);
-        ctx.fillStyle = `rgba(160,210,240,${this.opacity*.15})`;
-        ctx.fill();
+        for (let i = 0; i < 6; i++) { const ang = Math.PI/3 * i - Math.PI/6; i === 0 ? ctx.moveTo(Math.cos(ang)*s, Math.sin(ang)*s) : ctx.lineTo(Math.cos(ang)*s, Math.sin(ang)*s); }
+        ctx.closePath(); ctx.fill(); ctx.stroke();
+      }
+      // Glow halo
+      ctx.beginPath(); ctx.arc(0, 0, this.r*2.5, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(140,200,248,${a*.1})`; ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  /* ── Layer 2: Pulse Sparks ── */
+  class Spark {
+    constructor() {
+      this.reset();
+      this.life = Math.random();
+    }
+    reset() {
+      this.x = Math.random() * W; this.y = Math.random() * H;
+      this.maxLife = .6 + Math.random() * 1.5;
+      this.life = this.maxLife;
+      this.r = Math.random() * 1.4 + .3;
+      this.vx = (Math.random() - .5) * .2; this.vy = -.3 - Math.random() * .5;
+    }
+    update() {
+      this.x += this.vx; this.y += this.vy; this.life -= .008;
+      if (this.life <= 0 || this.y < -20 || this.x < -20 || this.x > W + 20) this.reset();
+    }
+    draw() {
+      const progress = this.life / this.maxLife;
+      const a = progress < .3 ? progress / .3 : 1 - (progress - .3) / .7;
+      const bright = progress < .2 ? 1 : .5;
+      ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(200,230,255,${a * bright})`;
+      ctx.fill();
+      ctx.beginPath(); ctx.arc(this.x, this.y, this.r*3, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(160,210,255,${a * .15})`;
+      ctx.fill();
+    }
+  }
+
+  /* ── Layer 3: Traveling Data Packets ── */
+  class Packet {
+    constructor() {
+      this.reset();
+      this.progress = Math.random();
+    }
+    reset() {
+      // Pick two nearby nodes
+      this.a = nodes[Math.floor(Math.random() * nodes.length)];
+      this.b = nodes[Math.floor(Math.random() * nodes.length)];
+      this.progress = 0;
+      this.speed = .003 + Math.random() * .008;
+      this.r = .8 + Math.random() * 1.2;
+    }
+    update() {
+      this.progress += this.speed;
+      if (this.progress >= 1) this.reset();
+    }
+    draw() {
+      const dx = this.a.x - this.b.x, dy = this.a.y - this.b.y;
+      if (Math.sqrt(dx*dx + dy*dy) > CONNECT_DIST * 1.5) { this.reset(); return; }
+      const px = this.b.x + dx * this.progress, py = this.b.y + dy * this.progress;
+      ctx.beginPath(); ctx.arc(px, py, this.r, 0, Math.PI*2);
+      ctx.fillStyle = '#d0e8ff';
+      ctx.fill();
+      ctx.beginPath(); ctx.arc(px, py, this.r*4, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(180,220,255,.2)';
+      ctx.fill();
+    }
+  }
+
+  for (let i=0; i<NODES; i++) nodes.push(new Node());
+  for (let i=0; i<SPARKS; i++) sparks.push(new Spark());
+  for (let i=0; i<PACKETS; i++) packets.push(new Packet());
+
+  function drawGrid() {
+    ctx.strokeStyle = 'rgba(100,160,210,.03)';
+    ctx.lineWidth = .5;
+    const step = 60;
+    for (let x = step; x < W; x += step) { ctx.beginPath(); ctx.moveTo(x+.5, 0); ctx.lineTo(x+.5, H); ctx.stroke(); }
+    for (let y = step; y < H; y += step) { ctx.beginPath(); ctx.moveTo(0, y+.5); ctx.lineTo(W, y+.5); ctx.stroke(); }
+  }
+
+  function drawConnections() {
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i+1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < CONNECT_DIST) {
+          const a = (1 - dist/CONNECT_DIST) * .12;
+          if (a < .02) continue;
+          ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(120,185,230,${a})`; ctx.lineWidth = .5;
+          ctx.stroke();
+        }
       }
     }
   }
 
-  for (let i=0; i<N; i++) parts.push(new Frost());
-
   function anim() {
-    ctx.clearRect(0,0,W,H);
-    for (const p of parts) { p.update(); p.draw(); }
+    ctx.clearRect(0, 0, W, H); t++;
 
-    // Mouse frost glow
+    // Smooth mouse
+    if (mouse.active) { mouse.tx += (mouse.x - mouse.tx) * .15; mouse.ty += (mouse.y - mouse.ty) * .15; }
+
+    drawGrid();
+    for (const n of nodes) { n.update(); n.draw(); }
+    drawConnections();
+    for (const p of packets) { p.update(); p.draw(); }
+    for (const s of sparks) { s.update(); s.draw(); }
+
+    // Mouse spotlight
     if (mouse.active) {
-      const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 100);
-      g.addColorStop(0, 'rgba(180,215,240,.06)');
+      const g = ctx.createRadialGradient(mouse.tx, mouse.ty, 0, mouse.tx, mouse.ty, 180);
+      g.addColorStop(0, 'rgba(160,210,240,.05)');
+      g.addColorStop(.5, 'rgba(140,190,220,.02)');
       g.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = g;
-      ctx.fillRect(mouse.x-100, mouse.y-100, 200, 200);
+      ctx.fillRect(mouse.tx-180, mouse.ty-180, 360, 360);
     }
     requestAnimationFrame(anim);
   }
