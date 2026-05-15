@@ -9,213 +9,226 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #080d16;
-  --card: rgba(18, 26, 44, 0.7);
-  --ice: #5ea8d8;
-  --ice-bright: #90ccf8;
-  --ice-dim: rgba(94, 168, 216, 0.1);
-  --text: #dce4ee;
-  --text-mid: #98a8bc;
-  --text-dim: #6e7e94;
-  --border: rgba(100, 160, 210, 0.1);
-  --border-hover: rgba(100, 160, 210, 0.25);
-  --radius: 10px;
+  --white: #ffffff;
+  --bg: #f5f6f8;
+  --bg-dark: #111111;
+  --text: #1a1a1a;
+  --text-mid: #555;
+  --text-light: #888;
+  --accent: #267de8;
+  --accent-hover: #1a6ad4;
+  --border: #e5e5e5;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --radius: 8px;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body {
-  background: var(--bg);
+  background: var(--white);
   color: var(--text);
   font-family: 'Noto Sans SC', sans-serif;
   font-weight: 400;
-  overflow-x: hidden;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Background canvas */
-#bg-canvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
-
 /* Nav */
-nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:12px 0; backdrop-filter:blur(20px) saturate(140%); -webkit-backdrop-filter:blur(20px) saturate(140%); background:rgba(8,13,22,.8); border-bottom:1px solid var(--border); transition:transform .35s; }
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:0 40px;
+  height:60px; display:flex; align-items:center; justify-content:space-between;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  transition:transform .35s;
+}
 nav.hidden { transform:translateY(-100%); }
-.nav-inner { max-width:1000px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; }
-.nav-logo { font-family:'JetBrains Mono',monospace; font-size:1rem; font-weight:500; color:var(--ice-bright); }
-.nav-links { display:flex; gap:28px; list-style:none; }
-.nav-links a { color:var(--text-mid); text-decoration:none; font-size:.82rem; transition:color .25s; }
-.nav-links a:hover { color:var(--ice-bright); }
+.nav-logo { font-family:'JetBrains Mono',monospace; font-size:.95rem; font-weight:500; color:var(--text); }
+.nav-links { display:flex; gap:32px; list-style:none; }
+.nav-links a { color:var(--text-mid); text-decoration:none; font-size:.82rem; transition:color .2s; }
+.nav-links a:hover { color:var(--accent); }
 
 /* Sections */
-section { position:relative; z-index:1; max-width:1000px; margin:0 auto; padding:80px 24px; }
-.section-label { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--ice); text-transform:uppercase; letter-spacing:2.5px; margin-bottom:8px; display:flex; align-items:center; gap:10px; }
-.section-label::before { content:''; width:20px; height:1px; background:var(--ice); opacity:.5; }
-.section-title { font-family:'Noto Serif SC',serif; font-size:1.8rem; font-weight:700; color:#e8f0f8; margin-bottom:48px; }
+section { max-width:1040px; margin:0 auto; padding:100px 40px; }
 
-/* Hero */
-.hero { min-height:calc(100vh - 60px); display:flex; align-items:center; padding-top:80px; }
-.hero-content { max-width:620px; }
-.hero-name { font-family:'Noto Serif SC',serif; font-size:clamp(2.4rem,5vw,3.8rem); font-weight:900; color:#e8f0f8; line-height:1.15; margin-bottom:12px; letter-spacing:1px; }
-.hero-role { font-size:1.1rem; color:var(--ice-bright); font-weight:500; margin-bottom:20px; }
-.hero-badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
-.badge { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:20px; font-size:.8rem; font-weight:500; background:var(--ice-dim); color:var(--ice-bright); border:1px solid rgba(100,170,220,.2); }
-.badge-dot { width:6px; height:6px; border-radius:50%; background:var(--ice-bright); }
-.hero-info-line { color:var(--text-mid); font-size:.9rem; margin-bottom:32px; }
-.hero-cta { display:flex; gap:12px; flex-wrap:wrap; }
-.btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:6px; font-size:.9rem; font-weight:500; text-decoration:none; cursor:pointer; transition:all .25s; }
-.btn-primary { background:var(--ice); color:#fff; }
-.btn-primary:hover { background:#6eb4e0; transform:translateY(-1px); }
-.btn-outline { border:1px solid rgba(140,200,248,.3); color:var(--text); }
-.btn-outline:hover { border-color:var(--ice-bright); color:var(--ice-bright); background:rgba(140,200,248,.04); }
+/* Hero - dark section */
+.hero {
+  background: var(--bg-dark);
+  color: #fff;
+  max-width:100%;
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center;
+  padding: 120px 40px 80px;
+}
+.hero-inner { max-width:700px; }
+.hero-greeting { font-family:'JetBrains Mono',monospace; font-size:.8rem; color:rgba(255,255,255,.5); letter-spacing:2px; margin-bottom:20px; }
+.hero-name { font-family:'Noto Serif SC',serif; font-size:clamp(2.8rem,5.5vw,4.2rem); font-weight:900; color:#fff; line-height:1.15; margin-bottom:16px; }
+.hero-role { font-size:1.1rem; color:rgba(255,255,255,.7); font-weight:400; margin-bottom:36px; }
+.hero-badges { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:40px; }
+.hero-badge { padding:8px 18px; border-radius:20px; font-size:.82rem; color:#fff; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); }
+.hero-cta { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.btn { display:inline-flex; align-items:center; gap:8px; padding:13px 28px; border-radius:6px; font-size:.9rem; font-weight:500; text-decoration:none; cursor:pointer; transition:all .25s; }
+.btn-dark { background:#fff; color:#111; }
+.btn-dark:hover { background:#e8e8e8; }
+.btn-outline { border:1px solid rgba(255,255,255,.3); color:#fff; }
+.btn-outline:hover { border-color:#fff; background:rgba(255,255,255,.08); }
 
-/* Info cards */
-.info-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:40px; }
-.info-cell { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px 16px; text-align:center; }
-.info-cell-label { font-size:.7rem; color:var(--text-dim); letter-spacing:1px; margin-bottom:6px; }
-.info-cell-value { font-size:.9rem; font-weight:500; color:var(--text); }
+/* Light sections */
+.section-label { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--accent); text-transform:uppercase; letter-spacing:2px; margin-bottom:10px; }
+.section-title { font-family:'Noto Serif SC',serif; font-size:2rem; font-weight:700; color:var(--text); margin-bottom:48px; letter-spacing:.5px; }
 
-/* Skill cards */
-.skills-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
-.skill-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:24px; transition:border-color .3s; }
-.skill-card:hover { border-color:var(--border-hover); }
-.skill-card h3 { font-size:1rem; font-weight:600; color:var(--text); margin-bottom:6px; }
-.skill-card .skill-subtitle { font-size:.78rem; color:var(--ice); margin-bottom:10px; }
-.skill-card p { color:var(--text-mid); font-size:.82rem; line-height:1.7; }
-.skill-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
-.skill-tag { padding:4px 10px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:.68rem; border:1px solid rgba(100,170,220,.15); color:var(--text-mid); background:rgba(100,170,220,.04); }
+/* Education - dark alternate section */
+.edu-section {
+  background: var(--bg-dark);
+  color: #fff;
+  max-width:100%;
+  padding:100px 40px;
+}
+.edu-section .section-title { color:#fff; }
+.edu-section .section-label { color:rgba(255,255,255,.5); }
+.info-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; max-width:1040px; margin:0 auto 40px; background:rgba(255,255,255,.1); border-radius:var(--radius); overflow:hidden; }
+.info-cell { background:var(--bg-dark); padding:28px 20px; text-align:center; }
+.info-cell-label { font-size:.7rem; color:rgba(255,255,255,.5); letter-spacing:1px; margin-bottom:8px; }
+.info-cell-value { font-size:.95rem; font-weight:500; color:#fff; }
+.course-card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); padding:28px 32px; max-width:1040px; margin:0 auto; }
+.course-card p { color:rgba(255,255,255,.65); font-size:.85rem; line-height:2; }
+
+/* Skills */
+.skills-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--border); border-radius:var(--radius); overflow:hidden; }
+.skill-card { background:var(--white); padding:36px 32px; transition:background .25s; }
+.skill-card:hover { background:#fafbfc; }
+.skill-card h3 { font-size:1.05rem; font-weight:600; margin-bottom:12px; }
+.skill-card p { color:var(--text-mid); font-size:.85rem; line-height:1.8; }
+.skill-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:16px; }
+.skill-tag { padding:4px 10px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:.66rem; background:#f0f4f8; color:var(--text-mid); }
 
 /* Projects */
-.projects-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
-.project-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:28px; transition:border-color .3s; display:flex; flex-direction:column; }
-.project-card:hover { border-color:var(--border-hover); }
-.project-card h3 { font-size:1.05rem; font-weight:600; color:var(--text); margin-bottom:4px; }
-.project-card .project-subtitle { font-size:.78rem; color:var(--ice); margin-bottom:14px; }
-.project-card ul { list-style:none; flex:1; }
-.project-card li { color:var(--text-mid); font-size:.8rem; line-height:1.7; padding-left:12px; position:relative; margin-bottom:6px; }
-.project-card li::before { content:'·'; position:absolute; left:0; color:var(--ice); }
-.project-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:16px; }
-.project-tag { padding:3px 9px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:.66rem; border:1px solid rgba(100,170,220,.15); color:var(--text-dim); }
+.projects-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--border); border-radius:var(--radius); overflow:hidden; }
+.project-card { background:var(--white); padding:36px 32px; transition:background .25s; }
+.project-card:hover { background:#fafbfc; }
+.project-card h3 { font-size:1.05rem; font-weight:600; margin-bottom:4px; }
+.project-card .project-meta { font-size:.78rem; color:var(--accent); margin-bottom:16px; }
+.project-card ul { list-style:none; }
+.project-card li { color:var(--text-mid); font-size:.82rem; line-height:1.8; padding-left:12px; position:relative; margin-bottom:4px; }
+.project-card li::before { content:'·'; position:absolute; left:0; color:var(--accent); }
+.project-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:20px; }
+.project-tag { padding:3px 9px; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:.64rem; background:#f0f4f8; color:var(--text-light); }
 
-/* AI tools */
-.ai-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
-.ai-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:22px; text-align:center; }
-.ai-card h3 { font-size:.85rem; font-weight:500; color:var(--ice); margin-bottom:14px; }
+/* AI */
+.ai-section { background:#f5f6f8; max-width:100%; padding:100px 40px; }
+.ai-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:1040px; margin:0 auto; }
+.ai-card { background:var(--white); border-radius:var(--radius); padding:28px 24px; text-align:center; box-shadow:var(--shadow); }
+.ai-card h3 { font-size:.85rem; font-weight:500; color:var(--accent); margin-bottom:14px; }
 .ai-tags { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
-.ai-tag { padding:5px 12px; border-radius:4px; font-size:.78rem; border:1px solid rgba(100,170,220,.12); color:var(--text-mid); background:rgba(100,170,220,.03); transition:all .25s; }
-.ai-tag:hover { border-color:var(--ice); color:var(--ice-bright); background:var(--ice-dim); }
+.ai-tag { padding:5px 12px; border-radius:4px; font-size:.76rem; background:#f5f6f8; color:var(--text-mid); }
 
 /* Contact */
 .contact-inner { text-align:center; max-width:500px; margin:0 auto; }
-.contact-row { display:flex; justify-content:center; gap:16px; margin-top:32px; flex-wrap:wrap; }
-.contact-link { display:flex; align-items:center; gap:8px; padding:12px 22px; border-radius:6px; border:1px solid var(--border); text-decoration:none; color:var(--text); font-size:.85rem; transition:all .25s; background:var(--card); }
-.contact-link:hover { border-color:var(--ice); background:var(--ice-dim); color:var(--ice-bright); }
-.contact-link svg { width:18px; height:18px; }
+.contact-row { display:flex; justify-content:center; gap:14px; margin-top:36px; flex-wrap:wrap; }
+.contact-link { display:flex; align-items:center; gap:8px; padding:12px 22px; border-radius:6px; border:1px solid var(--border); text-decoration:none; color:var(--text); font-size:.85rem; transition:all .2s; }
+.contact-link:hover { border-color:var(--accent); color:var(--accent); }
+.contact-link svg { width:16px; height:16px; }
 
-/* Footer */
-footer { text-align:center; padding:40px 24px; position:relative; z-index:1; color:var(--text-dim); font-size:.78rem; border-top:1px solid var(--border); max-width:1000px; margin:0 auto; }
+footer { text-align:center; padding:40px; color:var(--text-light); font-size:.78rem; border-top:1px solid var(--border); }
 
-/* Animations - subtle */
-@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-@keyframes blink { 0%,100% { border-color:transparent; } 50% { border-color:var(--ice-bright); } }
-.reveal { opacity:0; transform:translateY(24px); transition:opacity .5s ease,transform .5s ease; }
+/* Animations */
+.reveal { opacity:0; transform:translateY(20px); transition:opacity .5s ease,transform .5s ease; }
 .reveal.visible { opacity:1; transform:translateY(0); }
-.typing { border-right:2px solid var(--ice-bright); animation:blink .8s infinite; }
 
 @media (max-width:768px) {
-  .skills-grid, .projects-grid { grid-template-columns:1fr; }
-  .info-row, .ai-grid { grid-template-columns:repeat(2,1fr); }
-  .nav-links { gap:14px; }
-  .nav-links a { font-size:.74rem; }
-  section { padding:56px 18px; }
+  section, .edu-section, .ai-section { padding:64px 20px; }
+  .skills-grid, .projects-grid, .info-row { grid-template-columns:1fr; }
+  .ai-grid { grid-template-columns:1fr; }
+  nav { padding:0 20px; }
+  .hero { padding:100px 20px 64px; }
 }
 </style>
 </head>
 <body>
 
-<canvas id="bg-canvas"></canvas>
-
 <!-- NAV -->
-<nav id="nav"><div class="nav-inner">
-  <span class="nav-logo">&lt;lmj /&gt;</span>
+<nav id="nav">
+  <span class="nav-logo">刘明金</span>
   <ul class="nav-links">
-    <li><a href="#home">首页</a></li>
     <li><a href="#skills">技能</a></li>
     <li><a href="#projects">项目</a></li>
+    <li><a href="#ai">AI工具</a></li>
     <li><a href="#contact">联系</a></li>
   </ul>
-</div></nav>
+</nav>
 
-<!-- HERO -->
-<section class="hero" id="home"><div class="hero-content">
+<!-- HERO — Dark Section -->
+<section class="hero" id="home"><div class="hero-inner">
+  <p class="hero-greeting">PORTFOLIO</p>
   <h1 class="hero-name">刘明金</h1>
   <p class="hero-role">物联网应用技术专业 · 嵌入式开发方向</p>
   <div class="hero-badges">
-    <span class="badge"><span class="badge-dot"></span>江苏省嵌入式赛项获奖</span>
-    <span class="badge"><span class="badge-dot"></span>YOLO11 识别准确率 99.5%</span>
-    <span class="badge"><span class="badge-dot"></span>CET-4</span>
-    <span class="badge"><span class="badge-dot"></span>全国计算机一级</span>
+    <span class="hero-badge">江苏省嵌入式赛项获奖</span>
+    <span class="hero-badge">YOLO 识别准确率 99.5%</span>
+    <span class="hero-badge">CET-4</span>
+    <span class="hero-badge">全国计算机一级</span>
   </div>
-  <p class="hero-info-line">江苏工程职业技术学院 · 信息工程学院 · 2024.09 — 2027.06</p>
   <div class="hero-cta">
-    <a href="#projects" class="btn btn-primary">查看项目经历</a>
+    <a href="#projects" class="btn btn-dark">查看项目</a>
     <a href="#contact" class="btn btn-outline">联系我</a>
   </div>
 </div></section>
 
-<!-- EDUCATION -->
-<section id="edu">
-  <div class="section-label">Education</div>
-  <h2 class="section-title">教育背景</h2>
+<!-- EDUCATION — Dark Section -->
+<div class="edu-section" id="edu">
+  <div style="max-width:1040px;margin:0 auto;">
+    <div class="section-label">Education</div>
+    <h2 class="section-title">教育背景</h2>
+  </div>
   <div class="info-row">
     <div class="info-cell"><div class="info-cell-label">院校</div><div class="info-cell-value">江苏工程职业技术学院</div></div>
     <div class="info-cell"><div class="info-cell-label">专业</div><div class="info-cell-value">物联网应用技术</div></div>
-    <div class="info-cell"><div class="info-cell-label">学历时间</div><div class="info-cell-value">2024.09 - 2027.06</div></div>
+    <div class="info-cell"><div class="info-cell-label">就读时间</div><div class="info-cell-value">2024 — 2027</div></div>
     <div class="info-cell"><div class="info-cell-label">政治面貌</div><div class="info-cell-value">共青团员</div></div>
   </div>
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;">
-    <p style="color:var(--text-mid);font-size:.85rem;line-height:1.9;">主修课程：Java 程序设计 · C 语言 · Python 网络编程 · 单片机应用技术 · 物联网 LoRa 与 NB-IoT 应用技术 · 嵌入式网关技术与应用 · 移动应用开发实践 · 弱电 CAD 制图</p>
+  <div class="course-card">
+    <p>主修课程：Java 程序设计 · C 语言 · Python 网络编程 · 单片机应用技术 · 物联网 LoRa 与 NB-IoT 应用技术 · 嵌入式网关技术与应用 · 移动应用开发实践 · 弱电 CAD 制图</p>
   </div>
-</section>
+</div>
 
-<!-- SKILLS -->
+<!-- SKILLS — Light Section -->
 <section id="skills">
   <div class="section-label">Skills</div>
   <h2 class="section-title">专业技能</h2>
   <div class="skills-grid">
     <div class="skill-card reveal">
       <h3>嵌入式与硬件</h3>
-      <p class="skill-subtitle">CH32 · STM32 · RT-Thread · FreeRTOS</p>
       <p>熟悉国产 CH32 系列（V307/H417）及 STM32F407 芯片开发；熟悉 RT-Thread、FreeRTOS 实时操作系统；具备原理图绘制及 PCB 布局布线能力。</p>
       <div class="skill-tags"><span class="skill-tag">C</span><span class="skill-tag">CH32</span><span class="skill-tag">STM32</span><span class="skill-tag">RT-Thread</span><span class="skill-tag">FreeRTOS</span><span class="skill-tag">PCB</span></div>
     </div>
     <div class="skill-card reveal">
       <h3>端侧 AI 与视觉</h3>
-      <p class="skill-subtitle">YOLO11 · Roboflow · 端侧推理</p>
       <p>熟练掌握 YOLO11 目标检测与分类模型全生命周期训练；熟练运用 Roboflow 完成数据清洗与标注；具备端侧模型推理加速及准确率调优经验。</p>
       <div class="skill-tags"><span class="skill-tag">YOLO11</span><span class="skill-tag">Roboflow</span><span class="skill-tag">Python</span><span class="skill-tag">端侧推理</span></div>
     </div>
     <div class="skill-card reveal">
       <h3>应用开发与全栈</h3>
-      <p class="skill-subtitle">Android · 微信小程序 · 云服务</p>
       <p>熟悉 Android（Java）客户端开发；熟悉微信小程序原生开发及云服务器独立部署。</p>
       <div class="skill-tags"><span class="skill-tag">Android</span><span class="skill-tag">Java</span><span class="skill-tag">微信小程序</span><span class="skill-tag">Linux</span></div>
     </div>
     <div class="skill-card reveal">
       <h3>物联网通信</h3>
-      <p class="skill-subtitle">Wi-Fi · Zigbee · LoRa · NB-IoT</p>
       <p>熟悉 Wi-Fi、Zigbee 等无线通信协议应用；熟悉复杂异构网络通信链路的搭建与维护。</p>
       <div class="skill-tags"><span class="skill-tag">Wi-Fi</span><span class="skill-tag">Zigbee</span><span class="skill-tag">LoRa</span><span class="skill-tag">NB-IoT</span></div>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
+<!-- PROJECTS — Light Section -->
 <section id="projects">
   <div class="section-label">Projects</div>
   <h2 class="section-title">项目经历</h2>
   <div class="projects-grid">
     <div class="project-card reveal">
       <h3>嵌入式系统应用开发</h3>
-      <p class="project-subtitle">江苏省职业院校技能大赛</p>
+      <p class="project-meta">江苏省职业院校技能大赛</p>
       <ul>
         <li>基于 CH32H417QEU6 芯片完成底层驱动开发与多外设控制</li>
         <li>基于 RT-Thread 搭建多任务调度框架，实现传感器、通信、显示等模块并发运行</li>
@@ -225,7 +238,7 @@ footer { text-align:center; padding:40px 24px; position:relative; z-index:1; col
     </div>
     <div class="project-card reveal">
       <h3>嵌入式小车移动控制平台</h3>
-      <p class="project-subtitle">视觉识别模型训练 & Android 客户端</p>
+      <p class="project-meta">视觉识别 & Android 客户端开发</p>
       <ul>
         <li>基于 YOLO11 训练车牌、红绿灯、交通标志等 10 余种模型，准确率 99.5%</li>
         <li>在 Android 端维护底层数据接口，实现多路传感器与视频流稳定接收</li>
@@ -235,7 +248,7 @@ footer { text-align:center; padding:40px 24px; position:relative; z-index:1; col
     </div>
     <div class="project-card reveal">
       <h3>PCB 设计与硬件调试</h3>
-      <p class="project-subtitle">嘉立创 EDA · 从设计到打样落地</p>
+      <p class="project-meta">嘉立创 EDA · 从设计到打样</p>
       <ul>
         <li>独立完成多款开发板及硬件拓展坞设计，覆盖原理图、器件选型、封装匹配全流程</li>
         <li>完成 PCB 布局布线、DRC 检查、Gerber 输出与打样下单</li>
@@ -245,9 +258,9 @@ footer { text-align:center; padding:40px 24px; position:relative; z-index:1; col
     </div>
     <div class="project-card reveal">
       <h3>星斗星盒 — AI 情感共振小程序</h3>
-      <p class="project-subtitle">微信小程序 · LLM · 云服务</p>
+      <p class="project-meta">微信小程序 · LLM · 云服务</p>
       <ul>
-        <li>独立负责微信小程序前后端开发，引入"情绪共振星图"与"认知重塑"互动机制</li>
+        <li>独立负责微信小程序前后端开发，引入情绪共振星图与认知重塑互动机制</li>
         <li>对接大语言模型，构建情绪分析与自然语言响应体系，完成云服务器部署</li>
       </ul>
       <div class="project-tags"><span class="project-tag">微信小程序</span><span class="project-tag">LLM</span><span class="project-tag">云服务</span></div>
@@ -255,10 +268,12 @@ footer { text-align:center; padding:40px 24px; position:relative; z-index:1; col
   </div>
 </section>
 
-<!-- AI TOOLS -->
-<section id="ai">
-  <div class="section-label">AI Toolkit</div>
-  <h2 class="section-title">AI 工具掌握</h2>
+<!-- AI TOOLS — Grey Section -->
+<div class="ai-section" id="ai">
+  <div style="max-width:1040px;margin:0 auto;">
+    <div class="section-label">AI Toolkit</div>
+    <h2 class="section-title" style="margin-bottom:40px;">AI 工具掌握</h2>
+  </div>
   <div class="ai-grid">
     <div class="ai-card reveal">
       <h3>模型工具</h3>
@@ -280,12 +295,14 @@ footer { text-align:center; padding:40px 24px; position:relative; z-index:1; col
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-label" style="justify-content:center;">Contact</div>
-  <h2 class="section-title" style="text-align:center;">联系方式</h2>
+  <div style="text-align:center;">
+    <div class="section-label" style="justify-content:center;display:flex;">Contact</div>
+    <h2 class="section-title" style="margin-bottom:0;">联系方式</h2>
+  </div>
   <div class="contact-inner">
     <div class="contact-row">
       <a href="https://github.com/050407lmj" target="_blank" rel="noopener" class="contact-link">
@@ -307,77 +324,14 @@ footer { text-align:center; padding:40px 24px; position:relative; z-index:1; col
 <footer>&copy; 2025 刘明金</footer>
 
 <script>
-/* ── Subtle Background: Grid + Minimal Nodes ── */
-(() => {
-  const c = document.getElementById('bg-canvas');
-  const ctx = c.getContext('2d');
-  let W, H, nodes = [];
-  const N = 45, CONN = 120;
-  let mouse = { x: -500, y: -500, on: false };
-
-  function size() { W = c.width = innerWidth; H = c.height = innerHeight; }
-  addEventListener('resize', size); size();
-
-  class Node {
-    constructor() {
-      this.x = Math.random() * W; this.y = Math.random() * H;
-      this.vx = (Math.random() - .5) * .25; this.vy = (Math.random() - .5) * .25;
-      this.r = Math.random() * 1.5 + .8;
-    }
-    update() {
-      this.x += this.vx; this.y += this.vy;
-      if (this.x < -20 || this.x > W+20) this.vx *= -1;
-      if (this.y < -20 || this.y > H+20) this.vy *= -1;
-      if (mouse.on) {
-        const dx = mouse.x - this.x, dy = mouse.y - this.y, d = Math.sqrt(dx*dx+dy*dy);
-        if (d < 130) { const f = .012 * (1 - d/130); this.vx -= dx * f; this.vy -= dy * f; }
-      }
-      const s = Math.sqrt(this.vx*this.vx+this.vy*this.vy);
-      if (s > .6) { this.vx *= .98; this.vy *= .98; }
-    }
-    draw() {
-      ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(150,200,235,.35)'; ctx.fill();
-    }
-  }
-  for (let i=0; i<N; i++) nodes.push(new Node());
-
-  function anim() {
-    ctx.clearRect(0, 0, W, H);
-    // Grid
-    ctx.strokeStyle = 'rgba(80,140,200,.025)'; ctx.lineWidth = .4;
-    const step = 70;
-    for (let x = step; x < W; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
-    for (let y = step; y < H; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
-    // Nodes
-    for (const n of nodes) { n.update(); n.draw(); }
-    // Connections
-    for (let i=0; i<nodes.length; i++) for (let j=i+1; j<nodes.length; j++) {
-      const dx = nodes[i].x-nodes[j].x, dy = nodes[i].y-nodes[j].y, d = Math.sqrt(dx*dx+dy*dy);
-      if (d < CONN) { ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.strokeStyle = `rgba(120,180,220,${(1-d/CONN)*.07})`; ctx.lineWidth = .4; ctx.stroke(); }
-    }
-    // Mouse glow
-    if (mouse.on) {
-      const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 140);
-      g.addColorStop(0, 'rgba(140,200,240,.04)'); g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g; ctx.fillRect(mouse.x-140, mouse.y-140, 280, 280);
-    }
-    requestAnimationFrame(anim);
-  }
-  addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true; });
-  addEventListener('mouseleave', () => { mouse.on = false; });
-  anim();
-})();
-
-/* Scroll reveal */
+// Scroll reveal
 {
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: .1, rootMargin: '0px 0px -30px 0px' });
+  }, { threshold: .12, rootMargin: '0px 0px -20px 0px' });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 }
-
-/* Nav scroll */
+// Nav hide on scroll
 {
   let last = 0;
   const nav = document.getElementById('nav');
