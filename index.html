@@ -9,155 +9,178 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #06060c;
-  --bg-card: rgba(15, 15, 30, 0.6);
-  --cyan: #00d4ff;
-  --cyan-dim: rgba(0, 212, 255, 0.15);
-  --purple: #8b5cf6;
-  --purple-dim: rgba(139, 92, 246, 0.15);
-  --teal: #2dd4bf;
-  --text: #e2e8f0;
-  --text-dim: #94a3b8;
-  --border: rgba(255, 255, 255, 0.06);
-  --radius: 16px;
+  --bg-deep: #080d16;
+  --bg: #0c1321;
+  --card: rgba(16, 24, 40, 0.72);
+  --ice: #5ba8e0;
+  --ice-bright: #8cc8f8;
+  --ice-dim: rgba(91, 168, 224, 0.12);
+  --ice-glow: rgba(140, 200, 248, 0.18);
+  --frost: #d8e8f4;
+  --text: #c4d4e4;
+  --text-dim: #6e8298;
+  --border: rgba(140, 200, 248, 0.08);
+  --border-bright: rgba(140, 200, 248, 0.22);
+  --radius: 4px;
+  --radius-lg: 12px;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
+html { scroll-behavior:smooth; background:var(--bg-deep); }
 body {
-  background: var(--bg);
+  background: linear-gradient(175deg, #080d16 0%, #0c1524 30%, #0e1828 60%, #0a101c 100%);
   color: var(--text);
   font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 300;
   overflow-x: hidden;
+  min-height: 100vh;
 }
-
-/* Canvas */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 900px 600px at 15% 20%, rgba(91,168,224,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 700px 500px at 80% 60%, rgba(140,200,248,0.03) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 400px at 50% 85%, rgba(91,168,224,0.03) 0%, transparent 70%);
+}
 #particle-canvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
 
 /* Cursor */
 .cursor { display:none; }
 @media (hover:hover) {
-  .cursor { display:block; width:8px; height:8px; background:var(--cyan); border-radius:50%; position:fixed; z-index:9999; pointer-events:none; transform:translate(-50%,-50%); transition:width .2s,height .2s; box-shadow:0 0 20px var(--cyan),0 0 60px var(--cyan); }
-  .cursor.hover { width:24px; height:24px; background:transparent; border:2px solid var(--cyan); box-shadow:0 0 30px var(--cyan); }
+  .cursor { display:block; width:6px; height:6px; background:var(--ice-bright); border-radius:50%; position:fixed; z-index:9999; pointer-events:none; transform:translate(-50%,-50%); transition:width .25s,height .25s,background .25s,border .25s; box-shadow:0 0 16px var(--ice-bright),0 0 40px rgba(140,200,248,.4); }
+  .cursor.hover { width:28px; height:28px; background:transparent; border:1.5px solid var(--ice-bright); box-shadow:0 0 24px rgba(140,200,248,.5),inset 0 0 12px rgba(140,200,248,.1); }
 }
 
 /* Nav */
-nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:16px 0; backdrop-filter:blur(20px) saturate(180%); -webkit-backdrop-filter:blur(20px) saturate(180%); background:rgba(6,6,12,.7); border-bottom:1px solid var(--border); transition:transform .3s; }
-nav.hidden { transform:translateY(-100%); }
-.nav-inner { max-width:1100px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; }
-.nav-logo { font-family:'JetBrains Mono',monospace; font-size:1.1rem; font-weight:500; color:var(--cyan); }
-.nav-links { display:flex; gap:24px; list-style:none; }
-.nav-links a { color:var(--text-dim); text-decoration:none; font-size:.85rem; transition:color .3s; position:relative; }
-.nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:1.5px; background:var(--cyan); transition:width .3s; }
-.nav-links a:hover { color:var(--cyan); }
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100; padding:14px 0;
+  backdrop-filter:blur(24px) saturate(140%); -webkit-backdrop-filter:blur(24px) saturate(140%);
+  background: rgba(8,13,22,.78);
+  border-bottom: 1px solid var(--border);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+}
+nav.hidden { transform: translateY(-100%); }
+.nav-inner { max-width:1100px; margin:0 auto; padding:0 28px; display:flex; align-items:center; justify-content:space-between; }
+.nav-logo { font-family:'JetBrains Mono',monospace; font-size:1rem; font-weight:500; color:var(--ice-bright); letter-spacing:-.5px; }
+.nav-links { display:flex; gap:28px; list-style:none; }
+.nav-links a { color:var(--text-dim); text-decoration:none; font-size:.82rem; font-weight:400; letter-spacing:.3px; transition:color .25s; position:relative; }
+.nav-links a::after { content:''; position:absolute; bottom:-5px; left:0; width:0; height:1px; background:var(--ice-bright); transition:width .3s; }
+.nav-links a:hover { color:var(--frost); }
 .nav-links a:hover::after { width:100%; }
 
 /* Sections */
-section { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:100px 24px; }
-.section-header { margin-bottom:60px; }
-.section-label { font-family:'JetBrains Mono',monospace; font-size:.8rem; color:var(--cyan); text-transform:uppercase; letter-spacing:2px; }
-.section-title { font-family:'Noto Serif SC',serif; font-size:clamp(1.8rem,3.5vw,2.5rem); font-weight:700; margin-top:8px; }
-.glow-line { width:60px; height:2px; background:linear-gradient(90deg,var(--cyan),var(--purple)); margin-bottom:16px; border-radius:1px; }
+section { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:100px 28px; }
+.section-header { margin-bottom:56px; }
+.section-marker { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.section-marker::before { content:''; width:28px; height:1px; background:var(--ice); opacity:.6; }
+.section-label { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--ice); text-transform:uppercase; letter-spacing:2.5px; }
+.section-title { font-family:'Noto Serif SC',serif; font-size:clamp(1.7rem,3.2vw,2.3rem); font-weight:700; color:var(--frost); }
 
 /* Hero */
 .hero { min-height:100vh; display:flex; align-items:center; padding-top:80px; }
-.hero-content { max-width:700px; }
-.hero-greeting { font-family:'JetBrains Mono',monospace; font-size:.85rem; color:var(--teal); margin-bottom:16px; opacity:0; animation:fadeUp .6s .2s forwards; }
-.hero-name { font-family:'Noto Serif SC',serif; font-size:clamp(2.8rem,6vw,4.5rem); font-weight:900; line-height:1.15; background:linear-gradient(135deg,#e2e8f0 0%,#00d4ff 50%,#8b5cf6 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; opacity:0; animation:fadeUp .6s .35s forwards; }
-.hero-info { display:flex; flex-wrap:wrap; gap:12px 28px; margin-top:16px; opacity:0; animation:fadeUp .6s .45s forwards; }
-.hero-info span { color:var(--text-dim); font-size:.9rem; }
-.hero-info span strong { color:var(--text); font-weight:500; }
-.hero-tagline { font-size:clamp(1rem,2vw,1.25rem); color:var(--text-dim); font-weight:300; margin-top:24px; opacity:0; animation:fadeUp .6s .5s forwards; }
-.hero-tagline .typing { color:var(--cyan); font-weight:500; border-right:2px solid var(--cyan); animation:blink .8s infinite; }
-.hero-cta { display:flex; gap:16px; margin-top:40px; opacity:0; animation:fadeUp .6s .65s forwards; }
-.btn { display:inline-flex; align-items:center; gap:8px; padding:12px 28px; border-radius:50px; font-size:.95rem; font-weight:500; text-decoration:none; cursor:pointer; transition:all .3s; border:1px solid transparent; }
-.btn-primary { background:linear-gradient(135deg,var(--cyan),var(--purple)); color:#fff; box-shadow:0 0 30px rgba(0,212,255,.25); }
-.btn-primary:hover { box-shadow:0 0 50px rgba(0,212,255,.45); transform:translateY(-2px); }
-.btn-outline { border-color:rgba(255,255,255,.2); color:var(--text); backdrop-filter:blur(10px); background:rgba(255,255,255,.03); }
-.btn-outline:hover { border-color:var(--cyan); color:var(--cyan); background:rgba(0,212,255,.06); }
+.hero-content { max-width:680px; }
+.hero-greeting { font-family:'JetBrains Mono',monospace; font-size:.8rem; color:var(--ice); letter-spacing:1px; margin-bottom:20px; opacity:0; animation:fadeUp .6s .15s forwards; }
+.hero-name { font-family:'Noto Serif SC',serif; font-size:clamp(2.6rem,5.5vw,4.2rem); font-weight:900; line-height:1.1; color:var(--frost); letter-spacing:2px; opacity:0; animation:fadeUp .6s .3s forwards; }
+.hero-name span { color:var(--ice-bright); }
+.hero-meta { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:20px; opacity:0; animation:fadeUp .6s .42s forwards; }
+.hero-meta-item { font-size:.85rem; color:var(--text-dim); }
+.hero-meta-item b { color:var(--frost); font-weight:500; }
+.hero-tagline { font-size:1.05rem; color:var(--text-dim); font-weight:300; margin-top:28px; opacity:0; animation:fadeUp .6s .52s forwards; }
+.hero-tagline .typing { color:var(--ice-bright); font-weight:500; border-right:2px solid var(--ice-bright); animation:blink .8s infinite; }
+.hero-cta { display:flex; gap:14px; margin-top:40px; opacity:0; animation:fadeUp .6s .62s forwards; }
+.btn { display:inline-flex; align-items:center; gap:8px; padding:11px 26px; border-radius:2px; font-size:.9rem; font-weight:500; text-decoration:none; cursor:pointer; transition:all .3s; position:relative; letter-spacing:.3px; }
+.btn-primary { background:linear-gradient(135deg,#4a90c8,#6db8e8); color:#fff; clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
+.btn-primary:hover { box-shadow:0 0 36px rgba(109,184,232,.35); transform:translateY(-2px); }
+.btn-outline { border:1px solid rgba(140,200,248,.25); color:var(--frost); clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
+.btn-outline:hover { border-color:var(--ice-bright); color:var(--ice-bright); background:rgba(140,200,248,.04); }
 
-/* Info Cards */
-.info-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
-.info-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:24px 20px; text-align:center; transition:border-color .3s; }
-.info-card:hover { border-color:rgba(0,212,255,.3); }
-.info-card-label { font-size:.75rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
-.info-card-value { font-size:1.05rem; font-weight:500; color:var(--text); }
+/* Masonry */
+.masonry-2 { columns:2; column-gap:22px; }
+.masonry-3 { columns:3; column-gap:22px; }
+.masonry-2 > *, .masonry-3 > * { break-inside:avoid; margin-bottom:22px; }
 
-/* Education */
-.edu-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:36px; }
-.edu-card h3 { font-family:'Noto Serif SC',serif; font-size:1.3rem; margin-bottom:8px; }
-.edu-card .edu-meta { color:var(--cyan); font-size:.9rem; margin-bottom:20px; }
-.edu-card .courses { color:var(--text-dim); font-size:.9rem; line-height:1.8; margin-bottom:24px; }
-.cert-tags { display:flex; gap:12px; flex-wrap:wrap; }
-.cert-tag { padding:8px 16px; border-radius:50px; font-size:.8rem; border:1px solid rgba(0,212,255,.3); color:var(--cyan); background:var(--cyan-dim); }
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: border-color .35s, box-shadow .35s, transform .35s;
+  position: relative;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.card::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(135deg, rgba(140,200,248,0.04) 0%, transparent 50%, rgba(140,200,248,0.02) 100%);
+  pointer-events: none;
+}
+.card:hover { border-color: var(--border-bright); box-shadow: 0 8px 32px rgba(0,0,0,.3), 0 0 0 1px rgba(140,200,248,.06) inset; }
 
-/* Skills */
-.skills-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
-.skill-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:28px; transition:border-color .3s; }
-.skill-card:hover { border-color:rgba(0,212,255,.3); }
-.skill-card-icon { font-size:1.5rem; margin-bottom:12px; }
-.skill-card h3 { font-family:'Noto Serif SC',serif; font-size:1.1rem; margin-bottom:10px; }
-.skill-card p { color:var(--text-dim); font-size:.85rem; line-height:1.7; }
-.skill-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
-.skill-tag { padding:5px 12px; border-radius:20px; font-family:'JetBrains Mono',monospace; font-size:.7rem; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.03); color:var(--text-dim); transition:all .3s; }
-.skill-tag:hover { border-color:var(--cyan); color:var(--cyan); background:var(--cyan-dim); }
+.card-sm { padding: 22px 20px; }
+.card-icon { font-size:1.6rem; margin-bottom:14px; display:block; }
+.card-title { font-family:'Noto Serif SC',serif; font-size:1.05rem; font-weight:700; color:var(--frost); margin-bottom:10px; }
+.card-text { color:var(--text-dim); font-size:.82rem; line-height:1.75; }
+.card-bullets { list-style:none; margin-top:4px; }
+.card-bullets li { color:var(--text-dim); font-size:.8rem; line-height:1.75; padding-left:14px; position:relative; margin-bottom:6px; }
+.card-bullets li::before { content:'—'; position:absolute; left:0; color:var(--ice); font-size:.7rem; }
 
-/* Projects */
-.projects-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
-.project-card { perspective:1000px; }
-.project-card-inner { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:32px 28px; height:100%; cursor:pointer; position:relative; transition:border-color .3s,box-shadow .3s,transform .1s; transform-style:preserve-3d; overflow:hidden; }
-.project-card-inner::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle,rgba(0,212,255,.06) 0%,transparent 70%); opacity:0; transition:opacity .4s; }
-.project-card-inner:hover { border-color:rgba(0,212,255,.3); }
-.project-card-inner:hover::before { opacity:1; }
-.project-icon { font-size:2rem; margin-bottom:20px; position:relative; z-index:1; }
-.project-name { font-family:'Noto Serif SC',serif; font-size:1.15rem; font-weight:700; margin-bottom:16px; position:relative; z-index:1; }
-.project-bullets { list-style:none; position:relative; z-index:1; }
-.project-bullets li { color:var(--text-dim); font-size:.85rem; line-height:1.8; padding-left:16px; position:relative; margin-bottom:8px; }
-.project-bullets li::before { content:'·'; position:absolute; left:0; color:var(--cyan); font-weight:700; }
-.project-tech { display:flex; flex-wrap:wrap; gap:6px; margin-top:20px; position:relative; z-index:1; }
-.project-tech span { font-family:'JetBrains Mono',monospace; font-size:.7rem; padding:4px 10px; border-radius:20px; background:rgba(255,255,255,.04); color:var(--text-dim); border:1px solid rgba(255,255,255,.06); }
-.project-card:hover .project-tech span { border-color:rgba(0,212,255,.2); }
+/* Tags */
+.tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+.tag { padding:4px 11px; border-radius:2px; font-family:'JetBrains Mono',monospace; font-size:.68rem; border:1px solid rgba(140,200,248,.14); color:var(--text-dim); background:rgba(140,200,248,.03); transition:all .25s; }
+.tag:hover { border-color:var(--ice); color:var(--ice-bright); background:var(--ice-dim); }
 
-/* AI Tools */
-.ai-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-.ai-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:28px; text-align:center; transition:border-color .3s; }
-.ai-card:hover { border-color:rgba(139,92,246,.3); }
-.ai-card h3 { font-size:.85rem; color:var(--purple); margin-bottom:16px; }
-.ai-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
-.ai-tag { padding:6px 14px; border-radius:20px; font-size:.8rem; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.03); color:var(--text-dim); transition:all .3s; }
-.ai-tag:hover { border-color:var(--purple); color:#c4b5fd; background:var(--purple-dim); }
+/* Info grid */
+.info-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:22px; }
+.info-cell { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px 16px; text-align:center; transition:border-color .35s; }
+.info-cell:hover { border-color:var(--border-bright); }
+.info-cell-label { font-size:.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px; }
+.info-cell-value { font-size:.95rem; font-weight:500; color:var(--frost); }
+
+/* Edu card */
+.edu-card .courses { color:var(--text-dim); font-size:.85rem; line-height:1.9; margin-bottom:20px; }
+.edu-card .cert-row { display:flex; gap:10px; flex-wrap:wrap; }
+.cert-badge { padding:8px 18px; border-radius:2px; font-size:.78rem; border:1px solid rgba(140,200,248,.25); color:var(--ice-bright); background:var(--ice-dim); font-weight:400; clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px); }
+
+/* AI */
+.ai-row { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.ai-card { text-align:center; }
+.ai-card .card-title { font-size:.85rem; color:var(--ice); margin-bottom:16px; font-family:'Noto Sans SC',sans-serif; font-weight:500; }
+
+/* Project card special */
+.project-card .card-title { font-size:1rem; margin-bottom:14px; }
+.project-card .card-bullets li { font-size:.78rem; }
 
 /* Contact */
 .contact-inner { text-align:center; max-width:500px; margin:0 auto; }
-.contact-links { display:flex; justify-content:center; gap:24px; margin-top:32px; flex-wrap:wrap; }
-.contact-link { display:flex; align-items:center; gap:10px; padding:14px 28px; border-radius:50px; border:1px solid rgba(255,255,255,.1); text-decoration:none; color:var(--text); font-weight:400; transition:all .3s; background:rgba(255,255,255,.02); }
-.contact-link:hover { border-color:var(--cyan); background:var(--cyan-dim); color:var(--cyan); box-shadow:0 0 25px rgba(0,212,255,.15); }
-.contact-link svg { width:20px; height:20px; }
+.contact-row { display:flex; justify-content:center; gap:18px; margin-top:36px; flex-wrap:wrap; }
+.contact-link { display:flex; align-items:center; gap:9px; padding:13px 26px; border-radius:2px; border:1px solid rgba(140,200,248,.16); text-decoration:none; color:var(--text); font-weight:400; font-size:.88rem; transition:all .3s; background:var(--card); }
+.contact-link:hover { border-color:var(--ice-bright); background:var(--ice-dim); color:var(--ice-bright); box-shadow:0 0 24px rgba(140,200,248,.12); }
+.contact-link svg { width:18px; height:18px; }
 
 /* Footer */
-footer { text-align:center; padding:40px 24px; position:relative; z-index:1; color:var(--text-dim); font-size:.85rem; border-top:1px solid var(--border); max-width:1100px; margin:0 auto; }
+footer { text-align:center; padding:44px 28px; position:relative; z-index:1; color:var(--text-dim); font-size:.8rem; border-top:1px solid var(--border); max-width:1100px; margin:0 auto; }
 
 /* Animations */
-@keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
-@keyframes blink { 0%,100% { border-color:transparent; } 50% { border-color:var(--cyan); } }
-.reveal { opacity:0; transform:translateY(40px); transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1); }
+@keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+@keyframes blink { 0%,100% { border-color:transparent; } 50% { border-color:var(--ice-bright); } }
+@keyframes pulseGlow { 0%,100% { box-shadow:0 0 8px rgba(140,200,248,.08); } 50% { box-shadow:0 0 20px rgba(140,200,248,.18); } }
+.reveal { opacity:0; transform:translateY(36px); transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1); }
 .reveal.visible { opacity:1; transform:translateY(0); }
-.reveal-delay-1 { transition-delay:.1s; }
-.reveal-delay-2 { transition-delay:.2s; }
-.reveal-delay-3 { transition-delay:.3s; }
-.reveal-delay-4 { transition-delay:.4s; }
+.d1 { transition-delay:.05s; } .d2 { transition-delay:.12s; } .d3 { transition-delay:.19s; } .d4 { transition-delay:.26s; } .d5 { transition-delay:.33s; }
+
+/* Corner accent */
+.corner-accent { position:absolute; top:0; right:0; width:40px; height:40px; pointer-events:none; opacity:.3; }
+.corner-accent::before, .corner-accent::after { content:''; position:absolute; background:var(--ice); }
+.corner-accent::before { top:8px; right:0; width:14px; height:1px; }
+.corner-accent::after { top:0; right:8px; width:1px; height:14px; }
 
 @media (max-width:768px) {
-  .info-grid { grid-template-columns:repeat(2,1fr); }
-  .skills-grid, .projects-grid, .ai-grid { grid-template-columns:1fr; }
+  .masonry-2, .masonry-3 { columns:1; }
+  .info-row { grid-template-columns:repeat(2,1fr); }
+  .ai-row { grid-template-columns:1fr; }
   .nav-links { gap:14px; }
-  .nav-links a { font-size:.78rem; }
-  section { padding:64px 20px; }
+  .nav-links a { font-size:.75rem; }
+  section { padding:64px 18px; }
   .hero { min-height:90vh; }
-}
-@media (max-width:480px) {
-  .info-grid { grid-template-columns:1fr 1fr; }
-  .hero-cta { flex-direction:column; }
-  .btn { justify-content:center; }
 }
 </style>
 </head>
@@ -171,58 +194,54 @@ footer { text-align:center; padding:40px 24px; position:relative; z-index:1; col
   <span class="nav-logo">&lt;lmj /&gt;</span>
   <ul class="nav-links">
     <li><a href="#home">首页</a></li>
+    <li><a href="#edu">教育</a></li>
     <li><a href="#skills">技能</a></li>
     <li><a href="#projects">项目</a></li>
-    <li><a href="#ai">AI工具</a></li>
+    <li><a href="#ai">AI</a></li>
     <li><a href="#contact">联系</a></li>
   </ul>
 </div></nav>
 
 <!-- HERO -->
 <section class="hero" id="home"><div class="hero-content">
-  <p class="hero-greeting">> Hello, World!_</p>
-  <h1 class="hero-name">刘明金</h1>
-  <div class="hero-info">
-    <span>民族：<strong>汉族</strong></span>
-    <span>出生年月：<strong>2005.04</strong></span>
-    <span>性别：<strong>男</strong></span>
-    <span>政治面貌：<strong>共青团员</strong></span>
+  <p class="hero-greeting">&gt; system.init()</p>
+  <h1 class="hero-name">刘<span>明</span>金</h1>
+  <div class="hero-meta">
+    <span class="hero-meta-item">民族 <b>汉族</b></span>
+    <span class="hero-meta-item">出生 <b>2005.04</b></span>
+    <span class="hero-meta-item">性别 <b>男</b></span>
+    <span class="hero-meta-item">政治面貌 <b>共青团员</b></span>
   </div>
   <p class="hero-tagline"><span class="typing" id="typing-text"></span></p>
   <div class="hero-cta">
     <a href="#projects" class="btn btn-primary">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       查看项目
     </a>
-    <a href="#contact" class="btn btn-outline">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      联系我
-    </a>
+    <a href="#contact" class="btn btn-outline">联系方式</a>
   </div>
 </div></section>
 
-<!-- BASIC INFO + EDUCATION -->
-<section id="about">
+<!-- EDUCATION -->
+<section id="edu">
   <div class="section-header reveal">
-    <div class="glow-line"></div>
-    <p class="section-label">Education & Info</p>
+    <div class="section-marker"><span class="section-label">Education</span></div>
     <h2 class="section-title">教育背景</h2>
   </div>
-
-  <div class="info-grid reveal reveal-delay-1" style="margin-bottom:24px;">
-    <div class="info-card"><div class="info-card-label">院校</div><div class="info-card-value">江苏工程职业技术学院</div></div>
-    <div class="info-card"><div class="info-card-label">学院</div><div class="info-card-value">信息工程学院</div></div>
-    <div class="info-card"><div class="info-card-label">专业</div><div class="info-card-value">物联网应用技术</div></div>
-    <div class="info-card"><div class="info-card-label">就读时间</div><div class="info-card-value">2024.09 - 2027.06</div></div>
+  <div class="info-row reveal d1">
+    <div class="info-cell"><div class="info-cell-label">院校</div><div class="info-cell-value">江苏工程职业技术学院</div></div>
+    <div class="info-cell"><div class="info-cell-label">学院</div><div class="info-cell-value">信息工程学院</div></div>
+    <div class="info-cell"><div class="info-cell-label">专业</div><div class="info-cell-value">物联网应用技术</div></div>
+    <div class="info-cell"><div class="info-cell-label">时间</div><div class="info-cell-value">2024.09 - 2027.06</div></div>
   </div>
-
-  <div class="edu-card reveal reveal-delay-2">
-    <h3>主修课程</h3>
-    <p class="courses">Java 程序设计、C 语言、Python 网络编程、单片机应用技术、物联网 LoRa 与 NB-IoT 应用技术、嵌入式网关技术与应用、移动应用开发实践、弱电 CAD 制图</p>
-    <h3 style="font-family:'Noto Serif SC',serif; font-size:1.1rem; margin-bottom:12px;">资格证书</h3>
-    <div class="cert-tags">
-      <span class="cert-tag">大学英语四级（CET-4）</span>
-      <span class="cert-tag">全国计算机等级考试一级</span>
+  <div class="card edu-card reveal d2">
+    <div class="corner-accent"></div>
+    <h3 class="card-title" style="font-size:1.1rem;">主修课程</h3>
+    <p class="courses">Java 程序设计 · C 语言 · Python 网络编程 · 单片机应用技术 · 物联网 LoRa 与 NB-IoT 应用技术 · 嵌入式网关技术与应用 · 移动应用开发实践 · 弱电 CAD 制图</p>
+    <h3 class="card-title" style="font-size:1.1rem;">资格证书</h3>
+    <div class="cert-row">
+      <span class="cert-badge">大学英语四级 CET-4</span>
+      <span class="cert-badge">全国计算机等级考试一级</span>
     </div>
   </div>
 </section>
@@ -230,35 +249,33 @@ footer { text-align:center; padding:40px 24px; position:relative; z-index:1; col
 <!-- SKILLS -->
 <section id="skills">
   <div class="section-header reveal">
-    <div class="glow-line"></div>
-    <p class="section-label">Skills</p>
+    <div class="section-marker"><span class="section-label">Skills</span></div>
     <h2 class="section-title">专业技能</h2>
   </div>
-
-  <div class="skills-grid">
-    <div class="skill-card reveal reveal-delay-1">
-      <div class="skill-card-icon">🔌</div>
-      <h3>嵌入式与硬件</h3>
-      <p>熟悉国产 CH32 系列（V307/H417）及 STM32F407 芯片开发；熟悉 FreeRTOS、RT-Thread 实时操作系统；具备绘制原理图及 PCB 布局布线能力。</p>
-      <div class="skill-tags"><span class="skill-tag">C</span><span class="skill-tag">CH32</span><span class="skill-tag">STM32</span><span class="skill-tag">RT-Thread</span><span class="skill-tag">FreeRTOS</span><span class="skill-tag">PCB</span></div>
+  <div class="masonry-2">
+    <div class="card reveal d1">
+      <span class="card-icon">&#x1F30F;</span>
+      <h3 class="card-title">嵌入式与硬件</h3>
+      <p class="card-text">熟悉国产 CH32 系列（V307/H417）及 STM32F407 芯片开发；熟悉 FreeRTOS、RT-Thread 实时操作系统；具备绘制原理图及 PCB 布局布线能力。</p>
+      <div class="tags"><span class="tag">C</span><span class="tag">CH32</span><span class="tag">STM32F407</span><span class="tag">RT-Thread</span><span class="tag">FreeRTOS</span><span class="tag">PCB</span></div>
     </div>
-    <div class="skill-card reveal reveal-delay-2">
-      <div class="skill-card-icon">🤖</div>
-      <h3>端侧 AI 与视觉</h3>
-      <p>熟练掌握 YOLO11 目标检测与分类模型全生命周期训练；熟练运用 Roboflow 完成数据清洗与标注；具备端侧模型推理加速及准确率调优经验。</p>
-      <div class="skill-tags"><span class="skill-tag">YOLO11</span><span class="skill-tag">Roboflow</span><span class="skill-tag">Python</span><span class="skill-tag">端侧推理</span></div>
+    <div class="card reveal d2">
+      <span class="card-icon">&#x1F9E0;</span>
+      <h3 class="card-title">端侧 AI 与视觉</h3>
+      <p class="card-text">熟练掌握 YOLO11 目标检测与分类模型全生命周期训练；熟练运用 Roboflow 完成数据清洗与标注；具备端侧模型推理加速及准确率调优经验。</p>
+      <div class="tags"><span class="tag">YOLO11</span><span class="tag">Roboflow</span><span class="tag">Python</span><span class="tag">端侧推理</span></div>
     </div>
-    <div class="skill-card reveal reveal-delay-3">
-      <div class="skill-card-icon">📱</div>
-      <h3>应用与全栈</h3>
-      <p>熟悉 Android（Java）客户端开发；熟悉微信小程序原生开发及云服务器独立部署。</p>
-      <div class="skill-tags"><span class="skill-tag">Android</span><span class="skill-tag">Java</span><span class="skill-tag">微信小程序</span><span class="skill-tag">Linux</span></div>
+    <div class="card reveal d3">
+      <span class="card-icon">&#x1F4F1;</span>
+      <h3 class="card-title">应用与全栈</h3>
+      <p class="card-text">熟悉 Android（Java）客户端开发；熟悉微信小程序原生开发及云服务器独立部署。</p>
+      <div class="tags"><span class="tag">Android</span><span class="tag">Java</span><span class="tag">微信小程序</span><span class="tag">Linux</span></div>
     </div>
-    <div class="skill-card reveal reveal-delay-4">
-      <div class="skill-card-icon">📡</div>
-      <h3>物联网通信</h3>
-      <p>熟悉应用 Wi-Fi、Zigbee；熟悉复杂异构网络通信链路的搭建与维护。</p>
-      <div class="skill-tags"><span class="skill-tag">Wi-Fi</span><span class="skill-tag">Zigbee</span><span class="skill-tag">LoRa</span><span class="skill-tag">NB-IoT</span></div>
+    <div class="card reveal d4">
+      <span class="card-icon">&#x1F4E1;</span>
+      <h3 class="card-title">物联网通信</h3>
+      <p class="card-text">熟悉应用 Wi-Fi、Zigbee；熟悉复杂异构网络通信链路的搭建与维护。</p>
+      <div class="tags"><span class="tag">Wi-Fi</span><span class="tag">Zigbee</span><span class="tag">LoRa</span><span class="tag">NB-IoT</span></div>
     </div>
   </div>
 </section>
@@ -266,91 +283,83 @@ footer { text-align:center; padding:40px 24px; position:relative; z-index:1; col
 <!-- PROJECTS -->
 <section id="projects">
   <div class="section-header reveal">
-    <div class="glow-line"></div>
-    <p class="section-label">Projects</p>
+    <div class="section-marker"><span class="section-label">Projects</span></div>
     <h2 class="section-title">项目经历</h2>
   </div>
-
-  <div class="projects-grid">
-    <!-- Project 1 -->
-    <div class="project-card reveal reveal-delay-1" data-tilt><div class="project-card-inner">
-      <div class="project-icon">🏆</div>
-      <h3 class="project-name">江苏省职业院校技能大赛 — 嵌入式系统应用开发</h3>
-      <ul class="project-bullets">
+  <div class="masonry-2">
+    <div class="card project-card reveal d1" data-tilt>
+      <div class="corner-accent"></div>
+      <span class="card-icon">&#x1F3C6;</span>
+      <h3 class="card-title">嵌入式系统应用开发赛项</h3>
+      <p class="card-text" style="font-size:.8rem;margin-bottom:10px;color:var(--ice);">江苏省职业院校技能大赛</p>
+      <ul class="card-bullets">
         <li>基于 CH32H417QEU6 芯片完成底层驱动开发、外设控制与功能模块实现</li>
         <li>基于 RT-Thread 搭建多任务调度框架，实现传感器采集、通信交互、外设控制、数据显示等模块并发运行</li>
-        <li>负责竞赛任务分析、系统架构设计、模块功能划分与开发推进，完成从需求理解到整机联调的完整流程</li>
-        <li>围绕 GPIO、串口、定时器、通信模块及显示模块进行驱动适配和联调，解决数据异常、任务阻塞和通信不稳定等问题</li>
+        <li>负责竞赛任务分析、系统架构设计、模块功能划分，完成从需求理解到整机联调的完整流程</li>
+        <li>围绕 GPIO、串口、定时器、通信及显示模块进行驱动适配和联调，解决数据异常、任务阻塞和通信不稳定等问题</li>
       </ul>
-      <div class="project-tech"><span>C</span><span>RT-Thread</span><span>CH32</span><span>RTOS</span></div>
-    </div></div>
-
-    <!-- Project 2 -->
-    <div class="project-card reveal reveal-delay-2" data-tilt><div class="project-card-inner">
-      <div class="project-icon">🤖</div>
-      <h3 class="project-name">嵌入式小车移动控制平台 — 视觉识别与 Android 客户端</h3>
-      <ul class="project-bullets">
-        <li>利用 Roboflow 建立数据集，基于 YOLO11 训练车牌、红绿灯、交通标志、二维码、颜色、TFT 屏幕检测、行人等 10 余种模型</li>
-        <li>通过持续迭代与参数微调，将多任务综合识别准确率提升至 99.5%，优化模型输入分辨率与置信度阈值改善实时视频流帧率</li>
+      <div class="tags"><span class="tag">C</span><span class="tag">RT-Thread</span><span class="tag">CH32H417</span><span class="tag">RTOS</span></div>
+    </div>
+    <div class="card project-card reveal d2" data-tilt>
+      <div class="corner-accent"></div>
+      <span class="card-icon">&#x1F916;</span>
+      <h3 class="card-title">嵌入式小车移动控制平台</h3>
+      <p class="card-text" style="font-size:.8rem;margin-bottom:10px;color:var(--ice);">视觉识别模型训练 & Android 客户端</p>
+      <ul class="card-bullets">
+        <li>利用 Roboflow 建立数据集，基于 YOLO11 训练车牌、红绿灯、交通标志、二维码、颜色、行人等 10 余种模型，综合识别准确率 99.5%</li>
         <li>在 Android 端完成底层数据接口维护，实现多路传感器信号与视频流稳定接收解析，确保多车协同指令准确下发</li>
         <li>维护底层 Java 代码并重构冗余逻辑，重新设计客户端 UI，提升高密度信息面板与实时画框的交互体验</li>
       </ul>
-      <div class="project-tech"><span>YOLO11</span><span>Roboflow</span><span>Android</span><span>Java</span><span>Python</span></div>
-    </div></div>
-
-    <!-- Project 3 -->
-    <div class="project-card reveal reveal-delay-3" data-tilt><div class="project-card-inner">
-      <div class="project-icon">📐</div>
-      <h3 class="project-name">嘉立创 EDA / PCB 设计与硬件调试</h3>
-      <ul class="project-bullets">
+      <div class="tags"><span class="tag">YOLO11</span><span class="tag">Roboflow</span><span class="tag">Android</span><span class="tag">Java</span><span class="tag">Python</span></div>
+    </div>
+    <div class="card project-card reveal d3" data-tilt>
+      <div class="corner-accent"></div>
+      <span class="card-icon">&#x1F4D0;</span>
+      <h3 class="card-title">嘉立创 EDA / PCB 设计与硬件调试</h3>
+      <ul class="card-bullets">
         <li>熟练使用嘉立创 EDA，独立完成多款开发板及硬件拓展坞设计，覆盖原理图绘制、器件选型、封装匹配、网络检查与电路结构规划</li>
-        <li>独立完成 PCB 布局布线、走线优化、丝印整理、DRC 检查、Gerber 文件输出与打样下单，具备从设计文件到实物板卡的完整落地经验</li>
-        <li>对打样板进行焊接、上电测试、供电检查、接口连通性验证与基础功能调试，能定位并修复焊接异常、走线问题、供电不稳定及外设连接错误</li>
-        <li>结合 MCU 程序开发对核心外设、拓展接口和通信功能进行验证，为后续项目开发、课程实践和竞赛训练提供可复用的硬件平台</li>
+        <li>独立完成 PCB 布局布线、走线优化、丝印整理、DRC 检查、Gerber 输出与打样下单，具备从设计到实物的完整落地经验</li>
+        <li>对打样板进行焊接、上电测试、供电检查、接口验证与功能调试，能定位并修复焊接异常、走线问题及供电不稳定等故障</li>
       </ul>
-      <div class="project-tech"><span>嘉立创EDA</span><span>PCB</span><span>MCU</span><span>硬件调试</span></div>
-    </div></div>
-
-    <!-- Project 4 -->
-    <div class="project-card reveal reveal-delay-4" data-tilt><div class="project-card-inner">
-      <div class="project-icon">✨</div>
-      <h3 class="project-name">星斗星盒 — AI 情感共振微信小程序</h3>
-      <ul class="project-bullets">
+      <div class="tags"><span class="tag">嘉立创EDA</span><span class="tag">PCB</span><span class="tag">MCU</span><span class="tag">硬件调试</span></div>
+    </div>
+    <div class="card project-card reveal d4" data-tilt>
+      <div class="corner-accent"></div>
+      <span class="card-icon">&#x2728;</span>
+      <h3 class="card-title">星斗星盒 — AI 情感共振小程序</h3>
+      <ul class="card-bullets">
         <li>独立负责微信小程序前后端开发，引入"情绪共振星图"与"认知重塑"互动机制</li>
         <li>打通云服务器部署流程，对接大语言模型，构建情绪分析与自然语言响应体系</li>
       </ul>
-      <div class="project-tech"><span>微信小程序</span><span>LLM</span><span>云服务</span></div>
-    </div></div>
+      <div class="tags"><span class="tag">微信小程序</span><span class="tag">LLM</span><span class="tag">云服务</span></div>
+    </div>
   </div>
 </section>
 
 <!-- AI TOOLS -->
 <section id="ai">
   <div class="section-header reveal">
-    <div class="glow-line"></div>
-    <p class="section-label">AI Toolkit</p>
+    <div class="section-marker"><span class="section-label">AI Toolkit</span></div>
     <h2 class="section-title">AI 工具掌握</h2>
   </div>
-
-  <div class="ai-grid">
-    <div class="ai-card reveal reveal-delay-1">
-      <h3>模型工具</h3>
-      <div class="ai-tags">
-        <span class="ai-tag">GPT</span><span class="ai-tag">Gemini</span><span class="ai-tag">Claude</span>
-        <span class="ai-tag">通义</span><span class="ai-tag">DeepSeek</span><span class="ai-tag">GLM</span>
-        <span class="ai-tag">Kimi</span><span class="ai-tag">MiniMax</span>
+  <div class="ai-row">
+    <div class="card card-sm ai-card reveal d1">
+      <h3 class="card-title">模型工具</h3>
+      <div class="tags" style="justify-content:center;">
+        <span class="tag">GPT</span><span class="tag">Gemini</span><span class="tag">Claude</span><span class="tag">通义</span>
+        <span class="tag">DeepSeek</span><span class="tag">GLM</span><span class="tag">Kimi</span><span class="tag">MiniMax</span>
       </div>
     </div>
-    <div class="ai-card reveal reveal-delay-2">
-      <h3>开发提效</h3>
-      <div class="ai-tags">
-        <span class="ai-tag">AI 编程</span><span class="ai-tag">Bug 修复</span><span class="ai-tag">Agent</span><span class="ai-tag">Dify</span>
+    <div class="card card-sm ai-card reveal d2">
+      <h3 class="card-title">开发提效</h3>
+      <div class="tags" style="justify-content:center;">
+        <span class="tag">AI 编程</span><span class="tag">Bug 修复</span><span class="tag">Agent</span><span class="tag">Dify</span>
       </div>
     </div>
-    <div class="ai-card reveal reveal-delay-3">
-      <h3>工作提效</h3>
-      <div class="ai-tags">
-        <span class="ai-tag">文档撰写</span><span class="ai-tag">方案整理</span><span class="ai-tag">PPT 制作</span><span class="ai-tag">资料检索</span>
+    <div class="card card-sm ai-card reveal d3">
+      <h3 class="card-title">工作提效</h3>
+      <div class="tags" style="justify-content:center;">
+        <span class="tag">文档撰写</span><span class="tag">方案整理</span><span class="tag">PPT 制作</span><span class="tag">资料检索</span>
       </div>
     </div>
   </div>
@@ -358,13 +367,12 @@ footer { text-align:center; padding:40px 24px; position:relative; z-index:1; col
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-header reveal">
-    <div class="glow-line"></div>
-    <p class="section-label">Contact</p>
+  <div class="section-header reveal" style="text-align:center;">
+    <div class="section-marker" style="justify-content:center;"><span class="section-label">Contact</span></div>
     <h2 class="section-title">联系方式</h2>
   </div>
-  <div class="contact-inner reveal reveal-delay-1">
-    <div class="contact-links">
+  <div class="contact-inner reveal d1">
+    <div class="contact-row">
       <a href="https://github.com/050407lmj" target="_blank" rel="noopener" class="contact-link">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
         GitHub
@@ -382,97 +390,156 @@ footer { text-align:center; padding:40px 24px; position:relative; z-index:1; col
 </section>
 
 <footer>
-  <p>&copy; 2025 刘明金. Built with &hearts; and code.</p>
+  <p>&copy; 2025 刘明金 &nbsp;&middot;&nbsp; Built with precision.</p>
 </footer>
 
 <script>
-/* Particle Background */
+/* ── Frost Particle System ── */
 (() => {
-  const canvas = document.getElementById('particle-canvas');
-  const ctx = canvas.getContext('2d');
-  let w, h, particles = [];
-  const PC = 80, CD = 140;
-  let mouse = { x: -1000, y: -1000 };
-  function resize() { w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; }
-  window.addEventListener('resize', resize); resize();
-  class Particle {
-    constructor() { this.reset(); this.y=Math.random()*h; }
-    reset() { this.x=Math.random()*w; this.y=Math.random()*h; this.vx=(Math.random()-.5)*.5; this.vy=(Math.random()-.5)*.5; this.r=Math.random()*1.5+.8; }
+  const c = document.getElementById('particle-canvas');
+  const ctx = c.getContext('2d');
+  let W, H, parts = [];
+  const N = 100;
+  let mouse = { x: -500, y: -500, active: false };
+
+  function resize() { W = c.width = innerWidth; H = c.height = innerHeight; }
+  addEventListener('resize', resize); resize();
+
+  class Frost {
+    constructor() {
+      this.reset(true);
+    }
+    reset(init) {
+      this.x = Math.random() * W;
+      this.y = init ? Math.random() * H : -20;
+      this.r = Math.random() * 2.2 + .6;
+      this.vx = (Math.random() - .5) * .3;
+      this.vy = Math.random() * .4 + .15;
+      this.opacity = Math.random() * .5 + .2;
+      this.wobble = Math.random() * Math.PI * 2;
+      this.wobbleSpeed = (Math.random() - .5) * .015;
+      this.wobbleAmp = Math.random() * .4 + .1;
+    }
     update() {
-      this.x+=this.vx; this.y+=this.vy;
-      if(this.x<-20||this.x>w+20) this.vx*=-1;
-      if(this.y<-20||this.y>h+20) this.vy*=-1;
-      const dx=mouse.x-this.x, dy=mouse.y-this.y, dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<200) { const f=.003; this.vx-=dx*f*(1-dist/200); this.vy-=dy*f*(1-dist/200); }
-      const speed=Math.sqrt(this.vx*this.vx+this.vy*this.vy);
-      if(speed>1.2) { this.vx*=.98; this.vy*=.98; }
+      this.wobble += this.wobbleSpeed;
+      this.x += this.vx + Math.sin(this.wobble) * this.wobbleAmp;
+      this.y += this.vy;
+
+      if (mouse.active) {
+        const dx = mouse.x - this.x, dy = mouse.y - this.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 140) {
+          const force = .015;
+          this.vx -= dx * force * (1 - dist/140);
+          this.vy -= dy * force * (1 - dist/140);
+        }
+      }
+
+      if (this.y > H + 30 || this.x < -30 || this.x > W + 30) {
+        this.reset(false);
+      }
+      const speed = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
+      if (speed > 1.5) { this.vx *= .97; this.vy *= .97; }
     }
-    draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,.5)'; ctx.fill(); }
-  }
-  for(let i=0;i<PC;i++) particles.push(new Particle());
-  function animate() {
-    ctx.clearRect(0,0,w,h);
-    for(const p of particles) { p.update(); p.draw(); }
-    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
-      const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<CD) { const a=1-dist/CD; ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=`rgba(0,212,255,${a*.2})`; ctx.lineWidth=.6; ctx.stroke(); }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(180,215,240,${this.opacity})`;
+      ctx.fill();
+      // Frost glow
+      if (this.r > 1.5) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r*2.5, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(160,210,240,${this.opacity*.15})`;
+        ctx.fill();
+      }
     }
-    if(mouse.x>0&&mouse.y>0) { const g=ctx.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,120); g.addColorStop(0,'rgba(0,212,255,.08)'); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=g; ctx.fillRect(mouse.x-120,mouse.y-120,240,240); }
-    requestAnimationFrame(animate);
   }
-  window.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY});
-  window.addEventListener('mouseleave',()=>{mouse.x=-1000;mouse.y=-1000});
-  window.addEventListener('touchmove',e=>{mouse.x=e.touches[0].clientX;mouse.y=e.touches[0].clientY});
-  window.addEventListener('touchend',()=>{mouse.x=-1000;mouse.y=-1000});
-  animate();
+
+  for (let i=0; i<N; i++) parts.push(new Frost());
+
+  function anim() {
+    ctx.clearRect(0,0,W,H);
+    for (const p of parts) { p.update(); p.draw(); }
+
+    // Mouse frost glow
+    if (mouse.active) {
+      const g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 100);
+      g.addColorStop(0, 'rgba(180,215,240,.06)');
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(mouse.x-100, mouse.y-100, 200, 200);
+    }
+    requestAnimationFrame(anim);
+  }
+
+  addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; });
+  addEventListener('mouseleave', () => { mouse.active = false; });
+  addEventListener('touchmove', e => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; mouse.active = true; });
+  addEventListener('touchend', () => { mouse.active = false; });
+  anim();
 })();
 
-/* Cursor */
+/* ── Custom Cursor ── */
 {
-  const c=document.getElementById('cursor');
-  document.addEventListener('mousemove',e=>{c.style.left=e.clientX+'px';c.style.top=e.clientY+'px'});
-  document.querySelectorAll('a,button,.btn,.project-card,.skill-tag,.ai-tag,.info-card,.skill-card,.ai-card,.cert-tag').forEach(el=>{
-    el.addEventListener('mouseenter',()=>c.classList.add('hover'));
-    el.addEventListener('mouseleave',()=>c.classList.remove('hover'));
+  const cur = document.getElementById('cursor');
+  addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
+  document.querySelectorAll('a,button,.btn,.card,.tag,.cert-badge,.info-cell,.contact-link').forEach(el => {
+    el.addEventListener('mouseenter', () => cur.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cur.classList.remove('hover'));
   });
 }
 
-/* Scroll Reveal */
+/* ── Scroll Reveal ── */
 {
-  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.15,rootMargin:'0px 0px -50px 0px'});
-  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 }
 
-/* 3D Tilt */
+/* ── 3D Tilt ── */
 {
-  document.querySelectorAll('[data-tilt] .project-card-inner').forEach(card=>{
-    card.addEventListener('mousemove',e=>{
-      const r=card.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
-      card.style.transform=`rotateX(${((y-r.height/2)/(r.height/2))*-8}deg) rotateY(${((x-r.width/2)/(r.width/2))*8}deg)`;
+  document.querySelectorAll('[data-tilt]').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      const rx = ((y - r.height/2) / (r.height/2)) * -6;
+      const ry = ((x - r.width/2) / (r.width/2)) * 6;
+      card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      card.style.transition = 'transform .08s ease';
     });
-    card.addEventListener('mouseleave',()=>{card.style.transition='transform .5s ease';card.style.transform='rotateX(0) rotateY(0)'});
-    card.addEventListener('mouseenter',()=>{card.style.transition='transform .1s ease'});
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform .5s ease';
+      card.style.transform = 'perspective(800px) rotateX(0) rotateY(0)';
+    });
   });
 }
 
-/* Nav Scroll */
+/* ── Nav Scroll ── */
 {
-  let ls=0; const nav=document.getElementById('nav');
-  window.addEventListener('scroll',()=>{const c=window.scrollY; nav.classList.toggle('hidden',c>ls&&c>100); ls=c},{passive:true});
+  let last = 0;
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => {
+    const cur = scrollY;
+    nav.classList.toggle('hidden', cur > last && cur > 100);
+    last = cur;
+  }, { passive: true });
 }
 
-/* Typing */
+/* ── Typing ── */
 {
-  const phrases=['物联网应用技术 · 嵌入式开发','RT-Thread · FreeRTOS · YOLO11','从底层驱动到端侧AI','PCB设计 · 微信小程序 · Android'];
-  let pi=0, ci=0, del=false; const el=document.getElementById('typing-text');
-  function type(){
-    const cur=phrases[pi];
-    el.textContent=cur.substring(0,del?ci-1:ci+1);
-    ci+=del?-1:1;
-    let s=del?40:80;
-    if(!del&&ci===cur.length) { s=2000; del=true; }
-    else if(del&&ci===0) { del=false; pi=(pi+1)%phrases.length; s=400; }
-    setTimeout(type,s);
+  const phrases = ['物联网应用技术 · 嵌入式开发', 'RT-Thread · FreeRTOS · YOLO11', '从底层驱动到端侧AI推理', 'PCB设计 · 微信小程序 · Android'];
+  let pi=0, ci=0, del=false;
+  const el = document.getElementById('typing-text');
+  function type() {
+    const cur = phrases[pi];
+    el.textContent = cur.substring(0, del ? ci-1 : ci+1);
+    ci += del ? -1 : 1;
+    let sp = del ? 35 : 75;
+    if (!del && ci === cur.length) { sp = 2200; del = true; }
+    else if (del && ci === 0) { del = false; pi = (pi+1) % phrases.length; sp = 350; }
+    setTimeout(type, sp);
   }
   type();
 }
