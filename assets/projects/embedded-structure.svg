@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420">
+  <rect width="720" height="420" rx="34" fill="#f1e6d9"/>
+  <rect x="78" y="92" width="170" height="86" rx="20" fill="#171513"/>
+  <rect x="278" y="92" width="170" height="86" rx="20" fill="#b55231"/>
+  <rect x="478" y="92" width="170" height="86" rx="20" fill="#d2baa2"/>
+  <line x1="163" y1="178" x2="163" y2="256" stroke="#171513" stroke-width="8"/>
+  <line x1="363" y1="178" x2="363" y2="256" stroke="#171513" stroke-width="8"/>
+  <line x1="563" y1="178" x2="563" y2="256" stroke="#171513" stroke-width="8"/>
+  <rect x="160" y="256" width="406" height="84" rx="22" fill="#fff"/>
+  <text x="78" y="372" font-size="30" fill="#5e544a" font-family="Arial, sans-serif">System Structure Placeholder</text>
+</svg>

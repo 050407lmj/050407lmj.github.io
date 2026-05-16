@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420">
+  <rect width="720" height="420" rx="34" fill="#ead6c0"/>
+  <rect x="62" y="74" width="250" height="160" rx="24" fill="#171513"/>
+  <rect x="370" y="104" width="278" height="36" rx="18" fill="#b55231"/>
+  <rect x="370" y="162" width="232" height="24" rx="12" fill="#c8af96"/>
+  <rect x="370" y="204" width="192" height="24" rx="12" fill="#d8c2ac"/>
+  <text x="62" y="330" font-size="30" fill="#5e544a" font-family="Arial, sans-serif">Embedded System Cover</text>
+</svg>

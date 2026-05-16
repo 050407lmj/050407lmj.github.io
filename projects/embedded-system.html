@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嵌入式系统应用开发 | 刘明金</title>
+<meta name="description" content="嵌入式系统应用开发项目详情页，介绍项目背景、职责、实现、图片与复盘。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell nav-bar">
+      <a class="brand" href="../index.html">LIU MINGJIN</a>
+      <nav class="nav-links" aria-label="页面导航">
+        <a href="../index.html#projects">返回首页</a>
+        <a href="#gallery">项目图片</a>
+        <a href="../index.html#contact">联系</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell detail-main">
+    <section class="detail-hero">
+      <div>
+        <p class="detail-kind">Embedded / Competition</p>
+        <h1 data-testid="project-title">嵌入式系统应用开发</h1>
+        <p class="detail-text">
+          这是一个围绕 CH32H417QEU6、RT-Thread 多任务框架和整机联调能力展开的省赛类项目。
+          它的核心不是单个模块做出来，而是在竞赛节奏下，把底层驱动、外设控制、通信交互和数据显示有组织地拉通。
+        </p>
+        <div class="tag-list">
+          <span>CH32H417</span>
+          <span>RT-Thread</span>
+          <span>驱动开发</span>
+          <span>系统联调</span>
+        </div>
+      </div>
+      <div>
+        <img src="../assets/projects/embedded-cover.svg" alt="嵌入式系统应用开发封面图">
+      </div>
+    </section>
+
+    <section class="detail-section" data-testid="project-background">
+      <h2>项目背景</h2>
+      <p class="detail-text">
+        项目面向江苏省职业院校技能大赛嵌入式系统应用开发赛项，要求在有限时间内完成底层驱动搭建、任务调度组织和整机功能联调。
+        重点不只是“会写代码”，而是能否在时间压力下完成合理拆分、快速判断问题、稳定推进联调，并把多个外设模块真正整合成可运行系统。
+      </p>
+    </section>
+
+    <section class="detail-section">
+      <h2>我的职责</h2>
+      <div class="detail-grid">
+        <article class="detail-block">
+          <p>负责竞赛任务分析、系统架构设计、模块功能划分与开发推进，完成从需求理解到整机联调的完整开发流程。</p>
+        </article>
+        <article class="detail-block">
+          <p>承担底层驱动开发、任务整合、外设通信联调以及系统运行阶段的问题定位，并围绕异常数据、任务阻塞和通信不稳定进行优化。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <h2>技术与实现</h2>
+      <div class="detail-grid" data-testid="project-implementation">
+        <article class="detail-block">
+          <ul>
+            <li>基于 CH32H417QEU6 芯片完成底层驱动开发、外设控制与功能模块实现。</li>
+            <li>通过 RT-Thread 组织多任务并发运行，协调传感器采集、通信交互、外设控制和数据显示。</li>
+          </ul>
+        </article>
+        <article class="detail-block">
+          <ul>
+            <li>围绕 GPIO、串口、定时器、通信模块及显示模块进行驱动适配与联调。</li>
+            <li>通过模块拆分与接口约定降低联调阶段冲突，优先保证整机运行链路完整，再逐步优化稳定性。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="detail-section" id="gallery" data-testid="project-gallery">
+      <h2>图片展示</h2>
+      <div class="gallery-grid">
+        <figure class="gallery-figure">
+          <img src="../assets/projects/embedded-cover.svg" alt="硬件照片占位图">
+          <figcaption>后续可替换为真实硬件照片、比赛现场图或整机装配图。</figcaption>
+        </figure>
+        <figure class="gallery-figure">
+          <img src="../assets/projects/embedded-structure.svg" alt="系统结构图占位">
+          <figcaption>后续可替换为任务结构图、通信链路图或联调流程图。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="detail-section" data-testid="project-result">
+      <h2>结果与复盘</h2>
+      <p class="detail-text">
+        这个项目强化了我在竞赛场景下进行模块拆分、任务组织和整机联调的能力，也让我更清楚工程节奏、问题定位和稳定性优化的重要性。
+        它不是一个只停留在功能实现上的项目，而是一个真正锻炼“工程推进能力”和“系统落地能力”的项目。
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>项目详情页一</span>
+      <span>后续可继续替换为真实项目图片与补充数据。</span>
+    </div>
+  </footer>
+
+  <script src="../site.js"></script>
+</body>
+</html>

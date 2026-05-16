@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420">
+  <rect width="720" height="420" rx="34" fill="#efe4d7"/>
+  <rect x="82" y="82" width="170" height="244" rx="34" fill="#171513"/>
+  <circle cx="167" cy="126" r="20" fill="#b55231"/>
+  <rect x="312" y="108" width="254" height="38" rx="19" fill="#b55231"/>
+  <rect x="312" y="170" width="214" height="24" rx="12" fill="#d8c2ad"/>
+  <rect x="312" y="212" width="184" height="24" rx="12" fill="#cbb299"/>
+  <text x="60" y="352" font-size="30" fill="#5e544a" font-family="Arial, sans-serif">Mini App Cover</text>
+</svg>
