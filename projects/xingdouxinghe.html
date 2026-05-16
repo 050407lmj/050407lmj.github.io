@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>星斗星盒 | 刘明金</title>
-<meta name="description" content="星斗星盒项目详情页，介绍微信小程序、LLM 接入、情绪陪伴交互与云端部署。">
+<meta name="description" content="星斗星盒项目详情页，展示交互机制、LLM 接入、小程序实现和后续图片视频内容。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -16,20 +16,21 @@
       <a class="brand" href="../index.html">LIU MINGJIN</a>
       <nav class="nav-links" aria-label="页面导航">
         <a href="../index.html#projects">返回首页</a>
-        <a href="#gallery">项目图片</a>
+        <a href="#branches">关键模块</a>
+        <a href="#media">图片与视频</a>
         <a href="../index.html#contact">联系</a>
       </nav>
     </div>
   </header>
 
-  <main class="shell detail-main">
-    <section class="detail-hero">
-      <div>
+  <main class="shell project-page">
+    <section class="project-hero">
+      <div class="project-hero-copy">
         <p class="detail-kind">Mini App / Product</p>
         <h1 data-testid="project-title">星斗星盒</h1>
-        <p class="detail-text">
-          这是一个围绕情绪陪伴、认知重塑和对话体验设计的微信小程序项目。
-          对我来说，它代表的不只是功能开发，也代表我愿意把产品体验、表达方式和模型能力一起做完整。
+        <p class="project-lead">
+          这是一个围绕情绪陪伴、认知重塑和自然语言交互设计的微信小程序项目。
+          它不是只做技术接入，而是把交互机制、内容表达、模型能力和小程序体验一起组织成一个完整产品。
         </p>
         <div class="tag-list">
           <span>微信小程序</span>
@@ -38,76 +39,121 @@
           <span>体验设计</span>
         </div>
       </div>
-      <div>
+      <div class="project-hero-media">
         <img src="../assets/projects/xingdouxinghe-cover.svg" alt="星斗星盒封面图">
       </div>
     </section>
 
-    <section class="detail-section" data-testid="project-background">
-      <h2>项目背景</h2>
-      <p class="detail-text">
-        这个项目希望通过更温和、更持续的交互方式，为用户提供情绪表达与认知整理的空间，而不是机械式问答。
-        因此它既是一个技术项目，也是一个需要认真思考产品表达方式、互动机制和情绪反馈路径的项目。
-      </p>
-    </section>
+    <nav class="project-outline" aria-label="项目目录">
+      <a href="#overview">项目概述</a>
+      <a href="#role">我负责什么</a>
+      <a href="#branches">关键模块</a>
+      <a href="#media">图片与视频</a>
+    </nav>
 
-    <section class="detail-section">
-      <h2>我的职责</h2>
-      <div class="detail-grid">
-        <article class="detail-block">
-          <p>独立负责微信小程序前后端开发，设计核心页面结构，并引入“情绪共振星图”与“认知重塑”互动机制。</p>
-        </article>
-        <article class="detail-block">
-          <p>负责打通云服务器部署流程，对接大语言模型，构建情绪分析与自然语言响应体系。</p>
-        </article>
+    <div class="story-layout">
+      <aside class="story-meta">
+        <p class="detail-kind">Project Notes</p>
+        <ul class="meta-list">
+          <li><strong>项目类型：</strong>AI 情感共振微信小程序</li>
+          <li><strong>我的角色：</strong>前后端开发、交互机制设计、模型接入、云部署</li>
+          <li><strong>核心栈：</strong>微信小程序、LLM、云服务器、自然语言交互</li>
+          <li><strong>后续可补：</strong>核心页面截图、对话流演示、交互录像、功能结构图</li>
+        </ul>
+      </aside>
+
+      <div class="story-body">
+        <section class="story-section" id="overview" data-testid="project-background">
+          <h2>项目概述</h2>
+          <div class="story-copy">
+            <p>
+              这个项目希望通过更温和、更持续的交互方式，为用户提供情绪表达与认知整理的空间，而不是机械式问答。
+              所以它既是一个技术项目，也是一个需要认真思考产品表达方式和用户体验路径的项目。
+            </p>
+            <p>
+              对我来说，星斗星盒能比较完整地代表我“既做实现，也做表达”的一面。
+            </p>
+          </div>
+        </section>
+
+        <section class="story-section" id="role">
+          <h2>我负责什么</h2>
+          <div class="story-copy">
+            <p>我独立负责微信小程序前后端开发，设计核心页面结构，并引入“情绪共振星图”与“认知重塑”互动机制。</p>
+            <p>同时我负责打通云服务器部署流程，对接大语言模型，构建情绪分析与自然语言响应体系，并把这一套逻辑真正落到可运行的小程序里。</p>
+          </div>
+        </section>
+
+        <section class="story-section" id="branches" data-testid="project-branches">
+          <h2>关键模块与分支内容</h2>
+          <div class="branch-stack">
+            <article class="branch-block">
+              <div class="branch-copy">
+                <p class="detail-kind">Branch 01</p>
+                <h3>交互机制设计与页面表达</h3>
+                <p>这个项目的第一层不是模型，而是“用户进来以后会怎么感受、怎么继续使用”。</p>
+                <ul>
+                  <li>设计小程序页面结构和核心内容节奏。</li>
+                  <li>引入“情绪共振星图”与“认知重塑”互动机制。</li>
+                  <li>让功能不只停留在问答，而是形成更完整的情绪陪伴体验。</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="branch-block">
+              <div class="branch-copy">
+                <p class="detail-kind">Branch 02</p>
+                <h3>LLM 接入与自然语言响应体系</h3>
+                <p>项目第二层是模型能力本身，但重点不是“接上就行”，而是让它真的服务于产品场景。</p>
+                <ul>
+                  <li>对接大语言模型，构建情绪分析与自然语言响应体系。</li>
+                  <li>让模型输出和小程序页面逻辑保持一致，而不是割裂存在。</li>
+                  <li>围绕反馈路径设计响应方式，让互动更自然。</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="branch-block">
+              <div class="branch-copy">
+                <p class="detail-kind">Branch 03</p>
+                <h3>小程序前后端与云部署闭环</h3>
+                <p>最后一层是把它真正变成一个可运行产品，而不是停在概念和界面稿。</p>
+                <ul>
+                  <li>独立完成前后端开发和基础服务联动。</li>
+                  <li>打通云服务器部署流程，保证项目具备真实可访问能力。</li>
+                  <li>形成从交互、模型到部署的完整闭环。</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="media-area" id="media" data-testid="project-gallery">
+          <h2>图片与视频</h2>
+          <p class="media-note">后面你可以给这个项目补 UI 截图、对话演示、产品流程图，甚至直接放小程序录屏。</p>
+          <div class="media-pair">
+            <figure class="media-card">
+              <img src="../assets/projects/xingdouxinghe-cover.svg" alt="星斗星盒页面展示占位图">
+              <figcaption>这里后续可以放首页、核心功能页或者对话页截图。</figcaption>
+            </figure>
+            <figure class="media-card">
+              <img src="../assets/projects/xingdouxinghe-flow.svg" alt="星斗星盒交互流程图占位">
+              <figcaption>这里后续可以放交互流程图、对话路径图或功能结构图。</figcaption>
+            </figure>
+          </div>
+          <div class="video-card">
+            <div class="video-placeholder">后续这里可以替换成小程序录屏或讲解视频。适合展示页面切换、情绪机制互动和模型反馈过程。</div>
+            <p>这个项目如果补视频，会比纯截图更容易让人感受到产品节奏和交互设计。</p>
+          </div>
+        </section>
       </div>
-    </section>
-
-    <section class="detail-section">
-      <h2>技术与实现</h2>
-      <div class="detail-grid" data-testid="project-implementation">
-        <article class="detail-block">
-          <ul>
-            <li>设计小程序页面结构、情绪共振星图与认知重塑互动机制，让功能不只停留在问答层面。</li>
-            <li>围绕自然语言交互设计内容节奏、反馈路径和情绪陪伴体验。</li>
-          </ul>
-        </article>
-        <article class="detail-block">
-          <ul>
-            <li>接入 LLM，形成情绪分析与自然语言响应体系，并保证对话逻辑与小程序端联动。</li>
-            <li>完成云服务器部署和基础服务联动，保证一个可用的体验闭环。</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <section class="detail-section" id="gallery" data-testid="project-gallery">
-      <h2>图片展示</h2>
-      <div class="gallery-grid">
-        <figure class="gallery-figure">
-          <img src="../assets/projects/xingdouxinghe-cover.svg" alt="小程序界面占位图">
-          <figcaption>后续可替换为核心界面截图、对话页或功能结构展示图。</figcaption>
-        </figure>
-        <figure class="gallery-figure">
-          <img src="../assets/projects/xingdouxinghe-flow.svg" alt="交互流程图占位">
-          <figcaption>后续可替换为对话流程图、情绪机制示意图或产品结构图。</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="detail-section" data-testid="project-result">
-      <h2>结果与复盘</h2>
-      <p class="detail-text">
-        这个项目体现了我不只做技术实现，也愿意把体验、表达和产品逻辑一起做完整。
-        它对外展示的是一个更综合的我：既能开发，也会考虑用户怎么理解、怎么使用、怎么愿意继续留下来，并把这种思路真正落到可运行的小程序里。
-      </p>
-    </section>
+    </div>
   </main>
 
   <footer class="site-footer">
     <div class="shell footer-inner">
-      <span>项目详情页三</span>
-      <span>重点展示产品表达、对话体验与完整实现链路。</span>
+      <span>项目详情页四</span>
+      <span>适合继续补充小程序截图、结构图和录屏视频。</span>
     </div>
   </footer>
 

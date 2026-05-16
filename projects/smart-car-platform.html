@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>嵌入式小车移动控制平台 | 刘明金</title>
-<meta name="description" content="嵌入式小车移动控制平台项目详情页，介绍视觉识别、Android 控制端、多传感器接入和结果优化。">
+<meta name="description" content="嵌入式小车移动控制平台详情页，展示模型训练、Android 客户端、通信链路以及图片与视频内容。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -16,98 +16,144 @@
       <a class="brand" href="../index.html">LIU MINGJIN</a>
       <nav class="nav-links" aria-label="页面导航">
         <a href="../index.html#projects">返回首页</a>
-        <a href="#gallery">项目图片</a>
+        <a href="#branches">关键模块</a>
+        <a href="#media">图片与视频</a>
         <a href="../index.html#contact">联系</a>
       </nav>
     </div>
   </header>
 
-  <main class="shell detail-main">
-    <section class="detail-hero">
-      <div>
+  <main class="shell project-page">
+    <section class="project-hero">
+      <div class="project-hero-copy">
         <p class="detail-kind">AI / Android</p>
         <h1 data-testid="project-title">嵌入式小车移动控制平台</h1>
-        <p class="detail-text">
-          这是一个结合视觉识别、Android 控制端和多传感器输入的智能小车平台项目。
-          它的重点不只是“模型跑起来”，而是让识别能力、跨节点通信和终端交互一起稳定工作。
+        <p class="project-lead">
+          这个项目把视觉识别模型训练、Android 客户端维护、多路传感器接入和跨节点控制链路结合到了一起。
+          它不是单纯做一个识别 demo，而是把识别结果真正放进可以操作、可以联动的小车平台里。
         </p>
         <div class="tag-list">
           <span>YOLO11</span>
-          <span>Android</span>
-          <span>Java</span>
-          <span>视觉识别</span>
+          <span>Roboflow</span>
+          <span>Android / Java</span>
+          <span>视频流解析</span>
         </div>
       </div>
-      <div>
+      <div class="project-hero-media">
         <img src="../assets/projects/smart-car-cover.svg" alt="嵌入式小车移动控制平台封面图">
       </div>
     </section>
 
-    <section class="detail-section" data-testid="project-background">
-      <h2>项目背景</h2>
-      <p class="detail-text">
-        项目目标是让移动控制端、视觉识别模型和小车感知链路协同工作，形成一个可视化、可操作的智能控制平台。
-        它既涉及模型训练，也涉及移动端性能调优、终端呈现和跨节点硬件通信，因此对完整链路的理解要求比较高。
-      </p>
-    </section>
+    <nav class="project-outline" aria-label="项目目录">
+      <a href="#overview">项目概述</a>
+      <a href="#role">我负责什么</a>
+      <a href="#branches">关键模块</a>
+      <a href="#media">图片与视频</a>
+    </nav>
 
-    <section class="detail-section">
-      <h2>我的职责</h2>
-      <div class="detail-grid">
-        <article class="detail-block">
-          <p>主导视觉能力全流程重构，利用 Roboflow 建立数据集，负责 YOLO11 模型训练并覆盖车牌、红绿灯、交通标志、二维码、颜色、TFT 屏幕检测、行人等 10 余种识别对象。</p>
-        </article>
-        <article class="detail-block">
-          <p>负责 Android 端底层数据接口维护、视频流与多路传感器信号接收解析，并重构客户端 UI，优化信息面板与实时画框交互。</p>
-        </article>
+    <div class="story-layout">
+      <aside class="story-meta">
+        <p class="detail-kind">Project Notes</p>
+        <ul class="meta-list">
+          <li><strong>项目类型：</strong>智能小车控制与识别平台</li>
+          <li><strong>我的角色：</strong>模型训练、Android 客户端维护、交互优化、链路接入</li>
+          <li><strong>核心栈：</strong>YOLO11、Roboflow、Android、Java、视频流与传感器解析</li>
+          <li><strong>后续可补：</strong>识别画面、UI 截图、演示录像、多车协同视频</li>
+        </ul>
+      </aside>
+
+      <div class="story-body">
+        <section class="story-section" id="overview" data-testid="project-background">
+          <h2>项目概述</h2>
+          <div class="story-copy">
+            <p>
+              项目目标是让移动控制端、视觉识别模型和小车感知链路协同工作，形成一个可视化、可操作的智能控制平台。
+              因为它天然包含模型训练、终端维护、通信接入和交互设计，所以很适合拆成多段内容来展示。
+            </p>
+            <p>
+              这也是我比较有代表性的项目之一，因为它同时体现了我在 AI、客户端和嵌入式通信链路之间做整合的能力。
+            </p>
+          </div>
+        </section>
+
+        <section class="story-section" id="role">
+          <h2>我负责什么</h2>
+          <div class="story-copy">
+            <p>我主导了视觉能力全流程重构，使用 Roboflow 建立数据集，并基于 YOLO11 训练与落地车牌、红绿灯、交通标志、二维码、颜色、TFT 屏幕检测、行人等 10 余种识别模型。</p>
+            <p>同时我负责 Android 端底层数据接口维护、视频流与多路传感器信号接收解析，并重构客户端 UI，优化高密度信息面板和实时画框的交互体验。</p>
+          </div>
+        </section>
+
+        <section class="story-section" id="branches" data-testid="project-branches">
+          <h2>关键模块与分支内容</h2>
+          <div class="branch-stack">
+            <article class="branch-block">
+              <div class="branch-copy">
+                <p class="detail-kind">Branch 01</p>
+                <h3>视觉模型训练与数据集迭代</h3>
+                <p>项目里最核心的一条线是识别能力本身。我需要让模型不只是可训练，而是足够稳定地支撑实时场景。</p>
+                <ul>
+                  <li>利用 Roboflow 进行数据清洗、分类和标注，构建多任务数据集。</li>
+                  <li>基于 YOLO11 训练并迭代 10 余种识别模型。</li>
+                  <li>通过参数微调、训练集迭代和终端适配，将综合识别准确率提升到 90% 以上。</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="branch-block">
+              <div class="branch-copy">
+                <p class="detail-kind">Branch 02</p>
+                <h3>Android 客户端维护与交互重构</h3>
+                <p>这个项目不是只看后台结果，前端体验也很关键，所以我对客户端底层和界面都做了整理。</p>
+                <ul>
+                  <li>维护底层 Java 代码并重构冗余逻辑。</li>
+                  <li>重新设计客户端 UI，提升高密度信息面板的阅读效率。</li>
+                  <li>优化实时画框展示逻辑，让识别反馈更直观、更可操作。</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="branch-block">
+              <div class="branch-copy">
+                <p class="detail-kind">Branch 03</p>
+                <h3>跨节点通信与多路数据接入</h3>
+                <p>平台真正难的地方，在于模型、视频流、传感器和控制链路要同时稳定工作。</p>
+                <ul>
+                  <li>在 Android 端完成底层数据接口维护，实现多路传感器信号与视频流稳定接收解析。</li>
+                  <li>依托跨节点硬件通信架构，确保多车协同指令准确下发。</li>
+                  <li>结合移动端性能优化输入分辨率与阈值，改善实时检测帧率。</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="media-area" id="media" data-testid="project-gallery">
+          <h2>图片与视频</h2>
+          <p class="media-note">这一页后面非常适合补“真实识别画面 + 客户端截图 + 演示视频”，现在版式已经预留好了。</p>
+          <div class="media-pair">
+            <figure class="media-card">
+              <img src="../assets/projects/smart-car-cover.svg" alt="智能小车控制端界面占位图">
+              <figcaption>这里后续可以放控制端界面截图、实时识别画面或者实机演示照片。</figcaption>
+            </figure>
+            <figure class="media-card">
+              <img src="../assets/projects/smart-car-vision.svg" alt="识别过程示意图占位">
+              <figcaption>这里后续可以放识别类别展示图、画框结果图或多节点协同示意图。</figcaption>
+            </figure>
+          </div>
+          <div class="video-card">
+            <div class="video-placeholder">后续这里可以替换成项目演示视频。适合放“识别过程 + 控制端界面 + 小车实际动作”的录屏或拍摄视频。</div>
+            <p>如果你后续补视频，这个项目会特别加分，因为动态内容比静态图更能说明识别、控制和联动的真实性。</p>
+          </div>
+        </section>
       </div>
-    </section>
-
-    <section class="detail-section">
-      <h2>技术与实现</h2>
-      <div class="detail-grid" data-testid="project-implementation">
-        <article class="detail-block">
-          <ul>
-            <li>基于 YOLO11 训练多个识别模型，并通过持续迭代训练集与参数微调将综合识别准确率提升至 90% 以上。</li>
-            <li>通过 Roboflow 处理数据清洗、分类与标注流程，同时结合终端性能调整模型输入分辨率与置信度阈值。</li>
-          </ul>
-        </article>
-        <article class="detail-block">
-          <ul>
-            <li>依托跨节点硬件通信架构，在 Android 端稳定接收解析视频流与多路传感器数据，确保协同指令准确下发。</li>
-            <li>维护底层 Java 代码并重构冗余逻辑，优化实时画框与高密度信息面板的阅读效率。</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <section class="detail-section" id="gallery" data-testid="project-gallery">
-      <h2>图片展示</h2>
-      <div class="gallery-grid">
-        <figure class="gallery-figure">
-          <img src="../assets/projects/smart-car-cover.svg" alt="智能小车控制端界面占位图">
-          <figcaption>后续可替换为控制端界面截图、实时识别画面或终端 UI 展示图。</figcaption>
-        </figure>
-        <figure class="gallery-figure">
-          <img src="../assets/projects/smart-car-vision.svg" alt="识别过程示意图占位">
-          <figcaption>后续可替换为识别结果图、模型类别展示图或实物运行照片。</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="detail-section" data-testid="project-result">
-      <h2>结果与复盘</h2>
-      <p class="detail-text">
-        这个项目让我积累了从模型训练、数据集构建到终端接入和交互优化的完整链路经验，并在识别准确率和实时体验层面完成了明确提升。
-        它比单纯做一个识别 demo 更完整，因为它要求识别结果真正进入“可操作的产品界面”和“稳定可用的通信链路”。
-      </p>
-    </section>
+    </div>
   </main>
 
   <footer class="site-footer">
     <div class="shell footer-inner">
       <span>项目详情页二</span>
-      <span>重点展示识别链路、终端接入与交互优化。</span>
+      <span>适合继续补充识别截图、客户端界面和演示视频。</span>
     </div>
   </footer>
 

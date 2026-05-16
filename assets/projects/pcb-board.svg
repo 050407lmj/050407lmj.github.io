@@ -1,0 +1,17 @@
+<svg width="960" height="720" viewBox="0 0 960 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="720" rx="36" fill="#0C182B"/>
+  <rect x="92" y="88" width="776" height="544" rx="30" fill="#15314E" stroke="#64FFDA" stroke-opacity="0.18"/>
+  <rect x="154" y="154" width="650" height="412" rx="22" fill="#0E1D32"/>
+  <path d="M210 230H738" stroke="#64FFDA" stroke-opacity="0.24" stroke-width="8" stroke-linecap="round"/>
+  <path d="M210 308H598L654 252H738" stroke="#64FFDA" stroke-width="8" stroke-linecap="round"/>
+  <path d="M210 386H416L470 450H738" stroke="#64FFDA" stroke-width="8" stroke-linecap="round"/>
+  <path d="M210 464H328L388 528H564" stroke="#64FFDA" stroke-width="8" stroke-linecap="round"/>
+  <path d="M626 464H738" stroke="#64FFDA" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="210" cy="230" r="14" fill="#64FFDA" fill-opacity="0.24"/>
+  <circle cx="738" cy="230" r="14" fill="#64FFDA" fill-opacity="0.24"/>
+  <circle cx="738" cy="308" r="14" fill="#64FFDA" fill-opacity="0.24"/>
+  <circle cx="738" cy="386" r="14" fill="#64FFDA" fill-opacity="0.24"/>
+  <circle cx="564" cy="528" r="14" fill="#64FFDA" fill-opacity="0.24"/>
+  <text x="154" y="126" fill="#64FFDA" font-family="Arial, sans-serif" font-size="28" letter-spacing="4">BOARD BRING-UP</text>
+  <text x="192" y="600" fill="#8892B0" font-family="Arial, sans-serif" font-size="20">routing / silkscreen / DRC / soldering / power-on test</text>
+</svg>

@@ -1,0 +1,20 @@
+<svg width="960" height="720" viewBox="0 0 960 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="720" rx="36" fill="#10233D"/>
+  <rect x="76" y="82" width="808" height="556" rx="28" fill="#15304F" stroke="#64FFDA" stroke-opacity="0.18"/>
+  <rect x="132" y="138" width="252" height="186" rx="20" fill="#0E1D32" stroke="#64FFDA" stroke-opacity="0.22"/>
+  <rect x="420" y="138" width="408" height="60" rx="14" fill="#132946"/>
+  <rect x="420" y="220" width="408" height="104" rx="18" fill="#0E1D32" stroke="#64FFDA" stroke-opacity="0.16"/>
+  <rect x="132" y="362" width="696" height="196" rx="24" fill="#0E1D32" stroke="#64FFDA" stroke-opacity="0.16"/>
+  <path d="M185 438H342L392 490H532L604 418H767" stroke="#64FFDA" stroke-width="10" stroke-linecap="round"/>
+  <path d="M185 492H292L340 540H444" stroke="#3C5F84" stroke-width="10" stroke-linecap="round"/>
+  <path d="M522 492H766" stroke="#3C5F84" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="190" cy="438" r="18" fill="#64FFDA" fill-opacity="0.25"/>
+  <circle cx="768" cy="418" r="18" fill="#64FFDA" fill-opacity="0.25"/>
+  <circle cx="445" cy="492" r="18" fill="#64FFDA" fill-opacity="0.25"/>
+  <circle cx="522" cy="492" r="18" fill="#64FFDA" fill-opacity="0.25"/>
+  <text x="132" y="110" fill="#64FFDA" font-family="Arial, sans-serif" font-size="30" letter-spacing="4">PCB DESIGN</text>
+  <text x="156" y="214" fill="#E6F1FF" font-family="Arial, sans-serif" font-size="28">EDA</text>
+  <text x="156" y="250" fill="#8892B0" font-family="Arial, sans-serif" font-size="18">schematic / layout / debug</text>
+  <text x="450" y="175" fill="#E6F1FF" font-family="Arial, sans-serif" font-size="24">JLCEDA workflow</text>
+  <text x="450" y="260" fill="#8892B0" font-family="Arial, sans-serif" font-size="18">From schematic planning to physical board bring-up</text>
+</svg>

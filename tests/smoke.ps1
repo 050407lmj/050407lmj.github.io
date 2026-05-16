@@ -30,6 +30,7 @@ Assert-Contains -Content $homePage.Content -Expected 'data-testid="contact-secti
 $detailPaths = @(
   '/projects/embedded-system.html',
   '/projects/smart-car-platform.html',
+  '/projects/jlc-pcb-design.html',
   '/projects/xingdouxinghe.html'
 )
 
@@ -37,8 +38,8 @@ foreach ($path in $detailPaths) {
   $page = Invoke-WebRequest -Uri ("http://127.0.0.1:4173" + $path) -UseBasicParsing
   Assert-Contains -Content $page.Content -Expected 'data-testid="project-title"' -Label $path
   Assert-Contains -Content $page.Content -Expected 'data-testid="project-background"' -Label $path
+  Assert-Contains -Content $page.Content -Expected 'data-testid="project-branches"' -Label $path
   Assert-Contains -Content $page.Content -Expected 'data-testid="project-gallery"' -Label $path
-  Assert-Contains -Content $page.Content -Expected 'data-testid="project-result"' -Label $path
 }
 
 Write-Host 'Smoke test passed.'

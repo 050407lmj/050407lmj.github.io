@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嘉立创 EDA / PCB 设计与硬件调试 | 刘明金</title>
+<meta name="description" content="嘉立创 EDA / PCB 设计与硬件调试详情页，展示原理图设计、PCB 布局布线、打样与焊接调试流程。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell nav-bar">
+      <a class="brand" href="../index.html">LIU MINGJIN</a>
+      <nav class="nav-links" aria-label="页面导航">
+        <a href="../index.html#projects">返回首页</a>
+        <a href="#branches">关键模块</a>
+        <a href="#media">图片与视频</a>
+        <a href="../index.html#contact">联系</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell project-page">
+    <section class="project-hero">
+      <div class="project-hero-copy">
+        <p class="detail-kind">Hardware / PCB</p>
+        <h1 data-testid="project-title">嘉立创 EDA / PCB 设计与硬件调试</h1>
+        <p class="project-lead">
+          这是我在硬件方向上很值得单独展开的一个项目集合。
+          它覆盖了从原理图绘制、器件选型、封装匹配、PCB 布局布线，到打样下单、焊接调试和上电验证的完整流程，
+          能比较直接地说明我不只是会写 MCU 程序，也能把硬件平台真正做出来。
+        </p>
+        <div class="tag-list">
+          <span>嘉立创 EDA</span>
+          <span>原理图</span>
+          <span>PCB 布局布线</span>
+          <span>焊接调试</span>
+        </div>
+      </div>
+      <div class="project-hero-media">
+        <img src="../assets/projects/pcb-cover.svg" alt="PCB 设计与硬件调试封面图">
+      </div>
+    </section>
+
+    <nav class="project-outline" aria-label="项目目录">
+      <a href="#overview">项目概述</a>
+      <a href="#role">我负责什么</a>
+      <a href="#branches">关键模块</a>
+      <a href="#media">图片与视频</a>
+    </nav>
+
+    <div class="story-layout">
+      <aside class="story-meta">
+        <p class="detail-kind">Project Notes</p>
+        <ul class="meta-list">
+          <li><strong>项目类型：</strong>硬件平台与 PCB 设计实践</li>
+          <li><strong>我的角色：</strong>独立设计、布线、打样、焊接与上电验证</li>
+          <li><strong>核心栈：</strong>嘉立创 EDA、原理图、封装匹配、DRC、Gerber 输出、调试验证</li>
+          <li><strong>后续可补：</strong>原理图截图、PCB 正反面图、实物照片、焊接演示视频</li>
+        </ul>
+      </aside>
+
+      <div class="story-body">
+        <section class="story-section" id="overview" data-testid="project-background">
+          <h2>项目概述</h2>
+          <div class="story-copy">
+            <p>
+              这个项目不是单一成品，而是围绕开发板、硬件拓展坞和嵌入式学习需求形成的一组 PCB 设计与调试实践。
+              它的价值在于把“设计文件”和“实物板卡”之间的链路真正走通。
+            </p>
+            <p>
+              对外展示时，这类项目特别适合用长页面，因为它本身就是多阶段内容：原理图规划、PCB 布线、打样落地、焊接调试、功能验证。
+            </p>
+          </div>
+        </section>
+
+        <section class="story-section" id="role">
+          <h2>我负责什么</h2>
+          <div class="story-copy">
+            <p>我基于项目验证、外设拓展和嵌入式学习需求，独立完成多款开发板及硬件拓展坞设计，覆盖原理图绘制、器件选型、封装匹配、网络检查与电路结构规划。</p>
+            <p>同时，我负责 PCB 布局布线、走线优化、丝印整理、DRC 检查、Gerber 文件输出与打样下单，并对板卡进行焊接、上电测试和接口验证。</p>
+          </div>
+        </section>
+
+        <section class="story-section" id="branches" data-testid="project-branches">
+          <h2>关键模块与分支内容</h2>
+          <div class="branch-stack">
+            <article class="branch-block">
+              <div class="branch-copy">
+                <p class="detail-kind">Branch 01</p>
+                <h3>原理图规划与硬件结构设计</h3>
+                <p>在正式布线之前，我先把硬件结构和使用场景想清楚，避免后面返工。</p>
+                <ul>
+                  <li>独立完成原理图绘制、器件选型、封装匹配和电路结构规划。</li>
+                  <li>围绕项目验证、外设拓展和嵌入式学习需求进行模块安排。</li>
+                  <li>通过网络检查和接口预留，为后续功能验证留出余量。</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="branch-block">
+              <div class="branch-copy">
+                <p class="detail-kind">Branch 02</p>
+                <h3>PCB 布局布线与打样落地</h3>
+                <p>这部分是从图纸走向实体板卡的关键阶段，我需要兼顾结构、可制造性和后续调试便利性。</p>
+                <ul>
+                  <li>使用嘉立创 EDA 完成 PCB 布局布线、走线优化和丝印整理。</li>
+                  <li>完成 DRC 检查、Gerber 文件输出和打样下单。</li>
+                  <li>把设计从软件文件真正推进到可制造、可拿到手的实体板卡。</li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="branch-block">
+              <div class="branch-copy">
+                <p class="detail-kind">Branch 03</p>
+                <h3>焊接调试、上电验证与复用平台搭建</h3>
+                <p>拿到板之后，关键不是“焊完就结束”，而是让它能稳定工作，并能继续服务后续项目开发。</p>
+                <ul>
+                  <li>对打样板进行焊接、上电测试、供电检查和接口连通性验证。</li>
+                  <li>能够定位并修复焊接异常、走线问题和供电不稳定情况。</li>
+                  <li>结合 MCU 程序开发，对核心外设、拓展接口和通信功能进行验证，形成可复用硬件平台。</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="media-area" id="media" data-testid="project-gallery">
+          <h2>图片与视频</h2>
+          <p class="media-note">这一页后面特别适合放原理图截图、PCB 正反面图、实物照片和焊接调试短视频。</p>
+          <div class="media-pair">
+            <figure class="media-card">
+              <img src="../assets/projects/pcb-cover.svg" alt="PCB 设计流程占位图">
+              <figcaption>这里后续可以放原理图界面截图、器件布局图或者不同板卡版本对比图。</figcaption>
+            </figure>
+            <figure class="media-card">
+              <img src="../assets/projects/pcb-board.svg" alt="PCB 板卡展示占位图">
+              <figcaption>这里后续可以放 PCB 正反面图、实物打样板照片或焊接完成后的展示图。</figcaption>
+            </figure>
+          </div>
+          <div class="video-card">
+            <div class="video-placeholder">后续这里可以替换成焊接调试视频、上电测试录屏，或者拍摄一段板卡功能演示。</div>
+            <p>如果你以后补视频，这个项目会更有说服力，因为硬件调试过程本身就很适合用动态内容证明真实性。</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>项目详情页三</span>
+      <span>适合继续补充原理图、PCB 实物图和硬件调试视频。</span>
+    </div>
+  </footer>
+
+  <script src="../site.js"></script>
+</body>
+</html>

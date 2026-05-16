@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>刘明金 | 嵌入式 × AI × 项目作品集</title>
-<meta name="description" content="刘明金的个人作品集，聚焦嵌入式开发、端侧 AI、微信小程序与项目落地实践。">
+<meta name="description" content="刘明金的个人作品集，聚焦嵌入式开发、端侧 AI、微信小程序、PCB 设计与项目落地实践。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -15,6 +15,7 @@
     <div class="shell nav-bar">
       <a class="brand" href="index.html">LIU MINGJIN</a>
       <nav class="nav-links" aria-label="主导航">
+        <a href="#overview">能力</a>
         <a href="#projects">项目</a>
         <a href="#about">关于我</a>
         <a href="#contact">联系</a>
@@ -22,157 +23,194 @@
     </div>
   </header>
 
-  <main>
-    <section class="hero shell">
-      <div class="hero-copy">
-        <p class="eyebrow">Embedded / AI / Product Sense</p>
-        <h1 data-testid="hero-title">做嵌入式，也在认真把 AI 和交互体验做完整。</h1>
-        <p class="hero-summary">
-          我是刘明金，专业是物联网应用技术，主方向是嵌入式开发，
-          同时持续在做端侧 AI、Android 客户端维护、微信小程序与硬件落地实践。
-          我希望这里不只是简历镜像，而是一个能让人快速看懂我做过什么、擅长什么、适合什么机会的个人作品集。
-        </p>
-        <div class="tag-list">
-          <span>物联网应用技术</span>
-          <span>嵌入式开发</span>
-          <span>YOLO / 端侧 AI</span>
-          <span>小程序 / 交互表达</span>
+  <main class="shell flow-layout">
+    <section class="hero" data-testid="hero-title-wrap">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Embedded / AI / Product Sense</p>
+          <h1 data-testid="hero-title">做嵌入式，也在认真把 AI 和交互体验做完整。</h1>
+          <p class="hero-summary">
+            我是刘明金，专业是物联网应用技术，主方向是嵌入式开发，
+            同时持续在做端侧 AI、Android 客户端维护、微信小程序、PCB 设计与硬件落地实践。
+            这个网站不是简历镜像，而是一个让人快速理解我做过什么、能继续做什么的项目入口。
+          </p>
+          <div class="tag-list">
+            <span>物联网应用技术</span>
+            <span>嵌入式开发</span>
+            <span>YOLO / 端侧 AI</span>
+            <span>PCB 设计</span>
+            <span>小程序 / 交互表达</span>
+          </div>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#projects">查看项目</a>
+            <a class="button button-secondary" href="#contact">联系我</a>
+          </div>
         </div>
-        <div class="hero-actions">
-          <a class="button button-primary" href="#projects">查看项目</a>
-          <a class="button button-secondary" href="#contact">联系我</a>
-        </div>
-      </div>
 
-      <aside class="hero-aside">
-        <article class="identity-card">
-          <div class="portrait-frame">
+        <aside class="hero-aside">
+          <div class="portrait-frame hero-portrait">
             <img src="assets/portrait.jpg" alt="刘明金个人照片">
           </div>
-          <div class="identity-copy">
-            <p class="identity-label">Portfolio Identity</p>
-            <h2>刘明金</h2>
-            <p>以正式、清晰、可信的个人形象建立第一印象，让整个作品集更适合简历附链和对外展示。</p>
-          </div>
-        </article>
-        <article class="snapshot-card">
-          <div class="snapshot-grid">
-            <div>
-              <span>主方向</span>
-              <strong>嵌入式 + AI</strong>
-            </div>
-            <div>
-              <span>项目类型</span>
-              <strong>竞赛 / 终端 / 小程序</strong>
-            </div>
-            <div>
-              <span>风格关键词</span>
-              <strong>能落地 / 会表达</strong>
-            </div>
-            <div>
-              <span>证书亮点</span>
-              <strong>CET-4 / 计算机一级</strong>
-            </div>
-          </div>
-        </article>
-      </aside>
+        </aside>
+      </div>
     </section>
 
-    <section class="section shell" id="projects" data-testid="featured-projects">
+    <section class="section section-plain" id="overview">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Overview</p>
+          <h2>能力概览</h2>
+        </div>
+        <p>先看清楚方向、技能和工具栈，再进入项目细节，这样阅读路径会更接近真实开发者个人网站。</p>
+      </div>
+
+      <div class="overview-layout">
+        <article class="overview-intro">
+          <p class="detail-kind">Professional Focus</p>
+          <h3>姓名与专业</h3>
+          <p>刘明金，专业是物联网应用技术。当前重点放在嵌入式系统、端侧 AI、Android 客户端维护、微信小程序与 PCB 设计落地实践。</p>
+          <div class="tag-list small">
+            <span>嵌入式</span>
+            <span>端侧 AI</span>
+            <span>Android</span>
+            <span>PCB 设计</span>
+            <span>微信小程序</span>
+          </div>
+        </article>
+
+        <div class="overview-rows">
+          <article class="overview-row">
+            <div class="overview-label">
+              <p class="detail-kind">Core Skills</p>
+              <h3>专业技能</h3>
+            </div>
+            <div class="overview-content">
+              <p><strong>嵌入式与硬件：</strong>熟悉 CH32 系列（V307/H417）及 STM32F407 芯片开发，掌握 FreeRTOS、RT-Thread，具备原理图和 PCB 布局布线能力。</p>
+              <p><strong>端侧 AI 与视觉：</strong>熟练掌握 YOLO11 全生命周期训练，熟练使用 Roboflow 进行数据清洗和标注，并具备推理加速与准确率调优经验。</p>
+              <p><strong>应用与全栈：</strong>熟悉 Android（Java）客户端开发，熟悉微信小程序原生开发及云服务器独立部署。</p>
+              <p><strong>物联网通信：</strong>熟悉 Wi-Fi、Zigbee 以及复杂异构网络通信链路的搭建与维护。</p>
+            </div>
+          </article>
+
+          <article class="overview-row">
+            <div class="overview-label">
+              <p class="detail-kind">Certificates</p>
+              <h3>资格证书</h3>
+            </div>
+            <div class="overview-content">
+              <p>大学英语四级（CET-4）</p>
+              <p>全国计算机等级考试一级</p>
+            </div>
+          </article>
+
+          <article class="overview-row">
+            <div class="overview-label">
+              <p class="detail-kind">AI Toolkit</p>
+              <h3>AI 工具能力</h3>
+            </div>
+            <div class="overview-content">
+              <p><strong>模型工具：</strong>GPT、Gemini、Claude、通义、DeepSeek、GLM、Kimi、MiniMax。</p>
+              <p><strong>开发提效：</strong>AI 编程、Bug 修复、Agent、Dify。</p>
+              <p><strong>工作提效：</strong>文档撰写、方案整理、PPT 制作、资料检索。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-plain" id="projects" data-testid="featured-projects">
       <div class="section-heading">
         <div>
           <p class="eyebrow">Featured Projects</p>
           <h2>代表项目</h2>
         </div>
-        <p>先看懂这是什么项目，再决定要不要点进去看完整细节。</p>
+        <p>首页整块可点，先看懂项目是什么，再点进长页面查看图片、视频和具体分支内容。</p>
       </div>
 
-      <div class="project-grid">
-        <article class="project-card">
-          <img src="assets/projects/embedded-cover.svg" alt="嵌入式系统应用开发封面图">
-          <p class="project-type">Embedded / Competition</p>
-          <h3>嵌入式系统应用开发</h3>
-          <p class="project-summary">参加江苏省职业院校技能大赛，基于 CH32H417QEU6 与 RT-Thread 完成系统开发和整机联调。</p>
-          <div class="tag-list small">
-            <span>嵌入式</span>
-            <span>RT-Thread</span>
-            <span>比赛项目</span>
-          </div>
-          <p class="project-result"><strong>结果点：</strong>负责系统方案设计、任务拆解、多外设驱动适配与稳定性优化</p>
-          <a class="project-link" href="projects/embedded-system.html">查看详情</a>
-        </article>
+      <div class="project-list">
+        <a class="project-entry" href="projects/embedded-system.html">
+          <article class="project-item">
+            <div class="project-text">
+              <p class="project-type">Embedded / Competition</p>
+              <h3>嵌入式系统应用开发</h3>
+              <p class="project-summary">江苏省职业院校技能大赛项目，基于 CH32H417QEU6 与 RT-Thread 完成底层驱动、多任务调度和整机联调。</p>
+              <div class="tag-list small">
+                <span>嵌入式</span>
+                <span>RT-Thread</span>
+                <span>比赛项目</span>
+              </div>
+              <p class="project-result"><strong>你会看到：</strong>系统方案设计、任务拆解、多外设驱动联调与稳定性优化过程</p>
+              <span class="project-cta">进入项目详情</span>
+            </div>
+            <div class="project-media">
+              <img src="assets/projects/embedded-cover.svg" alt="嵌入式系统应用开发封面图">
+            </div>
+          </article>
+        </a>
 
-        <article class="project-card">
-          <img src="assets/projects/smart-car-cover.svg" alt="嵌入式小车移动控制平台封面图">
-          <p class="project-type">AI / Android</p>
-          <h3>嵌入式小车移动控制平台</h3>
-          <p class="project-summary">结合视觉识别模型训练、Android 客户端维护和多传感器接入的智能小车平台项目。</p>
-          <div class="tag-list small">
-            <span>YOLO11</span>
-            <span>Android</span>
-            <span>视觉识别</span>
-          </div>
-          <p class="project-result"><strong>结果点：</strong>训练 10 余种模型，综合识别准确率 90% 以上，并优化实时交互体验</p>
-          <a class="project-link" href="projects/smart-car-platform.html">查看详情</a>
-        </article>
+        <a class="project-entry" href="projects/smart-car-platform.html">
+          <article class="project-item">
+            <div class="project-text">
+              <p class="project-type">AI / Android</p>
+              <h3>嵌入式小车移动控制平台</h3>
+              <p class="project-summary">结合 YOLO11 视觉识别、Android 客户端维护和跨节点通信的智能小车平台项目。</p>
+              <div class="tag-list small">
+                <span>YOLO11</span>
+                <span>Android</span>
+                <span>视觉识别</span>
+              </div>
+              <p class="project-result"><strong>你会看到：</strong>模型训练、移动端重构、视频流解析和多车协同链路</p>
+              <span class="project-cta">进入项目详情</span>
+            </div>
+            <div class="project-media">
+              <img src="assets/projects/smart-car-cover.svg" alt="嵌入式小车移动控制平台封面图">
+            </div>
+          </article>
+        </a>
 
-        <article class="project-card">
-          <img src="assets/projects/xingdouxinghe-cover.svg" alt="星斗星盒封面图">
-          <p class="project-type">Mini App / Product</p>
-          <h3>星斗星盒</h3>
-          <p class="project-summary">一个围绕情绪共振星图、认知重塑和自然语言交互设计的微信小程序项目。</p>
-          <div class="tag-list small">
-            <span>微信小程序</span>
-            <span>LLM</span>
-            <span>体验设计</span>
-          </div>
-          <p class="project-result"><strong>结果点：</strong>独立完成前后端开发、模型接入和云服务器部署流程</p>
-          <a class="project-link" href="projects/xingdouxinghe.html">查看详情</a>
-        </article>
-      </div>
-    </section>
+        <a class="project-entry" href="projects/jlc-pcb-design.html">
+          <article class="project-item">
+            <div class="project-text">
+              <p class="project-type">Hardware / PCB</p>
+              <h3>嘉立创 EDA / PCB 设计与硬件调试</h3>
+              <p class="project-summary">围绕开发板、拓展坞与项目验证需求，独立完成原理图设计、PCB 布局布线、打样落地与焊接调试。</p>
+              <div class="tag-list small">
+                <span>嘉立创 EDA</span>
+                <span>PCB 设计</span>
+                <span>硬件调试</span>
+              </div>
+              <p class="project-result"><strong>你会看到：</strong>从设计文件到实物板卡，再到上电验证和可复用平台搭建</p>
+              <span class="project-cta">进入项目详情</span>
+            </div>
+            <div class="project-media">
+              <img src="assets/projects/pcb-cover.svg" alt="嘉立创 EDA / PCB 设计与硬件调试封面图">
+            </div>
+          </article>
+        </a>
 
-    <section class="section shell">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Skills & Toolkit</p>
-          <h2>能力概览</h2>
-        </div>
-        <p>这里聚焦你真正希望别人快速判断的部分：专业技能、证书和工具能力，而不是学校背景。</p>
-      </div>
-
-      <div class="detail-grid summary-grid">
-        <article class="detail-block">
-          <p class="detail-kind">Core Skills</p>
-          <h3>专业技能</h3>
-          <ul>
-            <li>嵌入式与硬件：熟悉 CH32 系列（V307/H417）及 STM32F407 芯片开发，掌握 FreeRTOS、RT-Thread，具备原理图和 PCB 布局布线能力。</li>
-            <li>端侧 AI 与视觉：熟练掌握 YOLO11 全生命周期训练，熟练使用 Roboflow 进行数据清洗和标注，并具备推理加速与准确率调优经验。</li>
-            <li>应用与全栈：熟悉 Android（Java）客户端开发，熟悉微信小程序原生开发及云服务器独立部署。</li>
-            <li>物联网通信：熟悉 Wi-Fi、Zigbee 以及复杂异构网络通信链路的搭建与维护。</li>
-          </ul>
-        </article>
-
-        <article class="detail-block">
-          <p class="detail-kind">Certificates</p>
-          <h3>资格证书</h3>
-          <ul>
-            <li>大学英语四级（CET-4）</li>
-            <li>全国计算机等级考试一级</li>
-          </ul>
-        </article>
-
-        <article class="detail-block">
-          <p class="detail-kind">AI Toolkit</p>
-          <h3>AI 工具能力</h3>
-          <p>模型工具：GPT、Gemini、Claude、通义、DeepSeek、GLM、Kimi、MiniMax。</p>
-          <p>开发提效：AI 编程、Bug 修复、Agent、Dify。</p>
-          <p>工作提效：文档撰写、方案整理、PPT 制作、资料检索。</p>
-        </article>
+        <a class="project-entry" href="projects/xingdouxinghe.html">
+          <article class="project-item">
+            <div class="project-text">
+              <p class="project-type">Mini App / Product</p>
+              <h3>星斗星盒</h3>
+              <p class="project-summary">一个围绕情绪共振星图、认知重塑和自然语言交互设计的微信小程序项目。</p>
+              <div class="tag-list small">
+                <span>微信小程序</span>
+                <span>LLM</span>
+                <span>体验设计</span>
+              </div>
+              <p class="project-result"><strong>你会看到：</strong>交互机制设计、模型接入、云部署和完整小程序实现链路</p>
+              <span class="project-cta">进入项目详情</span>
+            </div>
+            <div class="project-media">
+              <img src="assets/projects/xingdouxinghe-cover.svg" alt="星斗星盒封面图">
+            </div>
+          </article>
+        </a>
       </div>
     </section>
 
-    <section class="section shell" id="about" data-testid="about-section">
+    <section class="section section-plain" id="about" data-testid="about-section">
       <div class="section-heading">
         <div>
           <p class="eyebrow">About</p>
@@ -183,8 +221,8 @@
       <div class="about-grid">
         <article class="about-card">
           <p>
-            我更喜欢做能真正落地的项目，也愿意把项目表达清楚。
-            在嵌入式、端侧 AI、Android 客户端和小程序之间，我一直在找能把“技术实现”和“实际体验”连起来的方式。
+            我更喜欢做能真正落地的项目，也愿意把项目讲清楚。
+            在嵌入式、端侧 AI、Android、小程序和硬件设计之间，我一直在找把技术实现、产品表达和实际体验连接起来的方式。
           </p>
         </article>
         <article class="about-card">
@@ -202,7 +240,7 @@
       </div>
     </section>
 
-    <section class="section shell" id="contact" data-testid="contact-section">
+    <section class="section section-plain" id="contact" data-testid="contact-section">
       <div class="section-heading">
         <div>
           <p class="eyebrow">Contact</p>
