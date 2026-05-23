@@ -387,6 +387,7 @@ video {
 .project-media img {
   width: min(100%, 320px);
   height: auto;
+  object-fit: contain;
   border-radius: 20px;
   border: 1px solid rgba(136, 146, 176, 0.18);
   background: rgba(17, 34, 64, 0.28);
@@ -604,6 +605,10 @@ video {
 }
 
 .media-pair {
+  grid-template-columns: 1fr 1fr;
+}
+
+.media-grid {
   grid-template-columns: 1fr 1fr;
 }
 

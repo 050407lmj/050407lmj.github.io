@@ -35,12 +35,13 @@
         <div class="tag-list">
           <span>CH32H417QEU6</span>
           <span>RT-Thread</span>
-          <span>驱动开发</span>
-          <span>系统联调</span>
+          <span>LVGL</span>
+          <span>TFLM</span>
+          <span>22 种外设</span>
         </div>
       </div>
       <div class="project-hero-media">
-        <img src="../assets/projects/embedded-cover.svg" alt="嵌入式系统应用开发封面图">
+        <img src="../assets/projects/embedded-real/board-wiring.jpg" alt="嵌入式系统应用开发实物图">
       </div>
     </section>
 
@@ -57,8 +58,8 @@
         <ul class="meta-list">
           <li><strong>项目类型：</strong>省赛类嵌入式系统开发</li>
           <li><strong>我的角色：</strong>任务分析、架构拆分、驱动开发、联调推进</li>
-          <li><strong>核心栈：</strong>CH32H417QEU6、RT-Thread、GPIO、串口、定时器、显示模块</li>
-          <li><strong>后续可补：</strong>整机照片、任务结构图、比赛现场图、演示视频</li>
+          <li><strong>核心栈：</strong>CH32H417QEU6、RT-Thread、LVGL、TensorFlow Lite Micro、GPIO / PWM / I2C / SPI / UART / ADC / DAC</li>
+          <li><strong>当前素材：</strong>整机实物图、模块接线图、开发板演示视频</li>
         </ul>
       </aside>
 
@@ -71,7 +72,8 @@
               它考验的不是单个知识点，而是工程节奏、架构拆分能力和现场排障能力。
             </p>
             <p>
-              这个项目特别适合做成长页面展示，因为它天然包含多个分支内容：系统方案怎么拆、任务怎么调度、外设怎么联调、稳定性问题怎么定位。
+              在我的实现里，这个项目不只是“驱动能跑”，而是搭成了一个基于 RT-Thread、LVGL 和 TensorFlow Lite Micro 的完整软件架构。
+              整个系统覆盖 22 种板载外设，并通过 12 个独立任务线程组织 7 大综合外设场景。
             </p>
           </div>
         </section>
@@ -80,7 +82,7 @@
           <h2>我负责什么</h2>
           <div class="story-copy">
             <p>我负责竞赛任务分析、系统架构设计、模块功能划分与开发推进，完成从需求理解、代码实现到整机联调的完整流程。</p>
-            <p>在联调阶段，我还承担了多外设驱动适配、异常数据定位、任务阻塞排查和通信不稳定优化等工作。</p>
+            <p>除了底层驱动和外设联调，我还把应用层按任务拆成独立线程，并围绕 GUI 显示、传感器采集、音频、图像处理和端侧推理组织统一接口。</p>
           </div>
         </section>
 
@@ -94,9 +96,9 @@
                   <h3>系统方案设计与任务拆解</h3>
                   <p>先把竞赛任务拆清楚，再决定模块边界和开发顺序，这一步决定了后面联调会不会乱。</p>
                   <ul>
-                    <li>分析赛项需求，明确优先级和功能依赖关系。</li>
-                    <li>划分传感器采集、通信交互、外设控制、数据显示等模块。</li>
-                    <li>把“先跑通链路，再逐步优化”作为整体推进策略。</li>
+                  <li>分析赛项需求，明确优先级和功能依赖关系。</li>
+                  <li>划分应用层、平台抽象层、驱动层和硬件层，避免后续开发互相缠绕。</li>
+                  <li>把“先跑通链路，再逐步优化”作为整体推进策略。</li>
                   </ul>
                 </div>
               </div>
@@ -108,9 +110,9 @@
                 <h3>RT-Thread 多任务调度与外设并发</h3>
                 <p>项目不是单模块开发，而是多个外设与任务协同运行，所以我把 RT-Thread 作为系统组织骨架。</p>
                 <ul>
-                  <li>基于 RT-Thread 组织多任务并发运行，协调采集、控制、交互和显示。</li>
-                  <li>围绕 GPIO、串口、定时器、通信模块及显示模块进行驱动适配与联调。</li>
-                  <li>优先保证系统链路完整，再逐步调优响应效率与运行稳定性。</li>
+                  <li>基于 RT-Thread 组织 12 个独立任务线程，覆盖 7 大综合外设场景。</li>
+                  <li>围绕 GPIO、PWM、I2C、SPI、UART、ADC、DAC 等 22 种板载外设进行驱动适配与联调。</li>
+                  <li>通过 LVGL 搭建按钮、滑块、图表、仪表盘等 GUI 交互界面，提升系统可视化表达能力。</li>
                 </ul>
               </div>
             </article>
@@ -122,7 +124,7 @@
                 <p>真正耗时间的是联调阶段。我需要在多个模块同时工作的情况下，快速找到阻塞点和异常源。</p>
                 <ul>
                   <li>处理运行过程中的数据异常、任务阻塞和通信不稳定问题。</li>
-                  <li>通过接口约定和调试顺序控制联调冲突。</li>
+                  <li>接入 TensorFlow Lite Micro，完成摄像头采集、预处理、FFT 频域处理到端侧识别显示的整条链路。</li>
                   <li>把多外设系统真正整合成可持续运行的整机。</li>
                 </ul>
               </div>
@@ -132,20 +134,22 @@
 
         <section class="media-area" id="media" data-testid="project-gallery">
           <h2>图片与视频</h2>
-          <p class="media-note">这一块已经按后续可用的方式预留好了。你后面既可以放图片，也可以直接换成演示视频。</p>
+          <p class="media-note">这里已经换成真实素材，先展示实物连接状态，再补一个可播放的视频入口。</p>
           <div class="media-pair">
             <figure class="media-card">
-              <img src="../assets/projects/embedded-cover.svg" alt="嵌入式系统应用开发硬件展示占位图">
-              <figcaption>这里后续可以放整机照片、比赛工位图或主控板展示图。</figcaption>
+              <img src="../assets/projects/embedded-real/board-setup.jpg" alt="嵌入式系统应用开发整机实物图">
+              <figcaption>整机运行状态图，能够直接看到主控板、显示模块、风扇与外围传感器的接入关系。</figcaption>
             </figure>
             <figure class="media-card">
-              <img src="../assets/projects/embedded-structure.svg" alt="嵌入式系统结构示意图">
-              <figcaption>这里后续可以放任务结构图、通信链路图、调度框架图。</figcaption>
+              <img src="../assets/projects/embedded-real/board-wiring.jpg" alt="嵌入式系统应用开发模块接线图">
+              <figcaption>另一张实物连接图，更适合展示外设接线、供电链路与板间连接方式。</figcaption>
             </figure>
           </div>
           <div class="video-card">
-            <div class="video-placeholder">后续这里可以直接替换成演示视频。支持放本地 mp4、录屏，或者嵌入 B 站/其他平台的视频。</div>
-            <p>建议未来补一段 30 到 60 秒的演示：启动过程、模块联调、显示变化和整机运行状态。</p>
+            <div class="video-shell">
+              <video controls preload="metadata" src="../assets/projects/embedded-real/board-demo.mp4"></video>
+            </div>
+            <p>这里已经接入真实演示视频，能够补足静态图片难以展示的启动过程、模块联动和现场运行状态。</p>
           </div>
         </section>
       </div>

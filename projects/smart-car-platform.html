@@ -33,14 +33,15 @@
           它不是单纯做一个识别 demo，而是把识别结果真正放进可以操作、可以联动的小车平台里。
         </p>
         <div class="tag-list">
-          <span>YOLO11</span>
+          <span>YOLOv8</span>
           <span>Roboflow</span>
+          <span>TFLite</span>
           <span>Android / Java</span>
-          <span>视频流解析</span>
+          <span>Zigbee + Wi-Fi</span>
         </div>
       </div>
       <div class="project-hero-media">
-        <img src="../assets/projects/smart-car-cover.svg" alt="嵌入式小车移动控制平台封面图">
+        <img src="../assets/projects/smart-car-real/smart-car-overview.png" alt="嵌入式小车移动控制平台整体图">
       </div>
     </section>
 
@@ -57,8 +58,8 @@
         <ul class="meta-list">
           <li><strong>项目类型：</strong>智能小车控制与识别平台</li>
           <li><strong>我的角色：</strong>模型训练、Android 客户端维护、交互优化、链路接入</li>
-          <li><strong>核心栈：</strong>YOLO11、Roboflow、Android、Java、视频流与传感器解析</li>
-          <li><strong>后续可补：</strong>识别画面、UI 截图、演示录像、多车协同视频</li>
+          <li><strong>核心栈：</strong>YOLOv8、Roboflow、TFLite、Android ARM64、Java、视频流与传感器解析</li>
+          <li><strong>当前素材：</strong>整车结构图、功能标注图、识别结果图、项目演示视频</li>
         </ul>
       </aside>
 
@@ -71,7 +72,7 @@
               因为它天然包含模型训练、终端维护、通信接入和交互设计，所以很适合拆成多段内容来展示。
             </p>
             <p>
-              这也是我比较有代表性的项目之一，因为它同时体现了我在 AI、客户端和嵌入式通信链路之间做整合的能力。
+              `ppt` 里我把它整理成了更明确的矩阵：基于 YOLOv8 训练 8 组视觉模型，覆盖 45+ 个识别类别，使用 12000+ 标注图片，并最终转换为 TFLite 部署到 Android 端。
             </p>
           </div>
         </section>
@@ -79,7 +80,7 @@
         <section class="story-section" id="role">
           <h2>我负责什么</h2>
           <div class="story-copy">
-            <p>我主导了视觉能力全流程重构，使用 Roboflow 建立数据集，并基于 YOLO11 训练与落地车牌、红绿灯、交通标志、二维码、颜色、TFT 屏幕检测、行人等 10 余种识别模型。</p>
+            <p>我主导了视觉能力全流程重构，使用 Roboflow 建立数据集，并基于 YOLOv8 训练车牌、交通标志、红绿灯、二维码、TFT 屏幕、图形与行人等多组模型。</p>
             <p>同时我负责 Android 端底层数据接口维护、视频流与多路传感器信号接收解析，并重构客户端 UI，优化高密度信息面板和实时画框的交互体验。</p>
           </div>
         </section>
@@ -93,8 +94,8 @@
                 <h3>视觉模型训练与数据集迭代</h3>
                 <p>项目里最核心的一条线是识别能力本身。我需要让模型不只是可训练，而是足够稳定地支撑实时场景。</p>
                 <ul>
-                  <li>利用 Roboflow 进行数据清洗、分类和标注，构建多任务数据集。</li>
-                  <li>基于 YOLO11 训练并迭代 10 余种识别模型。</li>
+                  <li>利用 Roboflow 进行数据清洗、分类、标注和自动增强，构建 12000+ 标注图片的数据管线。</li>
+                  <li>基于 YOLOv8 训练 8 组视觉模型，覆盖 45+ 个识别类别与 9 个识别场景。</li>
                   <li>通过参数微调、训练集迭代和终端适配，将综合识别准确率提升到 90% 以上。</li>
                 </ul>
               </div>
@@ -107,8 +108,8 @@
                 <p>这个项目不是只看后台结果，前端体验也很关键，所以我对客户端底层和界面都做了整理。</p>
                 <ul>
                   <li>维护底层 Java 代码并重构冗余逻辑。</li>
-                  <li>重新设计客户端 UI，提升高密度信息面板的阅读效率。</li>
-                  <li>优化实时画框展示逻辑，让识别反馈更直观、更可操作。</li>
+                  <li>将模型转换为 TFLite（Float16 / Float32）并部署到 Android ARM64 平台，实现离线实时推理。</li>
+                  <li>重新设计客户端 UI，提升高密度信息面板的阅读效率和实时画框反馈效果。</li>
                 </ul>
               </div>
             </article>
@@ -120,7 +121,7 @@
                 <p>平台真正难的地方，在于模型、视频流、传感器和控制链路要同时稳定工作。</p>
                 <ul>
                   <li>在 Android 端完成底层数据接口维护，实现多路传感器信号与视频流稳定接收解析。</li>
-                  <li>依托跨节点硬件通信架构，确保多车协同指令准确下发。</li>
+                  <li>依托 Zigbee + Wi-Fi 通讯架构，确保多车协同指令准确下发。</li>
                   <li>结合移动端性能优化输入分辨率与阈值，改善实时检测帧率。</li>
                 </ul>
               </div>
@@ -130,20 +131,34 @@
 
         <section class="media-area" id="media" data-testid="project-gallery">
           <h2>图片与视频</h2>
-          <p class="media-note">这一页后面非常适合补“真实识别画面 + 客户端截图 + 演示视频”，现在版式已经预留好了。</p>
-          <div class="media-pair">
+          <p class="media-note">这一页已经换成真实图和真实视频，先展示小车硬件结构，再展示识别结果和功能链路。</p>
+          <div class="media-grid">
             <figure class="media-card">
-              <img src="../assets/projects/smart-car-cover.svg" alt="智能小车控制端界面占位图">
-              <figcaption>这里后续可以放控制端界面截图、实时识别画面或者实机演示照片。</figcaption>
+              <img src="../assets/projects/smart-car-real/smart-car-overview.png" alt="智能小车整体结构图">
+              <figcaption>整车整体图，适合先建立项目全貌，让人知道这是一个完整的硬件平台，而不是单独的识别模型。</figcaption>
             </figure>
             <figure class="media-card">
-              <img src="../assets/projects/smart-car-vision.svg" alt="识别过程示意图占位">
-              <figcaption>这里后续可以放识别类别展示图、画框结果图或多节点协同示意图。</figcaption>
+              <img src="../assets/projects/smart-car-real/smart-car-structure.png" alt="智能小车功能标注图">
+              <figcaption>功能单元标注图，能够快速说明图像采集、核心控制、循环与扩展功能之间的关系。</figcaption>
+            </figure>
+            <figure class="media-card">
+              <img src="../assets/projects/smart-car-real/smart-car-tft.png" alt="TFT 显示识别结果图">
+              <figcaption>TFT 识别结果图，适合展示视觉结果如何进入终端显示和任务反馈流程。</figcaption>
+            </figure>
+            <figure class="media-card">
+              <img src="../assets/projects/smart-car-real/smart-car-qr.png" alt="二维码识别结果图">
+              <figcaption>二维码识别结果图，能够补充说明多类目标识别并不是纸面描述，而是实际做出来的能力。</figcaption>
+            </figure>
+            <figure class="media-card">
+              <img src="../assets/projects/smart-car-real/smart-car-light.png" alt="交通信号灯识别结果图">
+              <figcaption>交通信号灯识别结果图，进一步补充模型类别覆盖范围和不同目标场景下的识别能力。</figcaption>
             </figure>
           </div>
           <div class="video-card">
-            <div class="video-placeholder">后续这里可以替换成项目演示视频。适合放“识别过程 + 控制端界面 + 小车实际动作”的录屏或拍摄视频。</div>
-            <p>如果你后续补视频，这个项目会特别加分，因为动态内容比静态图更能说明识别、控制和联动的真实性。</p>
+            <div class="video-shell">
+              <video controls preload="metadata" src="../assets/projects/smart-car-real/smart-car-demo.mp4"></video>
+            </div>
+            <p>这里已经接入小车演示视频，能够直接补足动态控制、识别过程和平台联动的真实性。</p>
           </div>
         </section>
       </div>
